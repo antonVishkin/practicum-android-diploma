@@ -35,6 +35,7 @@ android {
     }
 
     buildFeatures {
+        viewBinding = true
         buildConfig = true
     }
 }
@@ -46,6 +47,8 @@ dependencies {
     // UI layer libraries
     implementation(libs.ui.material)
     implementation(libs.ui.constraintLayout)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui.ktx)
 
     // region Unit tests
     testImplementation(libs.unitTests.junit)
