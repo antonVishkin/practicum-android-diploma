@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">Practicum-Android-Diploma</string>
+    <string name="app_name">Praktikum HH API v.9.3</string>
+    <string name="home">Главная</string>
+    <string name="favorite">Избранное</string>
+    <string name="team">Команда</string>
+    <string name="title_home">Поиск вакансий</string>
+    <string name="title_vacancies">Вакансия</string>
+    <string name="title_filtration">Настройка фильтрации</string>
+    <string name="title_favorite">Избранное</string>
+    <string name="title_team">Команда</string>
 </resources>
