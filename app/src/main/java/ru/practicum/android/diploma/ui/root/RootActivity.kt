@@ -69,16 +69,6 @@ class RootActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showBottomNavigation() {
-        binding?.bottomNavigationView?.isVisible = true
-        binding?.llDivider?.isVisible = true
-    }
-
-    private fun hideBottomNavigation() {
-        binding?.bottomNavigationView?.isVisible = false
-        binding?.llDivider?.isVisible = false
-    }
-
     private fun networkRequestExample(accessToken: String) {
         // ...
     }
