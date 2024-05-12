@@ -37,8 +37,8 @@
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/switch_track"
-        android:background="@color/switch_track"
+        android:backgroundTint="@color/lightGray"
+        android:background="@color/lightGray"
         app:layout_constraintTop_toBottomOf="@id/fcvRootConteiner"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
 
