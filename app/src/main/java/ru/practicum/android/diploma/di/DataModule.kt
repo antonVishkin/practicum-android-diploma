@@ -6,7 +6,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.data.network.HeadHunterApi
 
 val dataModule = module {
-    single<HeadHunterApi> { Retrofit.Builder().baseUrl("https://api.hh.ru").addConverterFactory(
-        GsonConverterFactory.create()
-    ).build().create(HeadHunterApi::class.java) }
+    single<HeadHunterApi> {
+        Retrofit.Builder().baseUrl("https://api.hh.ru").addConverterFactory(
+            GsonConverterFactory.create()
+        ).build().create(HeadHunterApi::class.java)
+    }
 }

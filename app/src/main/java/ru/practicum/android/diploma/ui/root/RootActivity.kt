@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -21,7 +22,7 @@ class RootActivity : AppCompatActivity() {
 
         // Пример использования access token для HeadHunter API
 //        networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
-        Log.v("TEST","${BuildConfig.HH_ACCESS_TOKEN}")
+        Log.v("TEST", "${BuildConfig.HH_ACCESS_TOKEN}")
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fcvRootConteiner) as NavHostFragment
         val navController = navHostFragment.navController
@@ -30,36 +31,7 @@ class RootActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding?.toolbar?.setupWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.searchFragment -> {
-                    binding?.toolbar?.isVisible = true
-                    binding?.toolbar?.navigationIcon = null
-                }
-
-                R.id.filtrationFragment -> {
-                    binding?.toolbar?.isVisible = true
-                    binding?.toolbar?.setNavigationOnClickListener {
-                        this.onBackPressedDispatcher.onBackPressed()
-                    }
-                }
-
-                R.id.vacanciesFragment -> {
-                    binding?.toolbar?.isVisible = true
-                    binding?.toolbar?.setNavigationOnClickListener {
-                        this.onBackPressedDispatcher.onBackPressed()
-                    }
-                }
-
-                R.id.favoriteFragment -> {
-                    binding?.toolbar?.isVisible = false
-                    binding?.toolbar?.navigationIcon = null
-                }
-
-                R.id.teamFragment -> {
-                    binding?.toolbar?.isVisible = false
-                    binding?.toolbar?.navigationIcon = null
-                }
-            }
+            toolBarController(destination)
         }
 
         binding?.bottomNavigationView?.setupWithNavController(navController)
@@ -70,8 +42,37 @@ class RootActivity : AppCompatActivity() {
         return true
     }
 
-    private fun networkRequestExample(accessToken: String) {
-        // ...
-        // todo
+    private fun toolBarController(destination: NavDestination) {
+        when (destination.id) {
+            R.id.searchFragment -> {
+                binding?.toolbar?.isVisible = true
+                binding?.toolbar?.navigationIcon = null
+            }
+
+            R.id.filtrationFragment -> {
+                binding?.toolbar?.isVisible = true
+                binding?.toolbar?.setNavigationOnClickListener {
+                    this.onBackPressedDispatcher.onBackPressed()
+                }
+            }
+
+            R.id.vacanciesFragment -> {
+                binding?.toolbar?.isVisible = true
+                binding?.toolbar?.setNavigationOnClickListener {
+                    this.onBackPressedDispatcher.onBackPressed()
+                }
+            }
+
+            R.id.favoriteFragment -> {
+                binding?.toolbar?.isVisible = false
+                binding?.toolbar?.navigationIcon = null
+            }
+
+            R.id.teamFragment -> {
+                binding?.toolbar?.isVisible = false
+                binding?.toolbar?.navigationIcon = null
+            }
+        }
     }
+
 }
