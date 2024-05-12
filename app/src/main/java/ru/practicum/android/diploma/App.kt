@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.di.filtrationModule
 import ru.practicum.android.diploma.di.searchModule
 import ru.practicum.android.diploma.di.vacancyModule
 
-class App:Application() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
