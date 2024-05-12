@@ -5,8 +5,9 @@ rootProject.name = "Practicum-Android-Diploma"
 pluginManagement {
     repositories {
         google()
-        mavenCentral()
+//        mavenCentral()
         gradlePluginPortal()
+
     }
 }
 
