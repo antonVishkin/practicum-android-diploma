@@ -21,6 +21,7 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                     Log.e("NETWORK ERROR", e.toString())
                     Response().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                 }
+                //todo
             }
         }
     }
