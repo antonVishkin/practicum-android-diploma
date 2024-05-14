@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.databinding.FragmentTeamBinding
 
 class TeamFavorite : Fragment() {
     private var _binding: FragmentTeamBinding? = null
-    private val  binding get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,

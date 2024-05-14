@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null
-    private val  binding get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
