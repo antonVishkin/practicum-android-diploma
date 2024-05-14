@@ -37,7 +37,6 @@ class RootActivity : AppCompatActivity() {
 
         binding?.bottomNavigationView?.setupWithNavController(navController)
 
-        findViewById<ImageButton>(R.id.btnFilter)
         binding?.btnFilter?.setOnClickListener {
             navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
         }
