@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
 
 class FavoriteFragment : Fragment() {
-
-    private lateinit var binding: FragmentFavoriteBinding
+    private var binding: FragmentFavoriteBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,7 +16,7 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
 }

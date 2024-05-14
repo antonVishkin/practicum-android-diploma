@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.databinding.FragmentTeamBinding
 
 class TeamFavorite : Fragment() {
-    private lateinit var binding: FragmentTeamBinding
+    private var binding: FragmentTeamBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -16,6 +16,6 @@ class TeamFavorite : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentTeamBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 }

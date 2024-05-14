@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
-
-    private lateinit var binding: FragmentSearchBinding
+    private var binding: FragmentSearchBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,8 +16,6 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
-
-
 }
