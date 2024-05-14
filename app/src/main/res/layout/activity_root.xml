@@ -18,6 +18,17 @@
         android:visibility="visible"
         tools:ignore="MissingConstraints" />
 
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/btnFilter"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/filter_off"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvRootConteiner"
         android:name="androidx.navigation.fragment.NavHostFragment"
