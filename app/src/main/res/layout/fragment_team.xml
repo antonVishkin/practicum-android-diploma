@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_guideline_24"
@@ -30,96 +30,81 @@
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
-        app:layout_constraintEnd_toEndOf="@id/right_guideline_16" />
-
-    <TextView
-        android:id="@+id/teamFragmentHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/topPanel"
-        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
         app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/ys_display_medium"
-        android:textSize="22sp"
-        android:textFontWeight="500"
-        android:textColor="@color/blackUniversal"
-        android:text="Команда" />
+        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/teamFragmentLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/teamFragmentHeader"
-        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
-        app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/ys_display_bold"
-        android:textSize="32sp"
-        android:textFontWeight="500"
+        android:gravity="center_vertical"
+        android:text="@string/about"
         android:textColor="@color/blackUniversal"
-        android:text="Над приложением работали" />
+        android:textFontWeight="500"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
+        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/teamFragmentLabel"
-        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
-        app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
+        android:layout_marginTop="32dp"
         android:orientation="vertical"
-        android:layout_marginTop="32dp">
+        app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
+        app:layout_constraintStart_toStartOf="@id/left_guideline_16"
+        app:layout_constraintTop_toBottomOf="@id/teamFragmentLabel">
 
         <TextView
             android:id="@+id/teamMember1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/ys_display_medium"
-            android:textSize="16sp"
-            android:textFontWeight="500"
+            android:gravity="center_vertical"
+            android:text="@string/anton_vishkin"
             android:textColor="@color/blackUniversal"
-            android:text="Антон Вышкин" />
+            android:textFontWeight="500"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/teamMember2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/ys_display_medium"
-            android:textSize="16sp"
-            android:textFontWeight="500"
+            android:gravity="center_vertical"
+            android:text="@string/anton_ignatov"
             android:textColor="@color/blackUniversal"
-            android:text="Антон Игнатов" />
+            android:textFontWeight="500"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/teamMember3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/ys_display_medium"
-            android:textSize="16sp"
-            android:textFontWeight="500"
+            android:gravity="center_vertical"
+            android:text="@string/kate_mahova"
             android:textColor="@color/blackUniversal"
-            android:text="Екатерина Махова" />
+            android:textFontWeight="500"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/teamMember4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/ys_display_medium"
-            android:textSize="16sp"
-            android:textFontWeight="500"
+            android:gravity="center_vertical"
+            android:text="@string/milan_isaev"
             android:textColor="@color/blackUniversal"
-            android:text="Милан Исаев" />
+            android:textFontWeight="500"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

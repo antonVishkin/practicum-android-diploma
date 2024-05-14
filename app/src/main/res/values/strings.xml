@@ -8,4 +8,9 @@
     <string name="title_filtration">Настройка фильтрации</string>
     <string name="title_favorite">Избранное</string>
     <string name="title_team">Команда</string>
+    <string name="about">Над приложением работали</string>
+    <string name="anton_vishkin">Антон Вышкин</string>
+    <string name="anton_ignatov">Антон Игнатов</string>
+    <string name="kate_mahova">Екатерина Махова</string>
+    <string name="milan_isaev">Милан Исаев</string>
 </resources>

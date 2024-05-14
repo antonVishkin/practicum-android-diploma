@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavDestination
@@ -18,7 +19,7 @@ class RootActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_root)
+        setContentView(binding!!.root)
 
         // Пример использования access token для HeadHunter API
 //        networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
@@ -35,6 +36,12 @@ class RootActivity : AppCompatActivity() {
         }
 
         binding?.bottomNavigationView?.setupWithNavController(navController)
+
+        val filterButton = findViewById<ImageButton>(R.id.filter_btn)
+        filterButton?.setOnClickListener {
+            // Переходим на фрагмент фильтрации
+            navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -47,6 +54,7 @@ class RootActivity : AppCompatActivity() {
             R.id.searchFragment -> {
                 binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
+                binding?.filterBtn?.isVisible = true
             }
 
             R.id.filtrationFragment -> {
@@ -54,6 +62,7 @@ class RootActivity : AppCompatActivity() {
                 binding?.toolbar?.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
+                binding?.filterBtn?.isVisible = false
             }
 
             R.id.vacanciesFragment -> {
@@ -61,16 +70,19 @@ class RootActivity : AppCompatActivity() {
                 binding?.toolbar?.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
+                binding?.filterBtn?.isVisible = false
             }
 
             R.id.favoriteFragment -> {
-                binding?.toolbar?.isVisible = false
+                binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
+                binding?.filterBtn?.isVisible = false
             }
 
             R.id.teamFragment -> {
-                binding?.toolbar?.isVisible = false
+                binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
+                binding?.filterBtn?.isVisible = false
             }
         }
     }
