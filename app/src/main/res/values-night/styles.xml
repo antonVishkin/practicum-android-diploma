@@ -81,4 +81,5 @@
         <item name="android:textColor">@color/whiteUniversal</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
+
 </resources>

@@ -14,4 +14,11 @@
     <string name="search_vacancy_not_found">Таких вакансий нет</string>
     <string name="search_vacancy_list_not_found">Не удалось получить \n список вакансий</string>
     <string name="search_no_connection">Нет интернета</string>
+  
+  <!-- TEAM FRAGMENT-->
+    <string name="about">Над приложением работали</string>
+    <string name="anton_vishkin">Антон Вышкин</string>
+    <string name="anton_ignatov">Антон Игнатов</string>
+    <string name="kate_mahova">Екатерина Махова</string>
+    <string name="milan_isaev">Милан Исаев</string>
 </resources>
