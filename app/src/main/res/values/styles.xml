@@ -32,4 +32,5 @@
         <item name="itemIconTint">@drawable/bottom_navigation_tab_bar</item>
         <item name="itemTextColor">@drawable/bottom_navigation_tab_bar</item>
     </style>
+
 </resources>

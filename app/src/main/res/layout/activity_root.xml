@@ -18,13 +18,12 @@
         android:visibility="visible"
         tools:ignore="MissingConstraints" />
 
-    <ImageButton
-        android:id="@+id/filter_btn"
-        android:layout_width="wrap_content"
+    <ImageView
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/whiteDay"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/btnFilter"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:src="@drawable/filter_off"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"

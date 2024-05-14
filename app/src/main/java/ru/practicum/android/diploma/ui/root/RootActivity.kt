@@ -37,9 +37,8 @@ class RootActivity : AppCompatActivity() {
 
         binding?.bottomNavigationView?.setupWithNavController(navController)
 
-        val filterButton = findViewById<ImageButton>(R.id.filter_btn)
-        filterButton?.setOnClickListener {
-            // Переходим на фрагмент фильтрации
+        findViewById<ImageButton>(R.id.btnFilter)
+        binding?.btnFilter?.setOnClickListener {
             navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
         }
     }
@@ -54,7 +53,7 @@ class RootActivity : AppCompatActivity() {
             R.id.searchFragment -> {
                 binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
-                binding?.filterBtn?.isVisible = true
+                binding?.btnFilter?.isVisible = true
             }
 
             R.id.filtrationFragment -> {
@@ -62,7 +61,7 @@ class RootActivity : AppCompatActivity() {
                 binding?.toolbar?.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
-                binding?.filterBtn?.isVisible = false
+                binding?.btnFilter?.isVisible = false
             }
 
             R.id.vacanciesFragment -> {
@@ -70,19 +69,19 @@ class RootActivity : AppCompatActivity() {
                 binding?.toolbar?.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
-                binding?.filterBtn?.isVisible = false
+                binding?.btnFilter?.isVisible = false
             }
 
             R.id.favoriteFragment -> {
                 binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
-                binding?.filterBtn?.isVisible = false
+                binding?.btnFilter?.isVisible = false
             }
 
             R.id.teamFragment -> {
                 binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
-                binding?.filterBtn?.isVisible = false
+                binding?.btnFilter?.isVisible = false
             }
         }
     }

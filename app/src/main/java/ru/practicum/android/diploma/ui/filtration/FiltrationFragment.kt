@@ -8,14 +8,15 @@ import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 
 class FiltrationFragment : Fragment() {
-    private var binding: FragmentFiltrationBinding? = null
+    private var _binding: FragmentFiltrationBinding? = null
+    private val  binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = FragmentFiltrationBinding.inflate(inflater, container, false)
-        return binding?.root
+        _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
+        return _binding?.root
     }
 }

@@ -40,4 +40,5 @@
         <item name="itemIconTint">@drawable/bottom_navigation_tab_bar_dark</item>
         <item name="itemTextColor">@drawable/bottom_navigation_tab_bar_dark</item>
     </style>
+
 </resources>
