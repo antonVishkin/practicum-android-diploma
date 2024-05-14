@@ -51,7 +51,7 @@
         <item name="android:paddingHorizontal">16dp</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">40</item>
-        <item name="android:backgroundTint">@color/lightGray</item>
+        <item name="android:backgroundTint">@color/gray</item>
         <item name="android:background">@drawable/ic_edit_text_background_dark</item>
         <item name="android:inputType">text</item>
         <item name="android:imeOptions">actionDone</item>
