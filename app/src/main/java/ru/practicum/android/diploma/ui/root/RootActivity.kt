@@ -18,7 +18,7 @@ class RootActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRootBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_root)
+        setContentView(binding!!.root)
 
         // Пример использования access token для HeadHunter API
 //        networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
@@ -35,6 +35,10 @@ class RootActivity : AppCompatActivity() {
         }
 
         binding?.bottomNavigationView?.setupWithNavController(navController)
+
+        binding?.btnFilter?.setOnClickListener {
+            navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -47,6 +51,7 @@ class RootActivity : AppCompatActivity() {
             R.id.searchFragment -> {
                 binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
+                binding?.btnFilter?.isVisible = true
             }
 
             R.id.filtrationFragment -> {
@@ -54,6 +59,7 @@ class RootActivity : AppCompatActivity() {
                 binding?.toolbar?.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
+                binding?.btnFilter?.isVisible = false
             }
 
             R.id.vacanciesFragment -> {
@@ -61,16 +67,19 @@ class RootActivity : AppCompatActivity() {
                 binding?.toolbar?.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
+                binding?.btnFilter?.isVisible = false
             }
 
             R.id.favoriteFragment -> {
-                binding?.toolbar?.isVisible = false
+                binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
+                binding?.btnFilter?.isVisible = false
             }
 
             R.id.teamFragment -> {
-                binding?.toolbar?.isVisible = false
+                binding?.toolbar?.isVisible = true
                 binding?.toolbar?.navigationIcon = null
+                binding?.btnFilter?.isVisible = false
             }
         }
     }
