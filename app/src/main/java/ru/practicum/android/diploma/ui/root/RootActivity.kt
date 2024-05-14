@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavDestination
@@ -37,7 +36,6 @@ class RootActivity : AppCompatActivity() {
 
         binding?.bottomNavigationView?.setupWithNavController(navController)
 
-        findViewById<ImageButton>(R.id.btnFilter)
         binding?.btnFilter?.setOnClickListener {
             navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
         }
