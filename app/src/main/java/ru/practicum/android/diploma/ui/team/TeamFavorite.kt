@@ -19,4 +19,9 @@ class TeamFavorite : Fragment() {
         _binding = FragmentTeamBinding.inflate(inflater, container, false)
         return _binding?.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

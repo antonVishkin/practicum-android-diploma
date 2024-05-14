@@ -19,4 +19,9 @@ class FiltrationFragment : Fragment() {
         _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         return _binding?.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
