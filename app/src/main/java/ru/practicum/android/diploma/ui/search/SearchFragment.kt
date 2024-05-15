@@ -16,7 +16,8 @@ import ru.practicum.android.diploma.util.debounce
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var vacancyAdapter: VacancyAdapter
+    private var _vacancyAdapter: VacancyAdapter? = null
+    private val vacancyAdapter get() = _vacancyAdapter!!
     private var isClickAllowed = true
 
 
@@ -32,7 +33,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vacancyAdapter = VacancyAdapter(
+        _vacancyAdapter = VacancyAdapter(
             clickListener = {
                 if (isClickAllowed) {
                     clickAdapting(it)
@@ -46,32 +47,32 @@ class SearchFragment : Fragment() {
 //        loadDataAndSetAdapter()
     }
 
-//    private fun loadDataAndSetAdapter() {
-//        // Здесь загрузите данные для адаптера, например, из базы данных или с сервера
-//        val vacancies = loadVacancies()
-//
-//        // Проверка наличия данных
-//        if (vacancies.isNotEmpty()) {
-//            // Если данные есть, установите их в адаптер и покажите RecyclerView
-//            vacancyAdapter.setVacancies(vacancies)
-//            binding.rvSearch.visibility = View.VISIBLE
-//        } else {
-//            // Если данных нет, скройте RecyclerView
-//            binding.rvSearch.visibility = View.GONE
-//        }
-//    }
-//
-//    private fun loadVacancies(): List<Vacancy> {
-//        val vacancies = mutableListOf<Vacancy>()
-//
-//        // Добавим несколько тестовых вакансий в список
-//        vacancies.add(Vacancy("1", "Software Engineer", "50000", "New York", "Tech Company"))
-//        vacancies.add(Vacancy("2", "Product Manager", "60000", "San Francisco", "Startup"))
-//        vacancies.add(Vacancy("3", "Data Scientist", "70000", "Chicago", "Big Corporation"))
-//
-//        // Вернем список вакансий
-//        return vacancies
-//    }
+    /*private fun loadDataAndSetAdapter() {
+        // Здесь загрузите данные для адаптера, например, из базы данных или с сервера
+        val vacancies = loadVacancies()
+
+        // Проверка наличия данных
+        if (vacancies.isNotEmpty()) {
+            // Если данные есть, установите их в адаптер и покажите RecyclerView
+            vacancyAdapter.setVacancies(vacancies)
+            binding.rvSearch.visibility = View.VISIBLE
+        } else {
+            // Если данных нет, скройте RecyclerView
+            binding.rvSearch.visibility = View.GONE
+        }
+    }
+
+    private fun loadVacancies(): List<Vacancy> {
+        val vacancies = mutableListOf<Vacancy>()
+
+        // Добавим несколько тестовых вакансий в список
+        vacancies.add(Vacancy("1", "Software Engineer", "50000", "New York", "Tech Company"))
+        vacancies.add(Vacancy("2", "Product Manager", "60000", "San Francisco", "Startup"))
+        vacancies.add(Vacancy("3", "Data Scientist", "70000", "Chicago", "Big Corporation"))
+
+        // Вернем список вакансий
+        return vacancies
+    }*/
 
     override fun onResume() {
         super.onResume()
@@ -80,7 +81,7 @@ class SearchFragment : Fragment() {
 
     private val vacancyClickDebounce by lazy {
         debounce<Vacancy>(
-            300,
+            DEBOUNCE_DELAY_MS,
             coroutineScope = CoroutineScope(Dispatchers.Main),
             useLastParam = true
         ) { clickedVacancy ->
@@ -105,5 +106,9 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private companion object {
+        private const val DEBOUNCE_DELAY_MS = 300L
     }
 }

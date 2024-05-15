@@ -33,11 +33,9 @@ class VacancyAdapter(
         fun onClick(vacancy: Vacancy)
     }
 
-
-   /* fun setVacancies(newVacancies: List<Vacancy>) {
-        _items = newVacancies
-        notifyDataSetChanged()
-    }*/
-
+    /* fun setVacancies(newVacancies: List<Vacancy>) {
+         _items = newVacancies
+         notifyDataSetChanged()
+     }*/
 }
 

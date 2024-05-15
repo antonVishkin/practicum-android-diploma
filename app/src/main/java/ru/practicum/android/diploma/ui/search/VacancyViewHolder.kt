@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.VacancyViewBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyViewHolder (private val binding: VacancyViewBinding): RecyclerView.ViewHolder(binding.root){
+class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Vacancy) {
         val vacancyName = "${item.name}, ${item.city ?: "Город не указан"}"
@@ -18,5 +18,4 @@ class VacancyViewHolder (private val binding: VacancyViewBinding): RecyclerView.
             .placeholder(R.drawable.vacancies_placeholder)
             .into(binding.ivIconVacancy)
     }
-
 }
