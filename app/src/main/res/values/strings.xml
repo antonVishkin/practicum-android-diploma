@@ -8,6 +8,14 @@
     <string name="title_filtration">Настройка фильтрации</string>
     <string name="title_favorite">Избранное</string>
     <string name="title_team">Команда</string>
+
+    <!-- SEARCH FRAGMENT-->
+    <string name="search_hint">Введите запрос</string>
+    <string name="search_vacancy_not_found">Таких вакансий нет</string>
+    <string name="search_vacancy_list_not_found">Не удалось получить \n список вакансий</string>
+    <string name="search_no_connection">Нет интернета</string>
+  
+  <!-- TEAM FRAGMENT-->
     <string name="about">Над приложением работали</string>
     <string name="anton_vishkin">Антон Вышкин</string>
     <string name="anton_ignatov">Антон Игнатов</string>
