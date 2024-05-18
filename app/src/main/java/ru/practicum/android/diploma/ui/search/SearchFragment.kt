@@ -141,7 +141,8 @@ class SearchFragment : Fragment() {
     private fun openFragmentVacancy(vacancyId: String) {
         findNavController().navigate(
             R.id.action_searchFragment_to_vacanciesFragment,
-            Bundle().apply { putInt("vacancy_model", vacancyId.toInt()) })
+            Bundle().apply { putInt("vacancy_model", vacancyId.toInt()) }
+        )
     }
 
     private fun hideKeyboard() {
