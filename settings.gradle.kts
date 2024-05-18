@@ -5,8 +5,9 @@ rootProject.name = "Practicum-Android-Diploma"
 pluginManagement {
     repositories {
         google()
-        mavenCentral()
+//        mavenCentral()
         gradlePluginPortal()
+
     }
 }
 
@@ -16,6 +17,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://www.jitpack.io")
     }
 }
 
