@@ -65,7 +65,7 @@ class SearchFragment : Fragment() {
             rvSearch.isVisible = false
             progressBar.isVisible = true
             progressBarBottom.isVisible = false
-            ivPlaceholder.isVisible = true
+            ivPlaceholder.isVisible = false
             tvPlaceholder.isVisible = false
         }
     }
@@ -90,8 +90,6 @@ class SearchFragment : Fragment() {
             rvSearch.isVisible = false
             progressBar.isVisible = false
             progressBarBottom.isVisible = false
-            ivPlaceholder.isVisible = true
-            tvPlaceholder.isVisible = false
             ivPlaceholder.setImageResource(R.drawable.nothing_found_cat)
             ivPlaceholder.isVisible = true
             tvPlaceholder.setText(R.string.search_vacancy_list_not_found)
