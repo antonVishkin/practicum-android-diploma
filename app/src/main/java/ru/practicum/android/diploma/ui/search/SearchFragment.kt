@@ -1,14 +1,14 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Context
-import androidx.navigation.fragment.findNavController
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -19,9 +19,10 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
-/*
-    private var _adapter: VacancyAdapter? = null
-*/
+
+    /*
+        private var _adapter: VacancyAdapter? = null
+    */
     private val vacancyList: ArrayList<Vacancy> = arrayListOf()
 
     override fun onCreateView(
@@ -40,12 +41,12 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-/*        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.VacancyClick {
-            override fun onClick(vacancy: Vacancy) {
-                openFragmentVacancy(vacancyId = vacancy.id)
-            }
-        })
-        binding.rvSearch.adapter = _adapter*/
+        /*        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.VacancyClick {
+                    override fun onClick(vacancy: Vacancy) {
+                        openFragmentVacancy(vacancyId = vacancy.id)
+                    }
+                })
+                binding.rvSearch.adapter = _adapter*/
         viewModel.search("test")
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
     }

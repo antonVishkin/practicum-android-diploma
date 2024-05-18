@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 interface SearchRepository {
-    fun searchRequest(options:Map<String,String>):Flow<Result<List<Vacancy>>>
+    fun searchRequest(options: Map<String, String>): Flow<Result<List<Vacancy>>>
 }

@@ -15,8 +15,8 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
         } else {
             withContext(Dispatchers.IO) {
                 try {
-                    val response = headHunterApi.searchVacancies("Bearer "+BuildConfig.HH_ACCESS_TOKEN, dto.options)
-                    Log.v("VACANCY","responce"+response.items.toString())
+                    val response = headHunterApi.searchVacancies("Bearer " + BuildConfig.HH_ACCESS_TOKEN, dto.options)
+                    Log.v("VACANCY", "responce" + response.items.toString())
                     Result.success(response.items)
                 } catch (e: IOException) {
                     Log.e("NETWORK ERROR", e.toString())

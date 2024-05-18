@@ -19,7 +19,7 @@ class VacancyDBConverters {
         return Vacancy(
             id = vacancy.id,
             name = vacancy.name,
-            salary = Salary(null,null,null,null),
+            salary = Salary(null, null, null, null),
             city = vacancy.city,
             employerName = vacancy.employerName
         )

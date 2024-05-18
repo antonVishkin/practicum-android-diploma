@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
 
@@ -20,11 +19,11 @@ class SearchViewModel(
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
-    fun search(request:String){
-        val options = HashMap<String,String>()
-        options.put("text",request)
+    fun search(request: String) {
+        val options = HashMap<String, String>()
+        options.put("text", request)
         viewModelScope.launch {
-            searchInteractor.searchVacancies(options).collect {result ->
+            searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
                     Log.v("VACANCY", "succes" + it.toString())
                 }
