@@ -7,10 +7,10 @@ import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.data.dto.SearchResponse
 
 interface HeadHunterApi {
-    @Headers("HH-User-Agent: Application Name (name@example.com)")
+    @Headers("HH-User-Agent: praktikum HH API v.9.3 (punkant@gmail.com)")
     @GET("vacancies")
     suspend fun searchVacancies(
-        @Header("Authorization: Bearer ") accessToken: String,
+        @Header("Authorization") accessToken: String,
         @QueryMap options: Map<String, String>
     ): SearchResponse
 }

@@ -4,22 +4,21 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
+import ru.practicum.android.diploma.data.dto.VacancyDTO
 import java.io.IOException
 
 class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkClient {
-    override suspend fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any): Result<List<VacancyDTO>> {
         return if (dto !is SearchRequest) {
-            Response().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+            Result.failure(Throwable("неверный запрос"))
         } else {
             withContext(Dispatchers.IO) {
                 try {
-                    val response = headHunterApi.searchVacancies(BuildConfig.HH_ACCESS_TOKEN, dto.options)
-                    response.apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
+                    val response = headHunterApi.searchVacancies("Bearer "+BuildConfig.HH_ACCESS_TOKEN, dto.options)
+                    Result.success(response.items)
                 } catch (e: IOException) {
-                    Log.e("NETWORK ERROR", e.toString())
-                    Response().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+                    Result.failure(e)
                 }
             }
         }

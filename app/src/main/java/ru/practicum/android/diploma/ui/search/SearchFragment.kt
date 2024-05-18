@@ -19,7 +19,9 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
+/*
     private var _adapter: VacancyAdapter? = null
+*/
     private val vacancyList: ArrayList<Vacancy> = arrayListOf()
 
     override fun onCreateView(
@@ -38,13 +40,13 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.VacancyClick {
+/*        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.VacancyClick {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
         })
-        binding.rvSearch.adapter = _adapter
-
+        binding.rvSearch.adapter = _adapter*/
+        viewModel.search("test")
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
     }
 
