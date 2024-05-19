@@ -6,4 +6,5 @@ data class Vacancy(
     val salary: Salary?,
     val city: String?,
     val employerName: String,
+    val urlImage: String?
 )

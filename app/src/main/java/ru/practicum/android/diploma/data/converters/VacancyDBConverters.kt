@@ -11,7 +11,8 @@ class VacancyDBConverters {
             name = vacancy.name,
             salary = "vacancy.salary",
             city = vacancy.city,
-            employerName = vacancy.employerName
+            employerName = vacancy.employerName,
+            urlImage = vacancy.urlImage
         )
     }
 
@@ -21,7 +22,8 @@ class VacancyDBConverters {
             name = vacancy.name,
             salary = Salary(null, null, null, null),
             city = vacancy.city,
-            employerName = vacancy.employerName
+            employerName = vacancy.employerName,
+            urlImage = vacancy.urlImage
         )
     }
 }
