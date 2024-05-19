@@ -5,10 +5,14 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.practicum.android.diploma.data.CurrencyDictionaryRepositoryImpl
 import ru.practicum.android.diploma.data.converters.VacancyDBConverters
 import ru.practicum.android.diploma.data.db.AppDatabase
-import ru.practicum.android.diploma.data.dto.VacanciesDTOConverters
+import ru.practicum.android.diploma.data.dto.DTOConverters
 import ru.practicum.android.diploma.data.network.HeadHunterApi
+import ru.practicum.android.diploma.domain.api.dictionary.CurrencyDictionaryRepository
+import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
+import ru.practicum.android.diploma.domain.impl.dictionary.DictionaryInteractorImpl
 
 val dataModule = module {
     single<HeadHunterApi> {
@@ -21,6 +25,8 @@ val dataModule = module {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
             .build()
     }
-    factory { VacanciesDTOConverters() }
+    single <DictionaryInteractor>{ DictionaryInteractorImpl(get()) }
+    single <CurrencyDictionaryRepository>{ CurrencyDictionaryRepositoryImpl(get(),get()) }
+    factory { DTOConverters() }
     factory { VacancyDBConverters() }
 }

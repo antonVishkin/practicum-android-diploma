@@ -6,14 +6,14 @@ import ru.practicum.android.diploma.data.SearchRepositoryImpl
 import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchRepository
-import ru.practicum.android.diploma.domain.impl.SearchInteractorImpl
+import ru.practicum.android.diploma.domain.impl.search.SearchInteractorImpl
 import ru.practicum.android.diploma.ui.search.SearchViewModel
 
 val searchModule = module {
     single<RetrofitNetworkClient> { RetrofitNetworkClient(get()) }
 
     viewModel {
-        SearchViewModel(get())
+        SearchViewModel(get(),get())
     }
 
     single<SearchInteractor> { SearchInteractorImpl(get()) }

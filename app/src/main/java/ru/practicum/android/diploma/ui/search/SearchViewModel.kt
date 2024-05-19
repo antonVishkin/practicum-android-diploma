@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
 
 class SearchViewModel(
-    private val searchInteractor: SearchInteractor
+    private val searchInteractor: SearchInteractor,
+    private val dictionaryInteractor: DictionaryInteractor
 ) : ViewModel() {
     private var searchJob: Job? = null
     private var isClickAllowed = true
@@ -30,6 +32,9 @@ class SearchViewModel(
                 result.onFailure {
                     Log.v("VACANCY", "failure" + it.toString())
                 }
+            }
+            dictionaryInteractor.getCurrencyDictionary().collect{
+                Log.v("CURRENCY","currency"+it.toString())
             }
         }
     }
