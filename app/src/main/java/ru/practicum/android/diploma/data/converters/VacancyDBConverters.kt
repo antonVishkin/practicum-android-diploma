@@ -9,7 +9,9 @@ class VacancyDBConverters {
         return VacancyEntity(
             id = vacancy.id,
             name = vacancy.name,
-            salary = "vacancy.salary",
+            salaryCurrency = vacancy.salary?.currency,
+            salaryFrom = vacancy.salary?.from,
+            salaryTo = vacancy.salary?.to,
             city = vacancy.city,
             employerName = vacancy.employerName,
             urlImage = vacancy.urlImage
@@ -20,7 +22,7 @@ class VacancyDBConverters {
         return Vacancy(
             id = vacancy.id,
             name = vacancy.name,
-            salary = Salary(null, null, null, null),
+            salary = Salary(vacancy.salaryCurrency, vacancy.salaryFrom, vacancy.salaryTo),
             city = vacancy.city,
             employerName = vacancy.employerName,
             urlImage = vacancy.urlImage

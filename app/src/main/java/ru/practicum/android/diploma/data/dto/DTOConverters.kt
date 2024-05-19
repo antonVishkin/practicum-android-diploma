@@ -10,7 +10,8 @@ class DTOConverters {
         name = vacancyDTO.name,
         salary = map(vacancyDTO.salary),
         city = vacancyDTO.area.name,
-        employerName = vacancyDTO.employer.name
+        employerName = vacancyDTO.employer.name,
+        urlImage = ""
     )
 
     fun map(salaryDTO: SalaryDTO?): Salary? = if (salaryDTO != null) {
@@ -18,7 +19,6 @@ class DTOConverters {
             currency = salaryDTO.currency,
             from = salaryDTO.from,
             to = salaryDTO.to,
-            gross = salaryDTO.gross
         )
     } else {
         null

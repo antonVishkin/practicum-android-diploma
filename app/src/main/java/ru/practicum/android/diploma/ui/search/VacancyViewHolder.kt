@@ -20,9 +20,9 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
             tvVacancyCompany.text = vacancy.employerName
             tvVacancySalary.text = SalaryFormat.formatSalary(
                 itemView.context,
-                vacancy.salaryFrom,
-                vacancy.salaryTo,
-                vacancy.salaryCurrency
+                vacancy.salary?.from,
+                vacancy.salary?.to,
+                vacancy.salary?.currency
             )
             Glide.with(itemView)
                 .load(vacancy.id)
