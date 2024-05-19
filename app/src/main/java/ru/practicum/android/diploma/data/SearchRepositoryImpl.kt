@@ -16,7 +16,7 @@ class SearchRepositoryImpl(
     override fun searchRequest(options: Map<String, String>): Flow<Result<List<Vacancy>>> = flow {
         val response = retrofitNetworkClient.doRequest(SearchRequest(options))
         when (response.resultCode) {
-            200 -> {
+            CLIENT_SUCCESS_RESULT_CODE -> {
                 val list = (response as SearchResponse).items
                 if (!list.isNullOrEmpty()) {
                     emit(
@@ -35,5 +35,9 @@ class SearchRepositoryImpl(
                 )
             }
         }
+    }
+
+    companion object {
+        const val CLIENT_SUCCESS_RESULT_CODE = 200
     }
 }

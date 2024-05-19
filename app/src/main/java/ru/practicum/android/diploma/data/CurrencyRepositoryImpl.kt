@@ -16,12 +16,13 @@ class CurrencyRepositoryImpl(
     override fun getCurrencyDictionary(): Flow<List<Currency>> = flow {
         val response = retrofitNetworkClient.doRequest(CurrencyRequest())
         when (response.resultCode) {
-            200 -> {
+            CLIENT_SUCCESS_RESULT_CODE -> {
                 val list = (response as CurrencyResponse).currency
-                if (list == null)
+                if (list == null) {
                     emit(listOf())
-                else
+                } else {
                     emit(list.map { dtoConverters.map(it) })
+                }
             }
 
             else -> {
@@ -30,4 +31,7 @@ class CurrencyRepositoryImpl(
         }
     }
 
+    companion object {
+        const val CLIENT_SUCCESS_RESULT_CODE = 200
+    }
 }

@@ -25,6 +25,8 @@ class DTOConverters {
     }
 
     fun map(currencyDTO: CurrencyDTO): Currency = Currency(
-        code = currencyDTO.code, name = currencyDTO.name, abbr = currencyDTO.abbr
+        code = currencyDTO.code,
+        name = currencyDTO.name,
+        abbr = currencyDTO.abbr
     )
 }

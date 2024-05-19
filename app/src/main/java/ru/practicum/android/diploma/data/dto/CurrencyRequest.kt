@@ -1,3 +1,3 @@
 package ru.practicum.android.diploma.data.dto
 
-class CurrencyRequest()
+class CurrencyRequest

@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.domain.impl.dictionary
 
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.dictionary.CurrencyRepository
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
@@ -13,7 +14,8 @@ class DictionaryInteractorImpl(
 ) : DictionaryInteractor {
     override fun getCurrencyDictionary(): Map<String, Currency> {
         val dictionary = mutableMapOf<String, Currency>()
-        GlobalScope.launch {
+
+        CoroutineScope(Dispatchers.Default).launch {
             val dbDictionary = mutableListOf<Currency>()
             dictionaryRepository.getCurrencyDictionary().collect {
                 dbDictionary.addAll(it)
