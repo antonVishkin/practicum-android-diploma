@@ -38,7 +38,7 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.VacancyClick {
+        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.OnClickListener {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
