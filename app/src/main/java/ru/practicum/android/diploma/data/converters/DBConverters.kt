@@ -1,10 +1,12 @@
 package ru.practicum.android.diploma.data.converters
 
+import ru.practicum.android.diploma.data.db.CurrencyDictionaryEntity
 import ru.practicum.android.diploma.data.db.VacancyEntity
+import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyDBConverters {
+class DBConverters {
     fun map(vacancy: Vacancy): VacancyEntity {
         return VacancyEntity(
             id = vacancy.id,
@@ -28,4 +30,12 @@ class VacancyDBConverters {
             urlImage = vacancy.urlImage
         )
     }
+
+    fun map(currency: Currency):CurrencyDictionaryEntity = CurrencyDictionaryEntity(
+        code = currency.code, name = currency.name, abbr = currency.abbr
+    )
+
+    fun map(currencyDictionaryEntity: CurrencyDictionaryEntity):Currency = Currency(
+        code = currencyDictionaryEntity.code, name = currencyDictionaryEntity.name, abbr = currencyDictionaryEntity.abbr
+    )
 }

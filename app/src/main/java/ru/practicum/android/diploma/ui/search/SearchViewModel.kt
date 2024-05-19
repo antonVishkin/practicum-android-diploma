@@ -40,9 +40,6 @@ class SearchViewModel(
                     Log.v("VACANCY", "failure" + it.toString())
                 }
             }
-            dictionaryInteractor.getCurrencyDictionary().collect{
-                Log.v("CURRENCY","currency"+it.toString())
-            }
         }
     }
 
