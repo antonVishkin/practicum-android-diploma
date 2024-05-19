@@ -1,14 +1,14 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Context
-import androidx.navigation.fragment.findNavController
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -46,6 +46,7 @@ class SearchFragment : Fragment() {
         binding.rvSearch.adapter = _adapter
 
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
+        viewModel.search("test", hashMapOf())
     }
 
     private fun render(state: SearchState) {
@@ -55,7 +56,7 @@ class SearchFragment : Fragment() {
             is SearchState.Empty -> renderSearchEmpty()
             is SearchState.NoConnection -> renderSearchNoConnection()
             is SearchState.Error -> renderSearchError()
-            is SearchState.Content -> renderSearchContent()
+            is SearchState.Content -> renderSearchContent(state.vacancies)
         }
     }
 
@@ -123,7 +124,10 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun renderSearchContent() {
+    private fun renderSearchContent(vacancies: List<Vacancy>) {
+        _adapter?.vacancyList?.clear()
+        _adapter?.vacancyList?.addAll(vacancies)
+        _adapter?.notifyDataSetChanged()
         with(binding) {
             tvButtonSearchResult.text =
                 requireContext().getString(R.string.found_vacancies_count, vacancyList.size)
