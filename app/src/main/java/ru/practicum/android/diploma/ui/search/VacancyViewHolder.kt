@@ -28,7 +28,7 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
                 .load(vacancy.id)
                 .placeholder(R.drawable.vacancies_placeholder)
                 .centerCrop()
-                .transform(RoundedCorners(12))
+                .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
                 .into(binding.ivIconVacancy)
         }
         itemView.setOnClickListener {
