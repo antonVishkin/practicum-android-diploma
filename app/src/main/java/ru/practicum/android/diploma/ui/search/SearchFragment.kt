@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
             is SearchState.Empty -> renderSearchEmpty()
             is SearchState.NoConnection -> renderSearchNoConnection()
             is SearchState.Error -> renderSearchError()
-            is SearchState.Content -> renderSearchContent()
+            is SearchState.Content -> renderSearchContent(state.vacancies)
         }
     }
 
@@ -124,7 +124,10 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun renderSearchContent() {
+    private fun renderSearchContent(vacancies:List<Vacancy>) {
+        _adapter?.vacancyList?.clear()
+        _adapter?.vacancyList?.addAll(vacancies)
+        _adapter?.notifyDataSetChanged()
         with(binding) {
             tvButtonSearchResult.text =
                 requireContext().getString(R.string.found_vacancies_count, vacancyList.size)

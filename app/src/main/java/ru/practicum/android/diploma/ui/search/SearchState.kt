@@ -8,5 +8,5 @@ sealed class SearchState {
     object Empty : SearchState()
     object NoConnection : SearchState()
     data class Error(val message: String) : SearchState()
-    data class Content(val vacancies: List<Vacancy>, val count: Int) : SearchState()
+    data class Content(val vacancies: List<Vacancy>) : SearchState()
 }

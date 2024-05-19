@@ -22,12 +22,19 @@ class SearchViewModel(
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
     fun search(request: String) {
+        renderState(
+            SearchState.Loading
+        )
         val options = HashMap<String, String>()
         options.put("text", request)
         viewModelScope.launch {
             searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
-                    Log.v("VACANCY", "succes" + it.toString())
+                    renderState(
+                        SearchState.Content(
+                            it
+                        )
+                    )
                 }
                 result.onFailure {
                     Log.v("VACANCY", "failure" + it.toString())
@@ -37,5 +44,9 @@ class SearchViewModel(
                 Log.v("CURRENCY","currency"+it.toString())
             }
         }
+    }
+
+    private fun renderState(state: SearchState){
+        _stateSearch.value = state
     }
 }
