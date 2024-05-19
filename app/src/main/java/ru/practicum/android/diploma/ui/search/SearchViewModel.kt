@@ -21,7 +21,7 @@ class SearchViewModel(
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
-    fun search(request: String,options: HashMap<String, String>) {
+    fun search(request: String, options: HashMap<String, String>) {
         renderState(
             SearchState.Loading
         )
@@ -42,7 +42,7 @@ class SearchViewModel(
         }
     }
 
-    private fun renderState(state: SearchState){
+    private fun renderState(state: SearchState) {
         _stateSearch.value = state
     }
 }

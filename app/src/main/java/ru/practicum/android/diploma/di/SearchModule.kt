@@ -13,7 +13,7 @@ val searchModule = module {
     single<RetrofitNetworkClient> { RetrofitNetworkClient(get()) }
 
     viewModel {
-        SearchViewModel(get(),get())
+        SearchViewModel(get(), get())
     }
 
     single<SearchInteractor> { SearchInteractorImpl(get()) }
