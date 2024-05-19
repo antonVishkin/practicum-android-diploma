@@ -8,5 +8,5 @@ data class Vacancy(
     val salaryTo: Int?,
     val city: String?,
     val employerName: String,
-    val urlImage: String?,
+    val urlImage: String?
 )

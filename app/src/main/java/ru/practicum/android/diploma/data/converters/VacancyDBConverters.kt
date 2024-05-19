@@ -8,9 +8,12 @@ class VacancyDBConverters {
         return VacancyEntity(
             id = vacancy.id,
             name = vacancy.name,
-            salary = vacancy.salary,
+            salaryCurrency = vacancy.salaryCurrency,
+            salaryFrom = vacancy.salaryFrom,
+            salaryTo = vacancy.salaryTo,
             city = vacancy.city,
-            employerName = vacancy.employerName
+            employerName = vacancy.employerName,
+            urlImage = vacancy.urlImage
         )
     }
 
@@ -18,9 +21,12 @@ class VacancyDBConverters {
         return Vacancy(
             id = vacancy.id,
             name = vacancy.name,
-            salary = vacancy.salary,
+            salaryCurrency = vacancy.salaryCurrency,
+            salaryFrom = vacancy.salaryFrom,
+            salaryTo = vacancy.salaryTo,
             city = vacancy.city,
-            employerName = vacancy.employerName
+            employerName = vacancy.employerName,
+            urlImage = vacancy.urlImage
         )
     }
 }
