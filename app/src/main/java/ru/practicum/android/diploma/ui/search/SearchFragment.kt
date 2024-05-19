@@ -46,7 +46,7 @@ class SearchFragment : Fragment() {
         binding.rvSearch.adapter = _adapter
 
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
-        viewModel.search("test")
+        viewModel.search("test", hashMapOf())
     }
 
     private fun render(state: SearchState) {

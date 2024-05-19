@@ -21,12 +21,11 @@ class SearchViewModel(
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
-    fun search(request: String) {
+    fun search(request: String,options: HashMap<String, String>) {
         renderState(
             SearchState.Loading
         )
-        val options = HashMap<String, String>()
-        options.put("text", request)
+        options["text"] = request
         viewModelScope.launch {
             searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
