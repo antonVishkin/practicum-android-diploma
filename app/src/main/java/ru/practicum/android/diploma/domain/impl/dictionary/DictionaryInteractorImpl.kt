@@ -1,8 +1,6 @@
 package ru.practicum.android.diploma.domain.impl.dictionary
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import android.util.Log
 import ru.practicum.android.diploma.domain.api.dictionary.CurrencyRepository
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryRepository
@@ -12,22 +10,21 @@ class DictionaryInteractorImpl(
     private val currencyRepository: CurrencyRepository,
     private val dictionaryRepository: DictionaryRepository
 ) : DictionaryInteractor {
-    override fun getCurrencyDictionary(): Map<String, Currency> {
-        val dictionary = mutableMapOf<String, Currency>()
-
-        CoroutineScope(Dispatchers.Default).launch {
-            val dbDictionary = mutableListOf<Currency>()
-            dictionaryRepository.getCurrencyDictionary().collect {
+    override suspend fun getCurrencyDictionary(): Map<String, Currency> {
+        val dbDictionary = mutableListOf<Currency>()
+        dictionaryRepository.getCurrencyDictionary().collect {
+            dbDictionary.addAll(it)
+        }
+        Log.d("CURRENCY", "dbdictionary after database $dbDictionary")
+        if (dbDictionary.isNullOrEmpty()) {
+            currencyRepository.getCurrencyDictionary().collect {
                 dbDictionary.addAll(it)
             }
-            if (dbDictionary.isNullOrEmpty()) {
-                currencyRepository.getCurrencyDictionary().collect {
-                    dbDictionary.addAll(it)
-                }
-            }
-            dbDictionary.forEach { dictionary.put(it.code, it) }
         }
-        return dictionary
+        Log.d("CURRENCY", "dbdictionary after request $dbDictionary")
+        dbDictionary.forEach { it.code }
+
+        return dbDictionary.associateBy({ it.code }, { it })
     }
 
     override suspend fun getCurrency(code: String): Currency {

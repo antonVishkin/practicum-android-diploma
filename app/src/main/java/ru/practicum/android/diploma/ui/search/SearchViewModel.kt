@@ -27,11 +27,14 @@ class SearchViewModel(
         )
         options["text"] = request
         viewModelScope.launch {
+            val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
+
             searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
                     renderState(
                         SearchState.Content(
-                            it
+                            vacancies = it,
+                            currencyDictionary = currencyDictionary
                         )
                     )
                 }

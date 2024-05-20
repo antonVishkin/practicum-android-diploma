@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 class SearchFragment : Fragment() {
@@ -56,7 +57,7 @@ class SearchFragment : Fragment() {
             is SearchState.Empty -> renderSearchEmpty()
             is SearchState.NoConnection -> renderSearchNoConnection()
             is SearchState.Error -> renderSearchError()
-            is SearchState.Content -> renderSearchContent(state.vacancies)
+            is SearchState.Content -> renderSearchContent(state.vacancies, state.currencyDictionary)
         }
     }
 
@@ -124,9 +125,11 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun renderSearchContent(vacancies: List<Vacancy>) {
+    private fun renderSearchContent(vacancies: List<Vacancy>, currencyDictionary: Map<String, Currency>) {
         _adapter?.vacancyList?.clear()
         _adapter?.vacancyList?.addAll(vacancies)
+        _adapter?.currencyDictionary?.clear()
+        _adapter?.currencyDictionary?.putAll(currencyDictionary)
         _adapter?.notifyDataSetChanged()
         with(binding) {
             tvButtonSearchResult.text =
