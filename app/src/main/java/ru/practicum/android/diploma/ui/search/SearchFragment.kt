@@ -10,11 +10,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyPage
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -45,8 +47,20 @@ class SearchFragment : Fragment() {
             }
         })
         binding.rvSearch.adapter = _adapter
-
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
+        binding.rvSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0) {
+                    val pos = (binding.rvSearch.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemsCount = _adapter?.itemCount ?: 0
+                    if (pos >= itemsCount - 1) {
+                        viewModel.onLastItemReached()
+                    }
+                }
+            }
+        })
         viewModel.search("test", hashMapOf())
     }
 
@@ -57,8 +71,13 @@ class SearchFragment : Fragment() {
             is SearchState.Empty -> renderSearchEmpty()
             is SearchState.NoConnection -> renderSearchNoConnection()
             is SearchState.Error -> renderSearchError()
-            is SearchState.Content -> renderSearchContent(state.vacancies, state.currencyDictionary)
+            is SearchState.Content -> renderSearchContent(state.vacancyPage, state.currencyDictionary)
+            is SearchState.NewPageLoading -> renderNewPageLoading()
         }
+    }
+
+    private fun renderNewPageLoading() {
+        binding.progressBarBottom.isVisible = true
     }
 
     private fun renderSearchLoading() {
@@ -125,9 +144,11 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun renderSearchContent(vacancies: List<Vacancy>, currencyDictionary: Map<String, Currency>) {
-        _adapter?.vacancyList?.clear()
-        _adapter?.vacancyList?.addAll(vacancies)
+    private fun renderSearchContent(vacancyPage: VacancyPage, currencyDictionary: Map<String, Currency>) {
+        if (vacancyPage.currPage == 0) {
+            _adapter?.vacancyList?.clear()
+        }
+        _adapter?.vacancyList?.addAll(vacancyPage.vacancyList)
         _adapter?.currencyDictionary?.clear()
         _adapter?.currencyDictionary?.putAll(currencyDictionary)
         _adapter?.notifyDataSetChanged()

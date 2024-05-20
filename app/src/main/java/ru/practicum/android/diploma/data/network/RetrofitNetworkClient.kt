@@ -20,10 +20,15 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                         val response =
                             headHunterApi.searchVacancies("Bearer " + BuildConfig.HH_ACCESS_TOKEN, dto.options)
                         Log.v("VACANCY", "responce" + response.items.toString())
-                        SearchResponse(response.items).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
+                        SearchResponse(
+                            response.items,
+                            response.page,
+                            response.pages,
+                            response.found
+                        ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
                     } catch (e: IOException) {
                         Log.e("NETWORK ERROR", e.toString())
-                        SearchResponse(null).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+                        SearchResponse(null, 0, 0, 0).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                     }
                 }
             }

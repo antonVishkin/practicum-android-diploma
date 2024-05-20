@@ -17,6 +17,9 @@ class SearchViewModel(
     private var searchJob: Job? = null
     private var isClickAllowed = true
     private var lastSearchQueryText: String? = null
+    private var isNextPageLoading = true
+    private var currPage: Int? = null
+    private var maxPage: Int? = null
 
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
@@ -25,15 +28,38 @@ class SearchViewModel(
         renderState(
             SearchState.Loading
         )
+        searchVacancies(request, options)
+    }
+
+    private fun renderState(state: SearchState) {
+        _stateSearch.value = state
+    }
+
+    fun onLastItemReached() {
+        if (isNextPageLoading) {
+            isNextPageLoading = false
+            if (currPage!! < maxPage!!) {
+                renderState(SearchState.NewPageLoading)
+                currPage = currPage!! + 1
+                val t = hashMapOf<String, String>()
+                t.put("page", "$currPage")
+                searchVacancies("test", t)
+            }
+        }
+    }
+
+    private fun searchVacancies(request: String, options: HashMap<String, String>) {
         options["text"] = request
         viewModelScope.launch {
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
 
             searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
+                    currPage = it.currPage
+                    maxPage = it.fromPages
                     renderState(
                         SearchState.Content(
-                            vacancies = it,
+                            vacancyPage = it,
                             currencyDictionary = currencyDictionary
                         )
                     )
@@ -41,11 +67,8 @@ class SearchViewModel(
                 result.onFailure {
                     Log.v("VACANCY", "failure" + it.toString())
                 }
+                isNextPageLoading = true
             }
         }
-    }
-
-    private fun renderState(state: SearchState) {
-        _stateSearch.value = state
     }
 }
