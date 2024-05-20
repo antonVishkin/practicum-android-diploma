@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.search
 
+import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
 
 sealed class SearchState {
@@ -8,5 +9,5 @@ sealed class SearchState {
     object Empty : SearchState()
     object NoConnection : SearchState()
     data class Error(val message: String) : SearchState()
-    data class Content(val vacancies: List<Vacancy>) : SearchState()
+    data class Content(val vacancies: List<Vacancy>, val currencyDictionary: Map<String, Currency>) : SearchState()
 }

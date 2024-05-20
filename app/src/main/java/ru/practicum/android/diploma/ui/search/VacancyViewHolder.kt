@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.util.SalaryFormat
 
 class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(vacancy: Vacancy, onClickListener: VacancyAdapter.OnClickListener) {
+    fun bind(vacancy: Vacancy, onClickListener: VacancyAdapter.OnClickListener, currencySymbol: String) {
         with(binding) {
             tvVacancyName.text = buildString {
                 append(vacancy.name)
@@ -22,7 +22,7 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
                 itemView.context,
                 vacancy.salary?.from,
                 vacancy.salary?.to,
-                vacancy.salary?.currency
+                currencySymbol
             )
             Glide.with(itemView)
                 .load(vacancy.id)
