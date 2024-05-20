@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-        _adapter = VacancyAdapter(arrayListOf() , object : VacancyAdapter.OnClickListener {
+        _adapter = VacancyAdapter(arrayListOf(), object : VacancyAdapter.OnClickListener {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
@@ -153,7 +153,7 @@ class SearchFragment : Fragment() {
         _adapter?.notifyDataSetChanged()
         with(binding) {
             tvButtonSearchResult.text =
-                requireContext().getString(R.string.found_vacancies_count,vacancyPage.found )
+                requireContext().getString(R.string.found_vacancies_count, vacancyPage.found)
             tvButtonSearchResult.isVisible = true
             rvSearch.isVisible = true
             progressBar.isVisible = false
