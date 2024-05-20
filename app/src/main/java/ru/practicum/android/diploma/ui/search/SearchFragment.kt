@@ -23,7 +23,6 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private var _adapter: VacancyAdapter? = null
-    private val vacancyList: ArrayList<Vacancy> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +40,7 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-        _adapter = VacancyAdapter(vacancyList, object : VacancyAdapter.OnClickListener {
+        _adapter = VacancyAdapter(arrayListOf() , object : VacancyAdapter.OnClickListener {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
@@ -154,7 +153,7 @@ class SearchFragment : Fragment() {
         _adapter?.notifyDataSetChanged()
         with(binding) {
             tvButtonSearchResult.text =
-                requireContext().getString(R.string.found_vacancies_count, vacancyList.size)
+                requireContext().getString(R.string.found_vacancies_count,vacancyPage.found )
             tvButtonSearchResult.isVisible = true
             rvSearch.isVisible = true
             progressBar.isVisible = false
