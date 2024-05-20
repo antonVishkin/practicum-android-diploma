@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
-import ru.practicum.android.diploma.domain.models.Vacancy
 
 class FavoriteViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
     private val _stateFavorite = MutableLiveData<FavoriteState>(FavoriteState.Empty)
@@ -15,12 +14,6 @@ class FavoriteViewModel(private val favoritesInteractor: FavoritesInteractor) : 
     private var from = 0
 
     init {
-        viewModelScope.launch {
-            favoritesInteractor.addVacancyToFavorites(Vacancy("test", "testname", null, null, "sfdds", null))
-            favoritesInteractor.addVacancyToFavorites(Vacancy("test2", "testname", null, null, "sfdds", null))
-            favoritesInteractor.addVacancyToFavorites(Vacancy("test3", "testname", null, null, "sfdds", null))
-
-        }
         fillData()
     }
 
