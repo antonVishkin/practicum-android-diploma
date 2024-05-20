@@ -22,7 +22,15 @@
     <string name="kate_mahova">Екатерина Махова</string>
     <string name="milan_isaev">Милан Исаев</string>
 
-  <!-- VACANCY FRAGMENT-->
+
+
+
+
+
+
+
+
+    <!-- VACANCY FRAGMENT-->
     <string name="android_developer">Android-разработчик</string>
     <string name="company_name">Еда</string>
     <string name="vacancy_salary">от 100 000 ₽</string>
