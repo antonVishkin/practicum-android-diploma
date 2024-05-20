@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.data.dto.DTOConverters
@@ -23,7 +22,6 @@ class SearchRepositoryImpl(
                 val page = searchResponse.page
                 val pages = searchResponse.pages
                 val found = searchResponse.found
-                Log.d("SEARCH", "page: $page pages $pages")
                 if (!list.isNullOrEmpty()) {
                     emit(
                         Result.success(VacancyPage(list.map { dTOConverters.map(it) }, page, pages, found))

@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.domain.impl.dictionary
 
-import android.util.Log
 import ru.practicum.android.diploma.domain.api.dictionary.CurrencyRepository
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryRepository
@@ -15,13 +14,11 @@ class DictionaryInteractorImpl(
         dictionaryRepository.getCurrencyDictionary().collect {
             dbDictionary.addAll(it)
         }
-        Log.d("CURRENCY", "dbdictionary after database $dbDictionary")
         if (dbDictionary.isNullOrEmpty()) {
             currencyRepository.getCurrencyDictionary().collect {
                 dbDictionary.addAll(it)
             }
         }
-        Log.d("CURRENCY", "dbdictionary after request $dbDictionary")
         dbDictionary.forEach { it.code }
 
         return dbDictionary.associateBy({ it.code }, { it })
