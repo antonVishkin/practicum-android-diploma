@@ -65,7 +65,6 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-        viewModel.search("test", hashMapOf())
 
         binding.etButtonSearch.doOnTextChanged { text, _, _, _ ->
             hideIconEditText(text)

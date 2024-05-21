@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -54,7 +53,6 @@ class SearchViewModel(
         options["text"] = request
         viewModelScope.launch {
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
-
             searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
                     currPage = it.currPage
@@ -67,7 +65,7 @@ class SearchViewModel(
                     )
                 }
                 result.onFailure {
-                    Log.v("VACANCY", "failure" + it.toString())
+                    renderState(SearchState.ServerError(it.message ?: ""))
                 }
                 isNextPageLoading = true
             }
