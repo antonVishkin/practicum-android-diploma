@@ -216,7 +216,7 @@ class SearchFragment : Fragment() {
             val iconClear = editText.compoundDrawables[2]
             editText.setOnTouchListener { _, motionEvent ->
                 if (motionEvent.action == MotionEvent.ACTION_UP &&
-                    motionEvent.rawX >= (editText.right - iconClear.bounds.width() * 2)
+                    motionEvent.rawX >= editText.right - iconClear.bounds.width() * 2
                 ) {
                     editText.isEnabled = false
                     viewModel.setStateDefault()
