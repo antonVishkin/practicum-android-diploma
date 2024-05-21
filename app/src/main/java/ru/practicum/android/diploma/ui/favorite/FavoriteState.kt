@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.favorite
 
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyPage
 
 sealed interface FavoriteState {
@@ -7,5 +8,5 @@ sealed interface FavoriteState {
     object Error : FavoriteState
     object Loading : FavoriteState
     object LoadingNewPage : FavoriteState
-    data class Content(val vacancyPage: VacancyPage) : FavoriteState
+    data class Content(val favorite: List<Vacancy>) : FavoriteState
 }
