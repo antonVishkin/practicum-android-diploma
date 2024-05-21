@@ -9,6 +9,6 @@ sealed class SearchState {
     object Default : SearchState()
     object Empty : SearchState()
     object NoConnection : SearchState()
-    data class Error(val message: String) : SearchState()
+    data class ServerError(val message: String) : SearchState()
     data class Content(val vacancyPage: VacancyPage, val currencyDictionary: Map<String, Currency>) : SearchState()
 }

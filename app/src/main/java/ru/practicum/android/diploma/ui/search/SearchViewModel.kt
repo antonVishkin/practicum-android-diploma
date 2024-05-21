@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
@@ -15,7 +16,6 @@ class SearchViewModel(
     private val dictionaryInteractor: DictionaryInteractor
 ) : ViewModel() {
     private var searchJob: Job? = null
-    private var isClickAllowed = true
     private var lastSearchQueryText: String? = null
     private var isNextPageLoading = true
     private var currPage: Int? = null
@@ -25,14 +25,16 @@ class SearchViewModel(
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
     fun search(request: String, options: HashMap<String, String>) {
-        renderState(
-            SearchState.Loading
-        )
+        renderState(SearchState.Loading)
         searchVacancies(request, options)
     }
 
     private fun renderState(state: SearchState) {
         _stateSearch.value = state
+    }
+
+    fun setStateDefault() {
+        _stateSearch.postValue(SearchState.Default)
     }
 
     fun onLastItemReached() {
@@ -70,5 +72,19 @@ class SearchViewModel(
                 isNextPageLoading = true
             }
         }
+    }
+
+    fun searchDebounce(changedText: String) {
+        if (lastSearchQueryText == changedText) return
+        this.lastSearchQueryText = changedText
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
+            search(changedText, hashMapOf())
+        }
+    }
+
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
     }
 }
