@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.data.dto
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyPage
 
 class DTOConverters {
     fun map(vacancyDTO: VacancyDTO): Vacancy = Vacancy(
@@ -29,4 +30,22 @@ class DTOConverters {
         name = currencyDTO.name,
         abbr = currencyDTO.abbr
     )
+
+    fun map(detailsResponse: VacancyDetailsResponse): VacancyPage {
+        return VacancyPage(
+            id = detailsResponse.id,
+            name = detailsResponse.name,
+            logoUrl = detailsResponse.logoUrl,
+            employerName = detailsResponse.employer.name,
+            cityName = detailsResponse.area.name,
+            experienceName = detailsResponse.experience.name,
+            description = detailsResponse.description,
+            responsibilities = detailsResponse.responsibilities,
+            requirements = detailsResponse.requirements,
+            conditions = detailsResponse.conditions,
+            keySkills = detailsResponse.keySkills.map { it.name },
+            contacts = detailsResponse.contacts.contactPerson,
+            comments = detailsResponse.comments,
+        )
+    }
 }
