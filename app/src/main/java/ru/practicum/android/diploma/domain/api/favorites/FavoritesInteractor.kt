@@ -1,11 +1,12 @@
-package ru.practicum.android.diploma.domain.api
+package ru.practicum.android.diploma.domain.api.favorites
 
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyPage
 
-interface FavoritesRepository {
+interface FavoritesInteractor {
     suspend fun addVacancyToFavorites(vacancy: Vacancy)
 
-    suspend fun getFavoriteVacancies(limit: Int, from: Int): List<Vacancy>
+    suspend fun getFavoriteVacancies(limit: Int, from: Int): VacancyPage
 
     suspend fun removeVacancyFromFavorites(vacancy: Vacancy)
 
