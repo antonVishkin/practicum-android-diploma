@@ -245,7 +245,7 @@
 
         <TextView
             android:id="@+id/tvEmail"
-            style="@style/vacancy_view_regular_text"
+            style="@style/phone_and_mail_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/irina_mail_ru"
@@ -266,7 +266,7 @@
 
         <TextView
             android:id="@+id/tvTelephone"
-            style="@style/vacancy_view_regular_text"
+            style="@style/phone_and_mail_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/telephone_number"

@@ -45,10 +45,14 @@ class RootActivity : AppCompatActivity() {
                 binding.toolbar.isVisible = true
                 binding.toolbar.navigationIcon = null
                 binding.btnFilter.isVisible = true
+                binding.btnFavorite.isVisible = false
+                binding.btnShare.isVisible = false
             }
 
             R.id.filtrationFragment -> {
                 binding.toolbar.isVisible = true
+                binding.btnFavorite.isVisible = false
+                binding.btnShare.isVisible = false
                 binding.toolbar.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
@@ -57,6 +61,8 @@ class RootActivity : AppCompatActivity() {
 
             R.id.vacanciesFragment -> {
                 binding.toolbar.isVisible = true
+                binding.btnFavorite.isVisible = true
+                binding.btnShare.isVisible = true
                 binding.toolbar.setNavigationOnClickListener {
                     this.onBackPressedDispatcher.onBackPressed()
                 }
@@ -67,12 +73,16 @@ class RootActivity : AppCompatActivity() {
                 binding.toolbar.isVisible = true
                 binding.toolbar.navigationIcon = null
                 binding.btnFilter.isVisible = false
+                binding.btnFavorite.isVisible = false
+                binding.btnShare.isVisible = false
             }
 
             R.id.teamFragment -> {
                 binding.toolbar.isVisible = true
                 binding.toolbar.navigationIcon = null
                 binding.btnFilter.isVisible = false
+                binding.btnFavorite.isVisible = false
+                binding.btnShare.isVisible = false
             }
         }
     }
