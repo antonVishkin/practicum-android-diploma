@@ -44,7 +44,7 @@ class SearchViewModel(
                 currPage = currPage!! + 1
                 val t = hashMapOf<String, String>()
                 t.put("page", "$currPage")
-                searchVacancies("test", t)
+                searchVacancies(lastSearchQueryText?:"", t)
             }
         }
     }
