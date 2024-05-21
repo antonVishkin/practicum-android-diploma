@@ -22,7 +22,7 @@ class FavoriteViewModel(private val favoritesInteractor: FavoritesInteractor) : 
 
     private fun fillData() {
         renderState(FavoriteState.Loading)
-        //getFavorites()
+        // getFavorites()
     }
 
 // Закомментил данный код, т.к. про пагинацию в избранном не говорится и ошибка .vacancyPage в val page = ...
