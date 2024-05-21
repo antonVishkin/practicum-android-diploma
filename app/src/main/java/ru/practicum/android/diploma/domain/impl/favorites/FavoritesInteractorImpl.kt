@@ -10,8 +10,12 @@ class FavoritesInteractorImpl(private val favoritesRepository: FavoritesReposito
         favoritesRepository.addVacancyToFavorites(vacancy)
     }
 
-    override suspend fun getFavoriteVacancies(limit: Int, from: Int): VacancyPage {
-        return favoritesRepository.getFavoriteVacancies(limit, from)
+    override suspend fun getFavoriteVacanciesPage(limit: Int, from: Int): VacancyPage {
+        return favoritesRepository.getFavoriteVacanciesPage(limit, from)
+    }
+
+    override suspend fun getFavoriteVacancies(): List<Vacancy> {
+        return favoritesRepository.getFavoriteVacancies()
     }
 
     override suspend fun removeVacancyFromFavorites(vacancy: Vacancy) {

@@ -15,6 +15,9 @@ interface FavoritesDAO {
     @Query("SELECT * FROM table_favorites_vacancies LIMIT :limit OFFSET :from")
     suspend fun getFavoritesList(limit: Int, from: Int): List<VacancyEntity>
 
+    @Query("SELECT * FROM table_favorites_vacancies")
+    suspend fun getAllFavorites(): List<VacancyEntity>
+
     @Query("SELECT COUNT(*) FROM table_favorites_vacancies WHERE id=:vacancyId")
     suspend fun isVacancyFavorite(vacancyId: String): Int
 

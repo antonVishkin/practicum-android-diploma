@@ -15,12 +15,16 @@ class FavoritesRepositoryImpl(
         appDatabase.favoritesDAO().addVacancy(dBConverters.map(vacancy))
     }
 
-    override suspend fun getFavoriteVacancies(limit: Int, from: Int): VacancyPage {
+    override suspend fun getFavoriteVacanciesPage(limit: Int, from: Int): VacancyPage {
         val vacancyList = appDatabase.favoritesDAO().getFavoritesList(limit, from).map { dBConverters.map(it) }
         val countFavoriteVacancies = appDatabase.favoritesDAO().favoriteCount()
         val fromPages = ceil(countFavoriteVacancies * 1.0 / limit).toInt()
         val currPage = ceil(from * 1.0 / limit).toInt()
         return VacancyPage(vacancyList, currPage, fromPages, countFavoriteVacancies)
+    }
+
+    override suspend fun getFavoriteVacancies(): List<Vacancy> {
+        return appDatabase.favoritesDAO().getAllFavorites().map { dBConverters.map(it) }
     }
 
     override suspend fun removeVacancyFromFavorites(vacancy: Vacancy) {

@@ -13,6 +13,6 @@ val favoriteModule = module {
     single<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
 
     viewModel {
-        FavoriteViewModel(get())
+        FavoriteViewModel(get(), get())
     }
 }
