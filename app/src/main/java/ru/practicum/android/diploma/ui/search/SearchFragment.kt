@@ -1,12 +1,15 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +26,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private var _adapter: VacancyAdapter? = null
+    private var querySearchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +65,17 @@ class SearchFragment : Fragment() {
             }
         })
         viewModel.search("test", hashMapOf())
+
+        binding.etButtonSearch.doOnTextChanged { text, _, _, _ ->
+            hideIconEditText(text)
+            querySearchText = text.toString()
+            if (binding.etButtonSearch.hasFocus()) {
+                text?.let {
+                    viewModel.searchDebounce(it.toString())
+                    querySearchText = it.toString()
+                }
+            }
+        }
     }
 
     private fun render(state: SearchState) {
@@ -69,7 +84,7 @@ class SearchFragment : Fragment() {
             is SearchState.Default -> renderSearchDefault()
             is SearchState.Empty -> renderSearchEmpty()
             is SearchState.NoConnection -> renderSearchNoConnection()
-            is SearchState.Error -> renderSearchError()
+            is SearchState.ServerError -> renderSearchError()
             is SearchState.Content -> renderSearchContent(state.vacancyPage, state.currencyDictionary)
             is SearchState.NewPageLoading -> renderNewPageLoading()
         }
@@ -175,6 +190,40 @@ class SearchFragment : Fragment() {
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         inputMethodManager?.hideSoftInputFromWindow(binding.etButtonSearch.windowToken, 0)
         binding.etButtonSearch.isEnabled = true
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables", "ClickableViewAccessibility")
+    private fun hideIconEditText(text: CharSequence?) {
+        val editText = binding.etButtonSearch
+
+        if (text.isNullOrEmpty()) {
+            binding.etButtonSearch.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.search_icon,
+                0
+            )
+            editText.setOnTouchListener { _, motionEvent ->
+                false
+            }
+        } else {
+            binding.etButtonSearch.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.clean_icon,
+                0
+            )
+            val iconClear = editText.compoundDrawables[2]
+            editText.setOnTouchListener { _, motionEvent ->
+                if (motionEvent.action == MotionEvent.ACTION_UP &&
+                    motionEvent.rawX >= editText.right - iconClear.bounds.width() * 2
+                ) {
+                    editText.isEnabled = false
+                    viewModel.setStateDefault()
+                }
+                false
+            }
+        }
     }
 
     override fun onDestroyView() {
