@@ -18,6 +18,9 @@ interface FavoritesDAO {
     @Query("SELECT COUNT(*) FROM table_favorites_vacancies WHERE id=:vacancyId")
     suspend fun isVacancyFavorite(vacancyId: String): Int
 
+    @Query("SELECT COUNT(*) FROM table_favorites_vacancies")
+    suspend fun favoriteCount(): Int
+
     @Delete
     suspend fun removeVacancy(vacancyEntity: VacancyEntity)
 }
