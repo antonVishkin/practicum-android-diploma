@@ -54,17 +54,13 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
             return VacancyDetailsResponse(
                 response.id,
                 response.name,
-                response.logoUrl,
+                response.salary,
                 response.employer,
                 response.area,
                 response.experience,
                 response.description,
-                response.responsibilities,
-                response.requirements,
-                response.conditions,
                 response.keySkills,
                 response.contacts,
-                response.comments
             ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
         } catch (e: IOException) {
             Log.e(NETWORK_ERROR, e.toString())
@@ -113,23 +109,15 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
 
     private fun createEmptyVacancyDetails(): VacancyDetailsResponse {
         return VacancyDetailsResponse(
-            "",
-            "",
-            null,
-            Employer(""),
-            Area(""),
-            Experience(""),
-            "",
-            "",
-            "",
-            "",
-            emptyList(),
-            Contacts(
-                "",
-                "",
-                ""
-            ),
-            null
+            id = "",
+            name = "",
+            salary = null,
+            employer = null,
+            area = AreaDTO("", "", ""),
+            experience = ExperienceDTO(""),
+            description = "",
+            keySkills = listOf(),
+            contacts = null,
         )
     }
 
