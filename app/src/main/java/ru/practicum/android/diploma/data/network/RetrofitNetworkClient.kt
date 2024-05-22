@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.data.network
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.Area
 import ru.practicum.android.diploma.data.dto.Contacts
@@ -55,9 +54,8 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
             is VacancyDetailsRequest -> {
                 withContext(Dispatchers.IO) {
                     try {
-                        val options = mapOf("vacancy_id" to dto.vacancyId)
                         val response =
-                            headHunterApi.getVacancyDetails("Bearer " + BuildConfig.HH_ACCESS_TOKEN, options)
+                            headHunterApi.getVacancyDetails("Bearer " + BuildConfig.HH_ACCESS_TOKEN, dto.vacancyId)
                         VacancyDetailsResponse(
                             response.id,
                             response.name,
@@ -73,27 +71,6 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                             response.contacts,
                             response.comments
                         ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
-                    } catch (e: HttpException) {
-                        Log.e("NETWORK ERROR", e.toString())
-                        VacancyDetailsResponse(
-                            "",
-                            "",
-                            null,
-                            Employer(""),
-                            Area(""),
-                            Experience(""),
-                            "",
-                            "",
-                            "",
-                            "",
-                            emptyList(),
-                            Contacts(
-                                "",
-                                "",
-                                ""
-                            ),
-                            null
-                        ).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                     } catch (e: IOException) {
                         Log.e("NETWORK ERROR", e.toString())
                         VacancyDetailsResponse(
