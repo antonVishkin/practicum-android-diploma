@@ -35,7 +35,7 @@ class SearchRepositoryImpl(
 
             else -> {
                 emit(
-                    Result.failure(Throwable())
+                    Result.failure(Throwable(response.resultCode.toString()))
                 )
             }
         }

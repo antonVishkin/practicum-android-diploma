@@ -78,10 +78,19 @@ class SearchViewModel(
                     }
                 }
                 result.onFailure {
-                    if (currPage != 0) {
-                        renderState(SearchState.NextPageError)
+                    Log.v("SEARCH", "page $currPage error ${it.message}")
+                    if (it.message != "-1") {
+                        if (currPage != 0 && currPage != null) {
+                            renderState(SearchState.NextPageError)
+                        } else {
+                            renderState(SearchState.ServerError(it.message ?: ""))
+                        }
                     } else {
-                        renderState(SearchState.ServerError(it.message ?: ""))
+                        if (currPage != 0 && currPage != null) {
+                            renderState(SearchState.NextPageError)
+                        } else {
+                            renderState(SearchState.NoConnection)
+                        }
                     }
                 }
                 isNextPageLoading = true
