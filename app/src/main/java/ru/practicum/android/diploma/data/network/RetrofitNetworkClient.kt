@@ -4,12 +4,10 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.data.dto.Area
-import ru.practicum.android.diploma.data.dto.Contacts
+import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
-import ru.practicum.android.diploma.data.dto.Employer
-import ru.practicum.android.diploma.data.dto.Experience
+import ru.practicum.android.diploma.data.dto.ExperienceDTO
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
 import ru.practicum.android.diploma.data.dto.SearchResponse
@@ -59,17 +57,12 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                         VacancyDetailsResponse(
                             response.id,
                             response.name,
-                            response.logoUrl,
                             response.employer,
                             response.area,
                             response.experience,
                             response.description,
-                            response.responsibilities,
-                            response.requirements,
-                            response.conditions,
                             response.keySkills,
-                            response.contacts,
-                            response.comments
+                            response.contacts
                         ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
                     } catch (e: IOException) {
                         Log.e("NETWORK ERROR", e.toString())
@@ -77,19 +70,10 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                             "",
                             "",
                             null,
-                            Employer(""),
-                            Area(""),
-                            Experience(""),
-                            "",
-                            "",
-                            "",
+                            AreaDTO("", "", ""),
+                            ExperienceDTO(""),
                             "",
                             emptyList(),
-                            Contacts(
-                                "",
-                                "",
-                                ""
-                            ),
                             null
                         ).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                     }

@@ -27,6 +27,8 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
     private var _adapter: VacancyAdapter? = null
     private var querySearchText = ""
+    val vacancyIds = ("id1", "id2", "id3")
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +37,11 @@ class SearchFragment : Fragment() {
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return _binding?.root
+
+
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

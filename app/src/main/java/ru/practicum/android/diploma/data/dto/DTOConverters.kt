@@ -35,17 +35,12 @@ class DTOConverters {
         return VacancyDetails(
             id = detailsResponse.id,
             name = detailsResponse.name,
-            logoUrl = detailsResponse.logoUrl,
-            employerName = detailsResponse.employer.name,
-            cityName = detailsResponse.area.name,
-            experienceName = detailsResponse.experience.name,
+            employer = detailsResponse.employer,
+            area = detailsResponse.area,
+            experience = detailsResponse.experience,
             description = detailsResponse.description,
-            responsibilities = detailsResponse.responsibilities,
-            requirements = detailsResponse.requirements,
-            conditions = detailsResponse.conditions,
-            keySkills = detailsResponse.keySkills.map { it.name },
-            contacts = detailsResponse.contacts.contactPerson,
-            comments = detailsResponse.comments,
+            keySkills = detailsResponse.keySkills,
+            contacts = detailsResponse.contacts
         )
     }
 }

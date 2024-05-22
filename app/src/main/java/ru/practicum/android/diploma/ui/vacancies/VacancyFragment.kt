@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 
 class VacancyFragment : Fragment() {
 
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: VacancyViewModel
+    private val viewModel by viewModels<VacancyViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,8 +25,6 @@ class VacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(VacancyViewModel::class.java)
 
         val vacancyId = arguments?.getInt("vacancy_id") ?: -1
         if (vacancyId != -1) {
