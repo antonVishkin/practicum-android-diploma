@@ -19,8 +19,7 @@ class DictionaryInteractorImpl(
                 dbDictionary.addAll(it)
             }
         }
-        dbDictionary.forEach { it.code }
-
+        dictionaryRepository.addCurrencies(dbDictionary)
         return dbDictionary.associateBy({ it.code }, { it })
     }
 
