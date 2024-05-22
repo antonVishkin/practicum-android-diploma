@@ -4,11 +4,17 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.data.dto.Area
+import ru.practicum.android.diploma.data.dto.Contacts
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
+import ru.practicum.android.diploma.data.dto.Employer
+import ru.practicum.android.diploma.data.dto.Experience
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
 import ru.practicum.android.diploma.data.dto.SearchResponse
+import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
+import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import java.io.IOException
 
 class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkClient {
@@ -41,6 +47,51 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                     } catch (e: IOException) {
                         Log.e("NETWORK ERROR", e.toString())
                         CurrencyResponse(null).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+                    }
+                }
+            }
+
+            is VacancyDetailsRequest -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response =
+                            headHunterApi.getVacancyDetails("Bearer " + BuildConfig.HH_ACCESS_TOKEN, dto.vacancyId)
+                        VacancyDetailsResponse(
+                            response.id,
+                            response.name,
+                            response.logoUrl,
+                            response.employer,
+                            response.area,
+                            response.experience,
+                            response.description,
+                            response.responsibilities,
+                            response.requirements,
+                            response.conditions,
+                            response.keySkills,
+                            response.contacts,
+                            response.comments
+                        ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
+                    } catch (e: IOException) {
+                        Log.e("NETWORK ERROR", e.toString())
+                        VacancyDetailsResponse(
+                            "",
+                            "",
+                            null,
+                            Employer(""),
+                            Area(""),
+                            Experience(""),
+                            "",
+                            "",
+                            "",
+                            "",
+                            emptyList(),
+                            Contacts(
+                                "",
+                                "",
+                                ""
+                            ),
+                            null
+                        ).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                     }
                 }
             }
