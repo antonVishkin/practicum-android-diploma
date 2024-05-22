@@ -32,4 +32,3 @@ class VacancyDetailsRepositoryImpl(
         const val CLIENT_SUCCESS_RESULT_CODE = 200
     }
 }
-

@@ -1,18 +1,19 @@
 package ru.practicum.android.diploma.ui.vacancies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 
 class VacancyFragment : Fragment() {
 
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<VacancyViewModel>()
+    private val viewModel by viewModel<VacancyViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,12 +27,9 @@ class VacancyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val vacancyId = arguments?.getInt("vacancy_id") ?: -1
-        if (vacancyId != -1) {
-            viewModel.fetchVacancyDetails(vacancyId.toString())
-        } else {
-            // Handle error case
-        }
+        val vacancyId = arguments?.getString("vacancy_model") ?: ""
+        Log.d("DETAILS", "vacancy_model $vacancyId")
+        viewModel.fetchVacancyDetails(vacancyId)
 
         viewModel.vacancyDetails.observe(viewLifecycleOwner) { vacancyDetails ->
             // Update UI with vacancy details

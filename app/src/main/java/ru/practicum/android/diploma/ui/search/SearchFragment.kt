@@ -27,8 +27,6 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
     private var _adapter: VacancyAdapter? = null
     private var querySearchText = ""
-    val vacancyIds = ("id1", "id2", "id3")
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,15 +35,10 @@ class SearchFragment : Fragment() {
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return _binding?.root
-
-
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.stateSearch.observe(viewLifecycleOwner) {
             render(it)
         }
@@ -186,7 +179,7 @@ class SearchFragment : Fragment() {
     private fun openFragmentVacancy(vacancyId: String) {
         findNavController().navigate(
             R.id.action_searchFragment_to_vacanciesFragment,
-            Bundle().apply { putInt("vacancy_model", vacancyId.toInt()) }
+            Bundle().apply { putString("vacancy_model", vacancyId) }
         )
     }
 
