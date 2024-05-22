@@ -22,7 +22,7 @@ import java.io.IOException
 
 class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private val context: Context) : NetworkClient {
     override suspend fun doRequest(dto: Any): Response {
-        if (isConnected()){
+        if (!isConnected()){
             return Response().apply { resultCode = NO_INTERNET_RESULT_CODE }
         }
         return when (dto) {
