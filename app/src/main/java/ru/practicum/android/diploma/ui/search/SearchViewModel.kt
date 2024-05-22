@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
+import ru.practicum.android.diploma.domain.models.Currency
+import ru.practicum.android.diploma.domain.models.VacancyPage
 import ru.practicum.android.diploma.util.debounce
 
 class SearchViewModel(
@@ -62,39 +64,48 @@ class SearchViewModel(
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
             searchInteractor.searchVacancies(options).collect { result ->
                 result.onSuccess {
-                    currPage = it.currPage
-                    maxPage = it.fromPages
-                    Log.v("SEARCH", "page $currPage list ${it.vacancyList}")
-                    when {
-                        it.currPage == 0 && it.vacancyList.isEmpty() -> renderState(SearchState.Empty)
-                        it.currPage != 0 && it.vacancyList.isEmpty() -> renderState(SearchState.LastPage)
-                        else -> {
-                            renderState(
-                                SearchState.Content(
-                                    vacancyPage = it,
-                                    currencyDictionary = currencyDictionary
-                                )
-                            )
-                        }
-                    }
+                    onSearchSuccess(it, currencyDictionary)
                 }
                 result.onFailure {
                     Log.v("SEARCH", "page $currPage error ${it.message}")
-                    if (it.message != "-1") {
-                        if (currPage != 0 && currPage != null) {
-                            renderState(SearchState.NextPageError)
-                        } else {
-                            renderState(SearchState.ServerError(it.message ?: ""))
-                        }
-                    } else {
-                        if (currPage != 0 && currPage != null) {
-                            renderState(SearchState.NextPageError)
-                        } else {
-                            renderState(SearchState.NoConnection)
-                        }
-                    }
+                    onSearchFailure(it.message)
                 }
                 isNextPageLoading = true
+            }
+        }
+    }
+
+    private fun onSearchFailure(message: String?) {
+        if (message != "-1") {
+            if (currPage != 0 && currPage != null) {
+                renderState(SearchState.NextPageError)
+            } else {
+                renderState(SearchState.ServerError(message ?: ""))
+            }
+        } else {
+            if (currPage != 0 && currPage != null) {
+                renderState(SearchState.NextPageError)
+            } else {
+                renderState(SearchState.NoConnection)
+            }
+        }
+
+    }
+
+    private fun onSearchSuccess(page: VacancyPage, currencyDictionary: Map<String, Currency>) {
+        currPage = page.currPage
+        maxPage = page.fromPages
+        Log.v("SEARCH", "page $currPage list ${page.vacancyList}")
+        when {
+            page.currPage == 0 && page.vacancyList.isEmpty() -> renderState(SearchState.Empty)
+            page.currPage != 0 && page.vacancyList.isEmpty() -> renderState(SearchState.LastPage)
+            else -> {
+                renderState(
+                    SearchState.Content(
+                        vacancyPage = page,
+                        currencyDictionary = currencyDictionary
+                    )
+                )
             }
         }
     }
