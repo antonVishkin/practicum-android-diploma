@@ -36,7 +36,6 @@ class FavoriteFragment : Fragment() {
         viewModel.stateFavorite.observe(viewLifecycleOwner) {
             render(it)
         }
-
         favoriteAdapter = VacancyAdapter(arrayListOf(), object : VacancyAdapter.OnClickListener {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
@@ -46,16 +45,16 @@ class FavoriteFragment : Fragment() {
         binding.rvFavorite.adapter = favoriteAdapter
         binding.rvFavorite.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        viewModel.favouriteListOfLiveData.observe(viewLifecycleOwner) {
+        viewModel.stateFavorite.observe(viewLifecycleOwner) {
             render(it)
         }
+        viewModel.fillData()
     }
 
     private fun render(state: FavoriteState) {
         when (state) {
             is FavoriteState.Empty -> renderFavoriteEmpty()
             is FavoriteState.Loading -> renderFavoriteLoading()
-            is FavoriteState.LoadingNewPage -> renderFavoriteLoadingNewPage()
             is FavoriteState.Error -> renderFavoriteError()
             is FavoriteState.Content -> renderFavoriteContent(state)
         }
@@ -83,10 +82,6 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    private fun renderFavoriteLoadingNewPage() {
-        binding.progressBarBottom.isVisible = true
-    }
-
     private fun renderFavoriteError() {
         with(binding) {
             rvFavorite.isVisible = false
@@ -99,9 +94,21 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-// Закомментил, чтобы не бугался DETEKT
-//
-    private fun renderFavoriteContent(state: FavoriteState){}
+    private fun renderFavoriteContent(state: FavoriteState) {
+        val vacancyList = (state as FavoriteState.Content).favorite
+        val dictionary = (state as FavoriteState.Content).currencyDictionary
+        favoriteAdapter?.vacancyList?.clear()
+        favoriteAdapter?.vacancyList?.addAll(vacancyList)
+        favoriteAdapter?.currencyDictionary?.putAll(dictionary)
+        favoriteAdapter?.notifyDataSetChanged()
+        with(binding) {
+            progressBar.isVisible = false
+            progressBarBottom.isVisible = false
+            ivPlaceholder.isVisible = false
+            tvPlaceholder.isVisible = false
+            rvFavorite.isVisible = true
+        }
+    }
 
     private fun openFragmentVacancy(vacancyId: String) {
         findNavController().navigate(
