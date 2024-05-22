@@ -1,75 +1,41 @@
 package ru.practicum.android.diploma.ui.favorite
 
-import android.graphics.Movie
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
-import ru.practicum.android.diploma.domain.models.Vacancy
+import java.io.IOException
 
-class FavoriteViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
+class FavoriteViewModel(
+    private val favoritesInteractor: FavoritesInteractor,
+    private val dictionaryInteractor: DictionaryInteractor
+) : ViewModel() {
     private val _stateFavorite = MutableLiveData<FavoriteState>(FavoriteState.Empty)
     val stateFavorite: LiveData<FavoriteState> get() = _stateFavorite
-    private var from = 0
 
-    private val favoriteLiveData = MutableLiveData<FavoriteState>()
-    val favouriteListOfLiveData: LiveData<FavoriteState> = favoriteLiveData
-
-    init {
-        fillData()
-    }
-
-    private fun fillData() {
+    fun fillData() {
         renderState(FavoriteState.Loading)
         viewModelScope.launch {
-            favoritesInteractor
-                .getFavoriteVacancies()
-                .collect { vacancy ->
-                    processResult(vacancy)
+            try {
+                val vacancyList = favoritesInteractor.getFavoriteVacancies()
+                val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
+                if (vacancyList.isEmpty()) {
+                    renderState(FavoriteState.Empty)
+                } else {
+                    renderState(FavoriteState.Content(vacancyList, currencyDictionary))
                 }
+            } catch (e: IOException) {
+                Log.e("DATA ERROR", e.toString())
+                renderState(FavoriteState.Error)
+            }
         }
     }
-
-    private fun processResult(favorites: List<Vacancy>) {
-        if (favorites.isEmpty()) {
-            renderState(FavoriteState.Empty)
-        } else {
-            renderState(FavoriteState.Content(favorites))
-        }
-    }
-
-// Закомментил данный код, т.к. про пагинацию в избранном не говорится и ошибка .vacancyPage в val page = ...
-//
-//    fun getNewPage() {
-//        renderState(FavoriteState.LoadingNewPage)
-//        if (_stateFavorite.value is FavoriteState.Content) {
-//            val page = (_stateFavorite.value as FavoriteState.Content).vacancyPage
-//            if (page.currPage < page.fromPages) getFavorites()
-//        }
-//    }
-
-// Закомментил данный код, т.к. без пагинации нужна другая логика получения списка избранного
-//
-//    private fun getFavorites() {
-//        viewModelScope.launch {
-//            Log.d("FAVORITE", "from $from limit $LIMIT")
-//            val vacancyPage = favoritesInteractor.getFavoriteVacancies(LIMIT, from)
-//            from = vacancyPage.currPage * LIMIT
-//            Log.d("FAVORITE", "${vacancyPage.vacancyList}")
-//            //renderState(FavoriteState.Content(vacancyPage))
-//            renderState(FavoriteState.Content(vacancyPage))
-//        }
-//    }
 
     private fun renderState(state: FavoriteState) {
         _stateFavorite.value = state
-    }
-
-    companion object {
-        private const val LIMIT = 20
     }
 }

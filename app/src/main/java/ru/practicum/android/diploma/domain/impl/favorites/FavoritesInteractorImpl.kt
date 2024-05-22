@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.domain.impl.favorites
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -12,12 +10,12 @@ class FavoritesInteractorImpl(private val favoritesRepository: FavoritesReposito
         favoritesRepository.addVacancyToFavorites(vacancy)
     }
 
-//    override suspend fun getFavoriteVacancies(limit: Int, from: Int): VacancyPage {
-//        return favoritesRepository.getFavoriteVacancies(limit, from)
-//    }
+    override suspend fun getFavoriteVacanciesPage(limit: Int, from: Int): VacancyPage {
+        return favoritesRepository.getFavoriteVacanciesPage(limit, from)
+    }
 
-    override suspend fun getFavoriteVacancies(): Flow<List<Vacancy>> {
-        return favoritesRepository.getFavoriteVacancies().map { vacancy -> vacancy.reversed() }
+    override suspend fun getFavoriteVacancies(): List<Vacancy> {
+        return favoritesRepository.getFavoriteVacancies()
     }
 
     override suspend fun removeVacancyFromFavorites(vacancy: Vacancy) {

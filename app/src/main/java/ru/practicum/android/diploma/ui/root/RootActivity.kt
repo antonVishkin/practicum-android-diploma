@@ -42,49 +42,69 @@ class RootActivity : AppCompatActivity() {
     private fun toolBarController(destination: NavDestination) {
         when (destination.id) {
             R.id.searchFragment -> {
-                binding.toolbar.isVisible = true
-                binding.toolbar.navigationIcon = null
-                binding.btnFilter.isVisible = true
-                binding.btnFavorite.isVisible = false
-                binding.btnShare.isVisible = false
+                searchFragmentShown()
             }
 
             R.id.filtrationFragment -> {
-                binding.toolbar.isVisible = true
-                binding.btnFavorite.isVisible = false
-                binding.btnShare.isVisible = false
-                binding.toolbar.setNavigationOnClickListener {
-                    this.onBackPressedDispatcher.onBackPressed()
-                }
-                binding.btnFilter.isVisible = false
+                filtrationFragmentShown()
             }
 
             R.id.vacanciesFragment -> {
-                binding.toolbar.isVisible = true
-                binding.btnFavorite.isVisible = true
-                binding.btnShare.isVisible = true
-                binding.toolbar.setNavigationOnClickListener {
-                    this.onBackPressedDispatcher.onBackPressed()
-                }
-                binding.btnFilter.isVisible = false
+                vacanciesFragmentShown()
             }
 
             R.id.favoriteFragment -> {
-                binding.toolbar.isVisible = true
-                binding.toolbar.navigationIcon = null
-                binding.btnFilter.isVisible = false
-                binding.btnFavorite.isVisible = false
-                binding.btnShare.isVisible = false
+                favoriteFragmentShown()
             }
 
             R.id.teamFragment -> {
-                binding.toolbar.isVisible = true
-                binding.toolbar.navigationIcon = null
-                binding.btnFilter.isVisible = false
-                binding.btnFavorite.isVisible = false
-                binding.btnShare.isVisible = false
+                teamFragmentShown()
             }
         }
+    }
+
+    private fun searchFragmentShown() {
+        binding.toolbar.isVisible = true
+        binding.toolbar.navigationIcon = null
+        binding.btnFilter.isVisible = true
+        binding.btnFavorite.isVisible = false
+        binding.btnShare.isVisible = false
+    }
+
+    private fun filtrationFragmentShown() {
+        binding.toolbar.isVisible = true
+        binding.btnFavorite.isVisible = false
+        binding.btnShare.isVisible = false
+        binding.toolbar.setNavigationOnClickListener {
+            this.onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnFilter.isVisible = false
+    }
+
+    private fun vacanciesFragmentShown() {
+        binding.toolbar.isVisible = true
+        binding.btnFavorite.isVisible = true
+        binding.btnShare.isVisible = true
+        binding.toolbar.setNavigationOnClickListener {
+            this.onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnFilter.isVisible = false
+    }
+
+    private fun favoriteFragmentShown() {
+        binding.toolbar.isVisible = true
+        binding.toolbar.navigationIcon = null
+        binding.btnFilter.isVisible = false
+        binding.btnFavorite.isVisible = false
+        binding.btnShare.isVisible = false
+    }
+
+    private fun teamFragmentShown() {
+        binding.toolbar.isVisible = true
+        binding.toolbar.navigationIcon = null
+        binding.btnFilter.isVisible = false
+        binding.btnFavorite.isVisible = false
+        binding.btnShare.isVisible = false
     }
 
 }
