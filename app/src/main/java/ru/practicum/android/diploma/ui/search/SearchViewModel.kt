@@ -4,28 +4,33 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
+import ru.practicum.android.diploma.util.debounce
 
 class SearchViewModel(
     private val searchInteractor: SearchInteractor,
     private val dictionaryInteractor: DictionaryInteractor
 ) : ViewModel() {
-    private var searchJob: Job? = null
     private var lastSearchQueryText: String? = null
     private var isNextPageLoading = true
     private var currPage: Int? = null
     private var maxPage: Int? = null
+    private val vacancySearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) {
+        search(it, hashMapOf())
+    }
 
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
     fun search(request: String, options: HashMap<String, String>) {
-        renderState(SearchState.Loading)
-        searchVacancies(request, options)
+        if (request.isNullOrEmpty()) {
+            renderState(SearchState.Default)
+        } else {
+            renderState(SearchState.Loading)
+            searchVacancies(request, options)
+        }
     }
 
     private fun renderState(state: SearchState) {
@@ -75,11 +80,7 @@ class SearchViewModel(
     fun searchDebounce(changedText: String) {
         if (lastSearchQueryText == changedText) return
         this.lastSearchQueryText = changedText
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
-            search(changedText, hashMapOf())
-        }
+        vacancySearchDebounce(changedText)
     }
 
     companion object {
