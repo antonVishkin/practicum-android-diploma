@@ -20,20 +20,21 @@ class SearchViewModel(
     private var isNextPageLoading = true
     private var currPage: Int? = null
     private var maxPage: Int? = null
-    private val vacancySearchDebounce = debounce<String>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) {
-        search(it, hashMapOf())
-    }
+    private val vacancySearchDebounce =
+        debounce<Pair<String, HashMap<String, String>>>(SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) {
+            searchVacancies(it.first, it.second)
+        }
 
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
 
-    fun search(request: String, options: HashMap<String, String>) {
+    private fun search(request: String, options: HashMap<String, String>) {
         if (request.isNullOrEmpty()) {
             renderState(SearchState.Default)
         } else {
             renderState(SearchState.Loading)
             currPage = null
-            searchVacancies(request, options)
+            vacancySearchDebounce(Pair(request, options))
         }
     }
 
@@ -53,7 +54,7 @@ class SearchViewModel(
                 currPage = currPage!! + 1
                 val t = hashMapOf<String, String>()
                 t.put("page", "$currPage")
-                searchVacancies(lastSearchQueryText ?: "", t)
+                vacancySearchDebounce(Pair(lastSearchQueryText ?: "", t))
             }
         }
     }
@@ -113,7 +114,7 @@ class SearchViewModel(
     fun searchDebounce(changedText: String) {
         if (lastSearchQueryText == changedText) return
         this.lastSearchQueryText = changedText
-        vacancySearchDebounce(changedText)
+        search(changedText, hashMapOf())
     }
 
     companion object {
