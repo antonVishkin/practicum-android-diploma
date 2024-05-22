@@ -3,11 +3,13 @@ package ru.practicum.android.diploma.ui.search
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -26,7 +28,6 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private var _adapter: VacancyAdapter? = null
-    private var querySearchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +49,7 @@ class SearchFragment : Fragment() {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
         })
+
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.rvSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -66,12 +68,8 @@ class SearchFragment : Fragment() {
 
         binding.etButtonSearch.doOnTextChanged { text, _, _, _ ->
             hideIconEditText(text)
-            querySearchText = text.toString()
             if (binding.etButtonSearch.hasFocus()) {
-                text?.let {
-                    viewModel.searchDebounce(it.toString())
-                    querySearchText = it.toString()
-                }
+                viewModel.searchDebounce(text.toString())
             }
         }
     }
@@ -85,7 +83,18 @@ class SearchFragment : Fragment() {
             is SearchState.ServerError -> renderSearchError()
             is SearchState.Content -> renderSearchContent(state.vacancyPage, state.currencyDictionary)
             is SearchState.NewPageLoading -> renderNewPageLoading()
+            is SearchState.LastPage -> renderLastPage()
+            is SearchState.NextPageError -> renderNewPageError()
         }
+    }
+
+    private fun renderNewPageError() {
+        binding.progressBarBottom.isVisible = false
+        Toast.makeText(context, R.string.search_server_error, Toast.LENGTH_LONG).show()
+    }
+
+    private fun renderLastPage() {
+        binding.progressBarBottom.isVisible = false
     }
 
     private fun renderNewPageLoading() {
@@ -118,6 +127,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderSearchEmpty() {
+        Log.v("SEARCH", "render empty")
         with(binding) {
             tvButtonSearchResult.isVisible = false
             rvSearch.isVisible = false
