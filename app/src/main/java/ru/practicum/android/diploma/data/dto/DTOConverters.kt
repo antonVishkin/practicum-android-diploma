@@ -11,7 +11,7 @@ class DTOConverters {
         salary = map(vacancyDTO.salary),
         city = vacancyDTO.area.name,
         employerName = vacancyDTO.employer.name,
-        urlImage = ""
+        urlImage = vacancyDTO.employer.logoUrls?.original
     )
 
     fun map(salaryDTO: SalaryDTO?): Salary? = if (salaryDTO != null) {
