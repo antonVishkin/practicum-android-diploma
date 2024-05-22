@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.domain.impl.search.SearchInteractorImpl
 import ru.practicum.android.diploma.ui.search.SearchViewModel
 
 val searchModule = module {
-    single<RetrofitNetworkClient> { RetrofitNetworkClient(get(),androidContext()) }
+    single<RetrofitNetworkClient> { RetrofitNetworkClient(get(), androidContext()) }
 
     viewModel {
         SearchViewModel(get(), get())

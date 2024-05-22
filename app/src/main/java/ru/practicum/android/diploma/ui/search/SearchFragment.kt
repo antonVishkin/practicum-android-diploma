@@ -90,7 +90,7 @@ class SearchFragment : Fragment() {
 
     private fun renderNewPageError() {
         binding.progressBarBottom.isVisible = false
-        Toast.makeText(context,R.string.search_server_error,Toast.LENGTH_LONG).show()
+        Toast.makeText(context, R.string.search_server_error, Toast.LENGTH_LONG).show()
     }
 
     private fun renderLastPage() {
@@ -127,7 +127,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderSearchEmpty() {
-        Log.v("SEARCH","render empty")
+        Log.v("SEARCH", "render empty")
         with(binding) {
             tvButtonSearchResult.isVisible = false
             rvSearch.isVisible = false

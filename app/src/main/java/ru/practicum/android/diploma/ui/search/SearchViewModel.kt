@@ -66,8 +66,8 @@ class SearchViewModel(
                     maxPage = it.fromPages
                     Log.v("SEARCH", "page $currPage list ${it.vacancyList}")
                     when {
-                        (it.currPage == 0 && it.vacancyList.isEmpty()) -> renderState(SearchState.Empty)
-                        (it.currPage != 0 && it.vacancyList.isEmpty()) -> renderState(SearchState.LastPage)
+                        it.currPage == 0 && it.vacancyList.isEmpty() -> renderState(SearchState.Empty)
+                        it.currPage != 0 && it.vacancyList.isEmpty() -> renderState(SearchState.LastPage)
                         else -> {
                             renderState(
                                 SearchState.Content(

@@ -22,7 +22,7 @@ import java.io.IOException
 
 class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private val context: Context) : NetworkClient {
     override suspend fun doRequest(dto: Any): Response {
-        if (!isConnected()){
+        if (!isConnected()) {
             return Response().apply { resultCode = NO_INTERNET_RESULT_CODE }
         }
         return when (dto) {
@@ -108,18 +108,14 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
 
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
-            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            Context.CONNECTIVITY_SERVICE
+        ) as ConnectivityManager
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
-            }
-        }
-        return false
+        return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+            )
     }
-
 
     companion object {
         const val CLIENT_ERROR_RESULT_CODE = 400
