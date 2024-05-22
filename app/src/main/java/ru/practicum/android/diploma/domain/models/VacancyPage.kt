@@ -1,17 +1,8 @@
 package ru.practicum.android.diploma.domain.models
 
 data class VacancyPage(
-    val id: String,
-    val name: String,
-    val logoUrl: String?,
-    val employerName: String,
-    val cityName: String,
-    val experienceName: String,
-    val description: String,
-    val responsibilities: String,
-    val requirements: String,
-    val conditions: String,
-    val keySkills: List<String>,
-    val contacts: String,
-    val comments: String?,
+    val vacancyList: List<Vacancy>,
+    val currPage: Int,
+    val fromPages: Int,
+    val found: Int,
 )

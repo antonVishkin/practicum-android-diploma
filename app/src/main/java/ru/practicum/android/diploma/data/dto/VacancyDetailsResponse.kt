@@ -16,7 +16,7 @@ data class VacancyDetailsResponse(
     val keySkills: List<KeySkill>,
     val contacts: Contacts,
     val comments: String?
-) :Response ()
+) : Response()
 
 data class Employer(val name: String)
 data class Area(val name: String)

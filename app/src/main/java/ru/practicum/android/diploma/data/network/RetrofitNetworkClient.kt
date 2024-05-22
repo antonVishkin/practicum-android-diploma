@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data.network
 
-
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -56,7 +55,9 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
             is VacancyDetailsRequest -> {
                 withContext(Dispatchers.IO) {
                     try {
-                        val response = headHunterApi.getVacancyDetails("Bearer " + BuildConfig.HH_ACCESS_TOKEN, dto.vacancyId)
+                        val options = mapOf("vacancy_id" to dto.vacancyId)
+                        val response =
+                            headHunterApi.getVacancyDetails("Bearer " + BuildConfig.HH_ACCESS_TOKEN, options)
                         VacancyDetailsResponse(
                             response.id,
                             response.name,
@@ -75,12 +76,44 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
                     } catch (e: HttpException) {
                         Log.e("NETWORK ERROR", e.toString())
                         VacancyDetailsResponse(
-                            "", "", null, Employer(""), Area(""), Experience(""), "", "", "", "", emptyList(), Contacts("", "", ""), null
+                            "",
+                            "",
+                            null,
+                            Employer(""),
+                            Area(""),
+                            Experience(""),
+                            "",
+                            "",
+                            "",
+                            "",
+                            emptyList(),
+                            Contacts(
+                                "",
+                                "",
+                                ""
+                            ),
+                            null
                         ).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                     } catch (e: IOException) {
                         Log.e("NETWORK ERROR", e.toString())
                         VacancyDetailsResponse(
-                            "", "", null, Employer(""), Area(""), Experience(""), "", "", "", "", emptyList(), Contacts("", "", ""), null
+                            "",
+                            "",
+                            null,
+                            Employer(""),
+                            Area(""),
+                            Experience(""),
+                            "",
+                            "",
+                            "",
+                            "",
+                            emptyList(),
+                            Contacts(
+                                "",
+                                "",
+                                ""
+                            ),
+                            null
                         ).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
                     }
                 }
@@ -88,10 +121,6 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi) : NetworkC
 
             else -> Response().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
-    }
-
-    suspend fun doRequestForDetails(vacancyId: String): Response {
-        return doRequest(VacancyDetailsRequest(vacancyId))
     }
 
     companion object {
