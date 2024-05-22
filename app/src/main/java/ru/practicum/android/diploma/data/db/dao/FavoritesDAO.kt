@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import ru.practicum.android.diploma.data.db.VacancyDetailsEntity
 import ru.practicum.android.diploma.data.db.VacancyEntity
 
 @Dao
@@ -26,4 +27,14 @@ interface FavoritesDAO {
 
     @Delete
     suspend fun removeVacancy(vacancyEntity: VacancyEntity)
+
+    // DetailsEntity
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addVacancyDetails(vacancyDetailsEntity: VacancyDetailsEntity)
+
+    @Query("SELECT * FROM table_vacancy_details WHERE id=:vacancyId")
+    suspend fun getVacancyDetails(vacancyId: String): VacancyDetailsEntity
+
+    @Query("DELETE FROM table_vacancy_details WHERE id=:vacancyId")
+    suspend fun removeVacancyDetails(vacancyId: String)
 }

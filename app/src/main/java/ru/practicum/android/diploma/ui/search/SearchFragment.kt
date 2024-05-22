@@ -48,6 +48,7 @@ class SearchFragment : Fragment() {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
         })
+
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.rvSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
