@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "table_vacancy_details")
-data class VacancyDetailsEntity (
+data class VacancyDetailsEntity(
     @PrimaryKey
     val id: String,
     val name: String,
@@ -19,4 +19,4 @@ data class VacancyDetailsEntity (
     val keySkills: String,
     val contacts: String,
     val comments: String?
-    )
+)

@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.domain.api.favorites
 
-import ru.practicum.android.diploma.data.db.VacancyDetailsEntity
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.domain.models.VacancyPage
