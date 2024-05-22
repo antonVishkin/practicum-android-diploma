@@ -99,8 +99,6 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-// Закомментил, чтобы не бугался DETEKT
-//
     private fun renderFavoriteContent(state: FavoriteState){}
 
     private fun openFragmentVacancy(vacancyId: String) {

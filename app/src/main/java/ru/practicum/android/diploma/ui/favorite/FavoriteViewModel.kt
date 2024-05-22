@@ -1,12 +1,15 @@
 package ru.practicum.android.diploma.ui.favorite
 
+import android.graphics.Movie
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class FavoriteViewModel(private val favoritesInteractor: FavoritesInteractor) : ViewModel() {
     private val _stateFavorite = MutableLiveData<FavoriteState>(FavoriteState.Empty)
@@ -22,7 +25,21 @@ class FavoriteViewModel(private val favoritesInteractor: FavoritesInteractor) : 
 
     private fun fillData() {
         renderState(FavoriteState.Loading)
-        // getFavorites()
+        viewModelScope.launch {
+            favoritesInteractor
+                .getFavoriteVacancies()
+                .collect { vacancy ->
+                    processResult(vacancy)
+                }
+        }
+    }
+
+    private fun processResult(favorites: List<Vacancy>) {
+        if (favorites.isEmpty()) {
+            renderState(FavoriteState.Empty)
+        } else {
+            renderState(FavoriteState.Content(favorites))
+        }
     }
 
 // Закомментил данный код, т.к. про пагинацию в избранном не говорится и ошибка .vacancyPage в val page = ...
