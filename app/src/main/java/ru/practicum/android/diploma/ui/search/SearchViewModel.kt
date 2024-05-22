@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -62,15 +63,26 @@ class SearchViewModel(
                 result.onSuccess {
                     currPage = it.currPage
                     maxPage = it.fromPages
-                    renderState(
-                        SearchState.Content(
-                            vacancyPage = it,
-                            currencyDictionary = currencyDictionary
-                        )
-                    )
+                    Log.v("SEARCH", "page $currPage list ${it.vacancyList}")
+                    when {
+                        (it.currPage == 0 && it.vacancyList.isEmpty()) -> renderState(SearchState.Empty)
+                        (it.currPage != 0 && it.vacancyList.isEmpty()) -> renderState(SearchState.LastPage)
+                        else -> {
+                            renderState(
+                                SearchState.Content(
+                                    vacancyPage = it,
+                                    currencyDictionary = currencyDictionary
+                                )
+                            )
+                        }
+                    }
                 }
                 result.onFailure {
-                    renderState(SearchState.ServerError(it.message ?: ""))
+                    if (currPage != 0) {
+                        renderState(SearchState.NextPageError)
+                    } else {
+                        renderState(SearchState.ServerError(it.message ?: ""))
+                    }
                 }
                 isNextPageLoading = true
             }

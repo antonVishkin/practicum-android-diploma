@@ -28,7 +28,7 @@ class SearchRepositoryImpl(
                     )
                 } else {
                     emit(
-                        Result.success(VacancyPage(listOf(), -1, -1, -1))
+                        Result.success(VacancyPage(listOf(), page, pages, found))
                     )
                 }
             }
