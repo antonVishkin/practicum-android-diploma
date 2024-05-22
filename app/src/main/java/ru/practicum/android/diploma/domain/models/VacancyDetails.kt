@@ -10,11 +10,14 @@ import ru.practicum.android.diploma.data.dto.KeySkillDTO
 data class VacancyDetails(
     val id: String,
     val name: String,
-    val employer: EmployerDTO?,
-    val area: AreaDTO,
-    val experience: ExperienceDTO,
+    val salary: Salary?,
+    val employerName: String?,
+    val logoUrl:String?,
+    val areaName: String,
+    val experienceName: String,
     val description: String,
-    @SerializedName("key_skills")
-    val keySkills: List<KeySkillDTO>,
-    val contacts: ContactsDTO?,
+    val keySkills: List<String>,
+    val contactPerson: String?,
+    val email: String?,
+    val phones: List<String>?
 )

@@ -114,69 +114,15 @@
             app:layout_constraintTop_toBottomOf="@id/tvExperience" />
 
         <TextView
-            android:id="@+id/tvResponsibilitiesLabel"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/responsibilities_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvJobDescriptionLabel" />
-
-        <TextView
-            android:id="@+id/tvResponsibilities"
+            android:id="@+id/tvJobDescriptionValue"
             style="@style/vacancy_view_regular_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/responsibilities"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvResponsibilitiesLabel" />
+            app:layout_constraintTop_toBottomOf="@id/tvJobDescriptionLabel" />
 
-        <!-- Requirements -->
-        <TextView
-            android:id="@+id/tvRequirementsLabel"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/job_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvResponsibilities" />
-
-        <TextView
-            android:id="@+id/tvRequirements"
-            style="@style/vacancy_view_regular_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/requirements"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRequirementsLabel" />
-
-        <!-- Conditions -->
-        <TextView
-            android:id="@+id/tvConditionsLabel"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/conditions_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRequirements" />
-
-        <TextView
-            android:id="@+id/tvConditions"
-            style="@style/vacancy_view_regular_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/conditions"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvConditionsLabel" />
 
         <!-- Key Skills -->
         <TextView
@@ -188,7 +134,7 @@
             android:text="@string/key_skills_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvConditions" />
+            app:layout_constraintTop_toBottomOf="@id/tvJobDescriptionValue" />
 
         <TextView
             android:id="@+id/tvKeySkills"
@@ -273,27 +219,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTelephoneLable" />
-
-        <TextView
-            android:id="@+id/tvCommentsLable"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/comment_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTelephone" />
-
-        <TextView
-            android:id="@+id/tvComments"
-            style="@style/vacancy_view_regular_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/comments"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCommentsLable" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

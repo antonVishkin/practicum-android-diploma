@@ -12,30 +12,27 @@ class VacancyViewModel(
     private val vacancyInteractor: VacancyDetailsInteractor
 ) : ViewModel() {
 
-    private val _vacancyDetails = MutableLiveData<VacancyDetails>()
-    val vacancyDetails: LiveData<VacancyDetails>
-        get() = _vacancyDetails
-
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean>
-        get() = _loading
-
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
+    private val _stateLiveData = MutableLiveData<VacancyState>()
+    val stateLiveData:LiveData<VacancyState> get() = _stateLiveData
 
     fun fetchVacancyDetails(vacancyId: String) {
+        renderState(VacancyState.Loading)
         viewModelScope.launch {
-            _loading.value = true
             vacancyInteractor.getVacancyDetails(vacancyId).collect { result ->
                 result.onSuccess { vacancyDetails ->
-                    _vacancyDetails.value = vacancyDetails
-                    _loading.value = false
-                }.onFailure { error ->
-                    _error.value = error.message
-                    _loading.value = false
+                    renderState(
+                        VacancyState.Content(vacancyDetails)
+                    )
+                }.onFailure {
+                    renderState(
+                        VacancyState.Error
+                    )
                 }
             }
         }
+    }
+
+    private fun renderState(state: VacancyState) {
+        _stateLiveData.value = state
     }
 }
