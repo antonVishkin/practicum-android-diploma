@@ -25,7 +25,7 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
                 currencySymbol
             )
             Glide.with(itemView)
-                .load(vacancy.id)
+                .load(vacancy.urlImage)
                 .placeholder(R.drawable.vacancies_placeholder)
                 .centerCrop()
                 .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
