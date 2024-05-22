@@ -26,7 +26,6 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private var _adapter: VacancyAdapter? = null
-    private var querySearchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,12 +67,8 @@ class SearchFragment : Fragment() {
 
         binding.etButtonSearch.doOnTextChanged { text, _, _, _ ->
             hideIconEditText(text)
-            querySearchText = text.toString()
             if (binding.etButtonSearch.hasFocus()) {
-                text?.let {
-                    viewModel.searchDebounce(it.toString())
-                    querySearchText = it.toString()
-                }
+                viewModel.searchDebounce(text.toString())
             }
         }
     }
