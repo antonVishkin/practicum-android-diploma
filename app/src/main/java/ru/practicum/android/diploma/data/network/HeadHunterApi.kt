@@ -27,6 +27,6 @@ interface HeadHunterApi {
     @GET("vacancies/{vacancy_id}")
     suspend fun getVacancyDetails(
         @Header("Authorization") accessToken: String,
-        @Query("vacancy_id") vacancy_id: String
+        @Query("vacancy_id") vacancyId: String
     ): VacancyDetailsResponse
 }
