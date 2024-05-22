@@ -14,7 +14,6 @@ class VacancyDetailsRepositoryImpl(
     private val dTOConverters: DTOConverters,
 ) : VacancyDetailsRepository {
     override fun getVacancyDetails(vacancyId: String): Flow<Result<VacancyDetails>> = flow {
-
         val response = retrofitNetworkClient.doRequest(VacancyDetailsRequest(vacancyId))
         when (response.resultCode) {
             CLIENT_SUCCESS_RESULT_CODE -> {
