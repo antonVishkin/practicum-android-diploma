@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.domain.api.favorites
 
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.domain.models.VacancyPage
 
 interface FavoritesInteractor {
@@ -13,4 +14,10 @@ interface FavoritesInteractor {
     suspend fun removeVacancyFromFavorites(vacancy: Vacancy)
 
     suspend fun isVacancyFavorite(vacancy: Vacancy): Boolean
+
+    suspend fun addVacancyDetails(vacancyDetails: VacancyDetails)
+
+    suspend fun getVacancyDetails(vacancyId: String): VacancyDetails
+
+    suspend fun removeVacancyDetails(vacancyId: String)
 }

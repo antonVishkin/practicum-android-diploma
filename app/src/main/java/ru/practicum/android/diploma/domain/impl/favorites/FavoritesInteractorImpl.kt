@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.domain.impl.favorites
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.domain.models.VacancyPage
 
 class FavoritesInteractorImpl(private val favoritesRepository: FavoritesRepository) : FavoritesInteractor {
@@ -24,5 +25,17 @@ class FavoritesInteractorImpl(private val favoritesRepository: FavoritesReposito
 
     override suspend fun isVacancyFavorite(vacancy: Vacancy): Boolean {
         return favoritesRepository.isVacancyFavorite(vacancy)
+    }
+
+    override suspend fun addVacancyDetails(vacancyDetails: VacancyDetails) {
+        favoritesRepository.addVacancyDetails(vacancyDetails)
+    }
+
+    override suspend fun getVacancyDetails(vacancyId: String): VacancyDetails {
+        return favoritesRepository.getVacancyDetails(vacancyId)
+    }
+
+    override suspend fun removeVacancyDetails(vacancyId: String) {
+        favoritesRepository.removeVacancyDetails(vacancyId)
     }
 }

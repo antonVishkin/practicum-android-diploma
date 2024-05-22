@@ -4,6 +4,7 @@ import ru.practicum.android.diploma.data.converters.DBConverters
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesRepository
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.domain.models.VacancyPage
 import kotlin.math.ceil
 
@@ -33,5 +34,17 @@ class FavoritesRepositoryImpl(
 
     override suspend fun isVacancyFavorite(vacancy: Vacancy): Boolean {
         return appDatabase.favoritesDAO().isVacancyFavorite(vacancy.id) != 0
+    }
+
+    override suspend fun addVacancyDetails(vacancyDetails: VacancyDetails) {
+        appDatabase.favoritesDAO().addVacancyDetails(dBConverters.map(vacancyDetails))
+    }
+
+    override suspend fun getVacancyDetails(vacancyId: String): VacancyDetails {
+        return dBConverters.map(appDatabase.favoritesDAO().getVacancyDetails(vacancyId))
+    }
+
+    override suspend fun removeVacancyDetails(vacancyId: String) {
+        appDatabase.favoritesDAO().removeVacancyDetails(vacancyId)
     }
 }

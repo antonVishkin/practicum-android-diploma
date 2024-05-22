@@ -1,10 +1,12 @@
 package ru.practicum.android.diploma.data.converters
 
 import ru.practicum.android.diploma.data.db.CurrencyDictionaryEntity
+import ru.practicum.android.diploma.data.db.VacancyDetailsEntity
 import ru.practicum.android.diploma.data.db.VacancyEntity
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetails
 
 class DBConverters {
     fun map(vacancy: Vacancy): VacancyEntity {
@@ -41,5 +43,27 @@ class DBConverters {
         code = currencyDictionaryEntity.code,
         name = currencyDictionaryEntity.name,
         abbr = currencyDictionaryEntity.abbr
+    )
+
+    fun map(vacancyDetails: VacancyDetails): VacancyDetailsEntity = VacancyDetailsEntity(
+        id = vacancyDetails.id,
+        name = vacancyDetails.name,
+        description = vacancyDetails.description,
+    )
+
+    fun map(vacancyDetailsEntity: VacancyDetailsEntity): VacancyDetails = VacancyDetails(
+        id = vacancyDetailsEntity.id,
+        name = vacancyDetailsEntity.name,
+        logoUrl = null,
+        employerName = "",
+        cityName = "",
+        experienceName = "",
+        description = "",
+        responsibilities = "",
+        requirements = "",
+        conditions = "",
+        keySkills = listOf(),
+        contacts = "",
+        comments = null,
     )
 }
