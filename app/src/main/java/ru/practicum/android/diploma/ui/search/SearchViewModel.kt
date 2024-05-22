@@ -30,6 +30,7 @@ class SearchViewModel(
             renderState(SearchState.Default)
         } else {
             renderState(SearchState.Loading)
+            currPage = null
             searchVacancies(request, options)
         }
     }
