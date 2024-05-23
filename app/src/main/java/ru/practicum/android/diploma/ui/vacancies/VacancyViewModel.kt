@@ -40,7 +40,7 @@ class VacancyViewModel(
     }
 
     fun addToFavorite() {
-        val state = (stateLiveData.value as VacancyState.Content)
+        val state = stateLiveData.value as VacancyState.Content
         val vacancyDetails = state.vacancyDetails
         val vacancy = Vacancy(
             id = vacancyDetails.id,

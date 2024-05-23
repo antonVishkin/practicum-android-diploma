@@ -11,5 +11,5 @@ import ru.practicum.android.diploma.ui.vacancies.VacancyViewModel
 val vacancyModule = module {
     single<VacancyDetailsRepository> { VacancyDetailsRepositoryImpl(get(), get()) }
     factory<VacancyDetailsInteractor> { VacancyDetailsInteractorImpl(get()) }
-    viewModel { VacancyViewModel(get(), get(),get()) }
+    viewModel { VacancyViewModel(get(), get(), get()) }
 }

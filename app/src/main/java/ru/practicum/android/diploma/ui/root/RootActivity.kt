@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.databinding.ActivityRootBinding
 
 class RootActivity : AppCompatActivity() {
     private val binding: ActivityRootBinding by lazy { ActivityRootBinding.inflate(layoutInflater) }
-    lateinit var navController:NavController
+    var navController: NavController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -23,16 +23,16 @@ class RootActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         // Toolbar
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        val appBarConfiguration = AppBarConfiguration(navController!!.graph)
+        binding.toolbar.setupWithNavController(navController!!, appBarConfiguration)
+        navController?.addOnDestinationChangedListener { _, destination, _ ->
             toolBarController(destination)
         }
 
-        binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController!!)
 
         binding.btnFilter.setOnClickListener {
-            navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
+            navController!!.navigate(R.id.action_searchFragment_to_filtrationFragment)
         }
     }
 

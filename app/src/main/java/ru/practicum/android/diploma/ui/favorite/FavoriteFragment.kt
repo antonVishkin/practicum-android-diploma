@@ -113,7 +113,7 @@ class FavoriteFragment : Fragment() {
     private fun openFragmentVacancy(vacancyId: String) {
         findNavController().navigate(
             R.id.action_favoriteFragment_to_vacanciesFragment,
-            Bundle().apply { putInt("vacancy_model", vacancyId.toInt()) }
+            Bundle().apply { putString("vacancy_model", vacancyId) }
         )
     }
 

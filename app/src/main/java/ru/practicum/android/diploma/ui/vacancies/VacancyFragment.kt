@@ -38,7 +38,7 @@ class VacancyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setTitle(R.string.title_vacancies)
         val navController = (activity as RootActivity).navController
-        binding.toolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
+        binding.toolbar.setupWithNavController(navController!!, AppBarConfiguration(navController.graph))
         val vacancyId = arguments?.getString("vacancy_model") ?: ""
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         Log.d("DETAILS", "vacancy_model $vacancyId")
@@ -114,7 +114,6 @@ class VacancyFragment : Fragment() {
         binding.tvPlaceholder.isVisible = false
         binding.progressBar.isVisible = true
     }
-
 
     private fun contactsLogicShoving(vacancyDetails: VacancyDetails) {
         binding.apply {
