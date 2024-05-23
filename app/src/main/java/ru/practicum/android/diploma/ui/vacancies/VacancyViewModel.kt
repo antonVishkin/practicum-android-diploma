@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
+import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
+import ru.practicum.android.diploma.domain.models.Vacancy
 
 class VacancyViewModel(
     private val vacancyInteractor: VacancyDetailsInteractor,
     private val dictionaryInteractor: DictionaryInteractor,
+    private val favoritesInteractor: FavoritesInteractor,
 ) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<VacancyState>()
@@ -23,8 +26,9 @@ class VacancyViewModel(
             vacancyInteractor.getVacancyDetails(vacancyId).collect { result ->
                 result.onSuccess { vacancyDetails ->
                     val currSymbol = currencyDictionary[vacancyDetails?.salary?.currency]?.abbr ?: ""
+                    val isFavorite = favoritesInteractor.isVacancyFavorite(vacancyDetails.id)
                     renderState(
-                        VacancyState.Content(vacancyDetails, currSymbol)
+                        VacancyState.Content(vacancyDetails, currSymbol, isFavorite)
                     )
                 }.onFailure {
                     renderState(
@@ -32,6 +36,35 @@ class VacancyViewModel(
                     )
                 }
             }
+        }
+    }
+
+    fun addToFavorite() {
+        val state = stateLiveData.value as VacancyState.Content
+        val vacancyDetails = state.vacancyDetails
+        val vacancy = Vacancy(
+            id = vacancyDetails.id,
+            name = vacancyDetails.name,
+            salary = vacancyDetails.salary,
+            city = vacancyDetails.areaName,
+            employerName = vacancyDetails.employerName ?: "",
+            urlImage = vacancyDetails.logoUrl
+        )
+        viewModelScope.launch {
+            if (state.isFavorite) {
+                favoritesInteractor.removeVacancyFromFavorites(vacancy)
+                favoritesInteractor.removeVacancyDetails(vacancyDetails.id)
+            } else {
+                favoritesInteractor.addVacancyDetails(vacancyDetails)
+                favoritesInteractor.addVacancyToFavorites(vacancy)
+            }
+            renderState(
+                VacancyState.Content(
+                    vacancyDetails = vacancyDetails,
+                    currencySymbol = state.currencySymbol,
+                    isFavorite = !state.isFavorite
+                )
+            )
         }
     }
 

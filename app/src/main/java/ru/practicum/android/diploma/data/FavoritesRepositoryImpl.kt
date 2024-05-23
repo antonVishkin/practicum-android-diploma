@@ -32,8 +32,8 @@ class FavoritesRepositoryImpl(
         appDatabase.favoritesDAO().removeVacancy(dBConverters.map(vacancy))
     }
 
-    override suspend fun isVacancyFavorite(vacancy: Vacancy): Boolean {
-        return appDatabase.favoritesDAO().isVacancyFavorite(vacancy.id) != 0
+    override suspend fun isVacancyFavorite(vacancyId: String): Boolean {
+        return appDatabase.favoritesDAO().isVacancyFavorite(vacancyId) != 0
     }
 
     // Details
