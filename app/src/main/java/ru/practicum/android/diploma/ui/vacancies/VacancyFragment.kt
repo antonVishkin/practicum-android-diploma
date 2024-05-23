@@ -2,14 +2,12 @@ package ru.practicum.android.diploma.ui.vacancies
 
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,6 +23,8 @@ class VacancyFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyViewModel>()
 
+    private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,16 +36,12 @@ class VacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setTitle(R.string.title_vacancies)
-        val navController = (activity as RootActivity).navController
-        binding.toolbar.setupWithNavController(navController!!, AppBarConfiguration(navController.graph))
+
+        toolbarSetup()
+
         val vacancyId = arguments?.getString("vacancy_model") ?: ""
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
-        Log.d("DETAILS", "vacancy_model $vacancyId")
         viewModel.fetchVacancyDetails(vacancyId)
-        binding.btnFavorite.setOnClickListener {
-            viewModel.addToFavorite()
-        }
     }
 
     private fun render(state: VacancyState) {
@@ -58,8 +54,6 @@ class VacancyFragment : Fragment() {
 
     private fun showContent(vacancyDetails: VacancyDetails, currencySymbol: String, isFavorite: Boolean) {
         binding.apply {
-            btnFavorite.isVisible = true
-            btnShare.isVisible = true
             nsvDetailsContent.isVisible = true
             ivPlaceholder.isVisible = false
             tvPlaceholder.isVisible = false
@@ -88,28 +82,41 @@ class VacancyFragment : Fragment() {
                 .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
                 .into(ivCompanyLogo)
             contactsLogicShoving(vacancyDetails)
+
             if (isFavorite) {
-                btnFavorite.setImageResource(R.drawable.heart_on_icon)
+                toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_on_icon)
             } else {
-                btnFavorite.setImageResource(R.drawable.heart_icon)
+                toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_icon)
             }
         }
+    }
 
+    private fun toolbarSetup() {
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        toolbar.title = getString(R.string.title_vacancies)
+        toolbar.menu.findItem(R.id.share).isVisible = true
+        toolbar.menu.findItem(R.id.favorite).isVisible = true
+        toolbar.menu.findItem(R.id.filters).isVisible = false
+
+        toolbar.menu.findItem(R.id.favorite).setOnMenuItemClickListener {
+            viewModel.addToFavorite()
+            true
+        }
     }
 
     private fun showError() {
         binding.progressBar.isVisible = false
         binding.ivPlaceholder.isVisible = true
         binding.tvPlaceholder.isVisible = true
-        binding.btnFavorite.isVisible = false
-        binding.btnShare.isVisible = false
         binding.nsvDetailsContent.isVisible = false
     }
 
     private fun showLoading() {
         binding.nsvDetailsContent.isVisible = false
-        binding.btnFavorite.isVisible = false
-        binding.btnShare.isVisible = false
         binding.ivPlaceholder.isVisible = false
         binding.tvPlaceholder.isVisible = false
         binding.progressBar.isVisible = true
@@ -146,6 +153,8 @@ class VacancyFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_icon)
+        toolbar.navigationIcon = null
         _binding = null
     }
 }
