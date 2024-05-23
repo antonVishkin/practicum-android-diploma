@@ -40,14 +40,14 @@ class DBConverters {
             id = vacancyDetails.id,
             name = vacancyDetails.name,
             salary = "",
-            employerName = vacancyDetails.employerName?:"",
-            logoUrl = vacancyDetails.logoUrl?:"",
+            employerName = vacancyDetails.employerName ?: "",
+            logoUrl = vacancyDetails.logoUrl ?: "",
             areaName = vacancyDetails.areaName,
             experienceName = vacancyDetails.experienceName,
             description = vacancyDetails.description,
             keySkills = vacancyDetails.keySkills.toString(),
-            contactPerson = vacancyDetails.contactPerson?:"",
-            email = vacancyDetails.email?:"",
+            contactPerson = vacancyDetails.contactPerson ?: "",
+            email = vacancyDetails.email ?: "",
             phones = vacancyDetails.phones.toString()
         )
     }
@@ -56,7 +56,7 @@ class DBConverters {
         return VacancyDetails(
             id = vacancyDetailsEntity.id,
             name = vacancyDetailsEntity.name,
-            salary = Salary(null,null,null),
+            salary = Salary(null, null, null),
             employerName = vacancyDetailsEntity.employerName,
             logoUrl = vacancyDetailsEntity.logoUrl,
             areaName = vacancyDetailsEntity.areaName,

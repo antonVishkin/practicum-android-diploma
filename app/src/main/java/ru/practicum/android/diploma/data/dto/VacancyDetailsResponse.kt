@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class VacancyDetailsResponse(
     val id: String,
     val name: String,
-    val salary:SalaryDTO?,
+    val salary: SalaryDTO?,
     val employer: EmployerDTO?,
     val area: AreaDTO,
     val experience: ExperienceDTO,
