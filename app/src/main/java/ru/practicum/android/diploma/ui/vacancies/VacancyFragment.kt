@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
@@ -44,17 +43,20 @@ class VacancyFragment : Fragment() {
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         Log.d("DETAILS", "vacancy_model $vacancyId")
         viewModel.fetchVacancyDetails(vacancyId)
+        binding.btnFavorite.setOnClickListener {
+            viewModel.addToFavorite()
+        }
     }
 
     private fun render(state: VacancyState) {
         when (state) {
             is VacancyState.Loading -> showLoading()
             is VacancyState.Error -> showError()
-            is VacancyState.Content -> showContent(state.vacancyDetails, state.currencySymbol)
+            is VacancyState.Content -> showContent(state.vacancyDetails, state.currencySymbol, state.isFavorite)
         }
     }
 
-    private fun showContent(vacancyDetails: VacancyDetails, currencySymbol: String) {
+    private fun showContent(vacancyDetails: VacancyDetails, currencySymbol: String, isFavorite: Boolean) {
         binding.apply {
             btnFavorite.isVisible = true
             btnShare.isVisible = true
@@ -86,6 +88,11 @@ class VacancyFragment : Fragment() {
                 .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
                 .into(ivCompanyLogo)
             contactsLogicShoving(vacancyDetails)
+            if (isFavorite) {
+                btnFavorite.setImageResource(R.drawable.heart_on_icon)
+            } else {
+                btnFavorite.setImageResource(R.drawable.heart_icon)
+            }
         }
 
     }

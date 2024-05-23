@@ -23,8 +23,8 @@ class FavoritesInteractorImpl(private val favoritesRepository: FavoritesReposito
         favoritesRepository.removeVacancyFromFavorites(vacancy)
     }
 
-    override suspend fun isVacancyFavorite(vacancy: Vacancy): Boolean {
-        return favoritesRepository.isVacancyFavorite(vacancy)
+    override suspend fun isVacancyFavorite(vacancyId: String): Boolean {
+        return favoritesRepository.isVacancyFavorite(vacancyId)
     }
 
     // Details

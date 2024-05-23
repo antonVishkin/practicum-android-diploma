@@ -13,7 +13,7 @@ interface FavoritesRepository {
 
     suspend fun removeVacancyFromFavorites(vacancy: Vacancy)
 
-    suspend fun isVacancyFavorite(vacancy: Vacancy): Boolean
+    suspend fun isVacancyFavorite(vacancyId: String): Boolean
 
     // Details
 
