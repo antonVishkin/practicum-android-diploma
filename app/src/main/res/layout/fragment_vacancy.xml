@@ -114,69 +114,15 @@
             app:layout_constraintTop_toBottomOf="@id/tvExperience" />
 
         <TextView
-            android:id="@+id/tvResponsibilitiesLabel"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/responsibilities_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvJobDescriptionLabel" />
-
-        <TextView
-            android:id="@+id/tvResponsibilities"
+            android:id="@+id/tvJobDescriptionValue"
             style="@style/vacancy_view_regular_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/responsibilities"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvResponsibilitiesLabel" />
+            app:layout_constraintTop_toBottomOf="@id/tvJobDescriptionLabel" />
 
-        <!-- Requirements -->
-        <TextView
-            android:id="@+id/tvRequirementsLabel"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/job_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvResponsibilities" />
-
-        <TextView
-            android:id="@+id/tvRequirements"
-            style="@style/vacancy_view_regular_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/requirements"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRequirementsLabel" />
-
-        <!-- Conditions -->
-        <TextView
-            android:id="@+id/tvConditionsLabel"
-            style="@style/experience_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/conditions_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRequirements" />
-
-        <TextView
-            android:id="@+id/tvConditions"
-            style="@style/vacancy_view_regular_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/conditions"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvConditionsLabel" />
 
         <!-- Key Skills -->
         <TextView
@@ -188,7 +134,7 @@
             android:text="@string/key_skills_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvConditions" />
+            app:layout_constraintTop_toBottomOf="@id/tvJobDescriptionValue" />
 
         <TextView
             android:id="@+id/tvKeySkills"
@@ -273,27 +219,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTelephoneLable" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/blue"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivPlaceholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nothing_found_cat"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
 
         <TextView
-            android:id="@+id/tvCommentsLable"
-            style="@style/experience_text"
-            android:layout_width="0dp"
+            android:id="@+id/tvPlaceholder"
+            style="@style/placeholder_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/comment_label"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTelephone" />
-
-        <TextView
-            android:id="@+id/tvComments"
-            style="@style/vacancy_view_regular_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/comments"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCommentsLable" />
+            app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
+            tools:text="@string/search_vacancy_list_not_found"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -39,17 +39,16 @@ class DBConverters {
         return VacancyDetailsEntity(
             id = vacancyDetails.id,
             name = vacancyDetails.name,
-            logoUrl = vacancyDetails.logoUrl,
-            employerName = vacancyDetails.employerName,
-            cityName = vacancyDetails.cityName,
+            salary = "",
+            employerName = vacancyDetails.employerName ?: "",
+            logoUrl = vacancyDetails.logoUrl ?: "",
+            areaName = vacancyDetails.areaName,
             experienceName = vacancyDetails.experienceName,
             description = vacancyDetails.description,
-            responsibilities = vacancyDetails.responsibilities,
-            requirements = vacancyDetails.requirements,
-            conditions = vacancyDetails.conditions,
-            keySkills = null.toString(),
-            contacts = vacancyDetails.contacts,
-            comments = vacancyDetails.comments
+            keySkills = vacancyDetails.keySkills.toString(),
+            contactPerson = vacancyDetails.contactPerson ?: "",
+            email = vacancyDetails.email ?: "",
+            phones = vacancyDetails.phones.toString()
         )
     }
 
@@ -57,27 +56,26 @@ class DBConverters {
         return VacancyDetails(
             id = vacancyDetailsEntity.id,
             name = vacancyDetailsEntity.name,
-            logoUrl = vacancyDetailsEntity.logoUrl,
+            salary = Salary(null, null, null),
             employerName = vacancyDetailsEntity.employerName,
-            cityName = vacancyDetailsEntity.cityName,
+            logoUrl = vacancyDetailsEntity.logoUrl,
+            areaName = vacancyDetailsEntity.areaName,
             experienceName = vacancyDetailsEntity.experienceName,
             description = vacancyDetailsEntity.description,
-            responsibilities = vacancyDetailsEntity.responsibilities,
-            requirements = vacancyDetailsEntity.requirements,
-            conditions = vacancyDetailsEntity.conditions,
-            keySkills = null,
-            contacts = vacancyDetailsEntity.contacts,
-            comments = vacancyDetailsEntity.comments
+            keySkills = listOf(),
+            contactPerson = vacancyDetailsEntity.contactPerson,
+            email = vacancyDetailsEntity.email,
+            phones = listOf()
         )
     }
 
-    fun map(currency: Currency): CurrencyDictionaryEntity = CurrencyDictionaryEntity(
+    fun mapCurrencyToEntity(currency: Currency): CurrencyDictionaryEntity = CurrencyDictionaryEntity(
         code = currency.code,
         name = currency.name,
         abbr = currency.abbr
     )
 
-    fun map(currencyDictionaryEntity: CurrencyDictionaryEntity): Currency = Currency(
+    fun mapCurrencyToEntity(currencyDictionaryEntity: CurrencyDictionaryEntity): Currency = Currency(
         code = currencyDictionaryEntity.code,
         name = currencyDictionaryEntity.name,
         abbr = currencyDictionaryEntity.abbr

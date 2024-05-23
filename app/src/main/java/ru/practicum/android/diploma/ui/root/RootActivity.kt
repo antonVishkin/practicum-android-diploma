@@ -69,6 +69,8 @@ class RootActivity : AppCompatActivity() {
         binding.btnFilter.isVisible = true
         binding.btnFavorite.isVisible = false
         binding.btnShare.isVisible = false
+        binding.bottomNavigationView.isVisible = true
+
     }
 
     private fun filtrationFragmentShown() {
@@ -79,6 +81,7 @@ class RootActivity : AppCompatActivity() {
             this.onBackPressedDispatcher.onBackPressed()
         }
         binding.btnFilter.isVisible = false
+        binding.bottomNavigationView.isVisible = true
     }
 
     private fun vacanciesFragmentShown() {
@@ -89,6 +92,7 @@ class RootActivity : AppCompatActivity() {
             this.onBackPressedDispatcher.onBackPressed()
         }
         binding.btnFilter.isVisible = false
+        binding.bottomNavigationView.isVisible = false
     }
 
     private fun favoriteFragmentShown() {
@@ -97,6 +101,8 @@ class RootActivity : AppCompatActivity() {
         binding.btnFilter.isVisible = false
         binding.btnFavorite.isVisible = false
         binding.btnShare.isVisible = false
+        binding.bottomNavigationView.isVisible = true
+
     }
 
     private fun teamFragmentShown() {
@@ -105,6 +111,8 @@ class RootActivity : AppCompatActivity() {
         binding.btnFilter.isVisible = false
         binding.btnFavorite.isVisible = false
         binding.btnShare.isVisible = false
+        binding.bottomNavigationView.isVisible = true
+
     }
 
 }
