@@ -9,7 +9,8 @@ import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 
 class VacancyViewModel(
-    private val vacancyInteractor: VacancyDetailsInteractor, private val dictionaryInteractor: DictionaryInteractor,
+    private val vacancyInteractor: VacancyDetailsInteractor,
+    private val dictionaryInteractor: DictionaryInteractor,
 ) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<VacancyState>()

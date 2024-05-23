@@ -39,8 +39,6 @@ class VacancyFragment : Fragment() {
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         Log.d("DETAILS", "vacancy_model $vacancyId")
         viewModel.fetchVacancyDetails(vacancyId)
-
-
     }
 
     private fun render(state: VacancyState) {
@@ -124,9 +122,11 @@ class VacancyFragment : Fragment() {
         }
     }
 
-    private fun contactsLogicShoving(vacancyDetails: VacancyDetails){
+    private fun contactsLogicShoving(vacancyDetails: VacancyDetails) {
         binding.apply {
-            if (vacancyDetails.contactPerson == null && vacancyDetails.email == null && vacancyDetails.phones.isNullOrEmpty()) {
+            if (vacancyDetails.contactPerson == null &&
+                vacancyDetails.email == null &&
+                vacancyDetails.phones.isNullOrEmpty()) {
                 tvContactsLabel.isVisible = false
             }
             if (vacancyDetails.contactPerson != null) {
@@ -149,7 +149,6 @@ class VacancyFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

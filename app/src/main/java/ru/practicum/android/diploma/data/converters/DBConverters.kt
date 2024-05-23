@@ -69,13 +69,13 @@ class DBConverters {
         )
     }
 
-    fun map(currency: Currency): CurrencyDictionaryEntity = CurrencyDictionaryEntity(
+    fun mapCurrencyToEntity(currency: Currency): CurrencyDictionaryEntity = CurrencyDictionaryEntity(
         code = currency.code,
         name = currency.name,
         abbr = currency.abbr
     )
 
-    fun map(currencyDictionaryEntity: CurrencyDictionaryEntity): Currency = Currency(
+    fun mapCurrencyToEntity(currencyDictionaryEntity: CurrencyDictionaryEntity): Currency = Currency(
         code = currencyDictionaryEntity.code,
         name = currencyDictionaryEntity.name,
         abbr = currencyDictionaryEntity.abbr
