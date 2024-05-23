@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.vacancies
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -9,12 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
 import ru.practicum.android.diploma.domain.models.VacancyDetails
+import ru.practicum.android.diploma.ui.root.RootActivity
 import ru.practicum.android.diploma.util.SalaryFormat
 
 class VacancyFragment : Fragment() {
@@ -34,7 +37,9 @@ class VacancyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.toolbar.setTitle(R.string.title_vacancies)
+        val navController = (activity as RootActivity).navController
+        binding.toolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
         val vacancyId = arguments?.getString("vacancy_model") ?: ""
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         Log.d("DETAILS", "vacancy_model $vacancyId")
@@ -50,8 +55,10 @@ class VacancyFragment : Fragment() {
     }
 
     private fun showContent(vacancyDetails: VacancyDetails, currencySymbol: String) {
-        showDetails(true)
         binding.apply {
+            btnFavorite.isVisible = true
+            btnShare.isVisible = true
+            nsvDetailsContent.isVisible = true
             ivPlaceholder.isVisible = false
             tvPlaceholder.isVisible = false
             progressBar.isVisible = false
@@ -65,12 +72,8 @@ class VacancyFragment : Fragment() {
             tvCompanyName.text = vacancyDetails.employerName
             tvLocation.text = vacancyDetails.areaName
             tvExperience.text = vacancyDetails.experienceName
-            tvJobDescriptionValue.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(vacancyDetails.description, Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                Html.fromHtml(vacancyDetails.description)
-            }
-            if (vacancyDetails.keySkills.isNullOrEmpty()) {
+            tvJobDescriptionValue.text = Html.fromHtml(vacancyDetails.description, Html.FROM_HTML_MODE_COMPACT)
+            if (vacancyDetails.keySkills.isEmpty()) {
                 tvKeySkillsLabel.isVisible = false
                 tvKeySkills.isVisible = false
             } else {
@@ -91,42 +94,27 @@ class VacancyFragment : Fragment() {
         binding.progressBar.isVisible = false
         binding.ivPlaceholder.isVisible = true
         binding.tvPlaceholder.isVisible = true
-        showDetails(false)
+        binding.btnFavorite.isVisible = false
+        binding.btnShare.isVisible = false
+        binding.nsvDetailsContent.isVisible = false
     }
 
     private fun showLoading() {
-        showDetails(false)
+        binding.nsvDetailsContent.isVisible = false
+        binding.btnFavorite.isVisible = false
+        binding.btnShare.isVisible = false
         binding.ivPlaceholder.isVisible = false
         binding.tvPlaceholder.isVisible = false
         binding.progressBar.isVisible = true
     }
 
-    private fun showDetails(isVisible: Boolean) {
-        binding.apply {
-            tvJobTitle.isVisible = isVisible
-            tvSalary.isVisible = isVisible
-            logoContainer.isVisible = isVisible
-            tvExperienceLabel.isVisible = isVisible
-            tvExperience.isVisible = isVisible
-            tvJobDescriptionLabel.isVisible = isVisible
-            tvJobDescriptionValue.isVisible = isVisible
-            tvKeySkillsLabel.isVisible = isVisible
-            tvKeySkills.isVisible = isVisible
-            tvContactsLabel.isVisible = isVisible
-            tvContactsPersonLabel.isVisible = isVisible
-            tvContacts.isVisible = isVisible
-            tvEmailLabel.isVisible = isVisible
-            tvEmail.isVisible = isVisible
-            tvTelephoneLable.isVisible = isVisible
-            tvTelephone.isVisible = isVisible
-        }
-    }
 
     private fun contactsLogicShoving(vacancyDetails: VacancyDetails) {
         binding.apply {
             if (vacancyDetails.contactPerson == null &&
                 vacancyDetails.email == null &&
-                vacancyDetails.phones.isNullOrEmpty()) {
+                vacancyDetails.phones.isNullOrEmpty()
+            ) {
                 tvContactsLabel.isVisible = false
             }
             if (vacancyDetails.contactPerson != null) {

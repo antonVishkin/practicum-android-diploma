@@ -1,8 +1,10 @@
 package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,13 +14,13 @@ import ru.practicum.android.diploma.databinding.ActivityRootBinding
 
 class RootActivity : AppCompatActivity() {
     private val binding: ActivityRootBinding by lazy { ActivityRootBinding.inflate(layoutInflater) }
-
+    lateinit var navController:NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fcvRootConteiner) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         // Toolbar
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -64,19 +66,15 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun searchFragmentShown() {
-        binding.toolbar.isVisible = true
+        binding.toolbar.visibility = View.VISIBLE
         binding.toolbar.navigationIcon = null
         binding.btnFilter.isVisible = true
-        binding.btnFavorite.isVisible = false
-        binding.btnShare.isVisible = false
         binding.bottomNavigationView.isVisible = true
 
     }
 
     private fun filtrationFragmentShown() {
-        binding.toolbar.isVisible = true
-        binding.btnFavorite.isVisible = false
-        binding.btnShare.isVisible = false
+        binding.toolbar.visibility = View.VISIBLE
         binding.toolbar.setNavigationOnClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
@@ -85,9 +83,7 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun vacanciesFragmentShown() {
-        binding.toolbar.isVisible = true
-        binding.btnFavorite.isVisible = true
-        binding.btnShare.isVisible = true
+        binding.toolbar.visibility = View.GONE
         binding.toolbar.setNavigationOnClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
@@ -96,21 +92,17 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun favoriteFragmentShown() {
-        binding.toolbar.isVisible = true
+        binding.toolbar.visibility = View.VISIBLE
         binding.toolbar.navigationIcon = null
         binding.btnFilter.isVisible = false
-        binding.btnFavorite.isVisible = false
-        binding.btnShare.isVisible = false
         binding.bottomNavigationView.isVisible = true
 
     }
 
     private fun teamFragmentShown() {
-        binding.toolbar.isVisible = true
+        binding.toolbar.visibility = View.VISIBLE
         binding.toolbar.navigationIcon = null
         binding.btnFilter.isVisible = false
-        binding.btnFavorite.isVisible = false
-        binding.btnShare.isVisible = false
         binding.bottomNavigationView.isVisible = true
 
     }
