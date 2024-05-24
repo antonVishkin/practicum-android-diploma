@@ -9,25 +9,16 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/MyToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fcvRootConteiner"
         android:minHeight="?attr/actionBarSize"
         android:visibility="visible"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:titleTextAppearance="@style/ToolbarTextAppearance.Title"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:id="@+id/btnFilter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/filter_off"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:titleTextAppearance="@style/ToolbarTextAppearance.Title" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvRootConteiner"
