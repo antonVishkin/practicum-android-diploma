@@ -10,14 +10,14 @@ import ru.practicum.android.diploma.databinding.ActivityRootBinding
 
 class RootActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRootBinding
+    private val binding: ActivityRootBinding by lazy {
+        ActivityRootBinding.inflate(layoutInflater)
+    }
 
     val toolbar get() = binding.toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         menuInflater.inflate(R.menu.toolbar, binding.toolbar.menu)
@@ -27,7 +27,7 @@ class RootActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fcvRootConteiner) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.bottomNavigationView.setupWithNavController(navController!!)
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

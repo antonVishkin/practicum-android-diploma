@@ -62,8 +62,7 @@ class FavoriteFragment : Fragment() {
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
-        }
-
+    }
 
     private fun render(state: FavoriteState) {
         when (state) {
