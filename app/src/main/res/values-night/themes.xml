@@ -7,5 +7,9 @@
         <item name="android:textColor">@color/blackNight</item>
         <item name="hintTextColor">@color/whiteUniversal</item>
         <item name="background">@color/blackUniversal</item>
+        <item name="colorSecondary">@color/whiteUniversal</item>
+        <item name="colorSecondaryVariant">@color/blackUniversal</item>
+        <item name="colorOnSecondary">@color/gray</item>
+        <item name="android:statusBarColor">?attr/colorSecondaryVariant</item>
     </style>
 </resources>

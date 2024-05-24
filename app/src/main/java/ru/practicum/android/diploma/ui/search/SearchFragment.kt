@@ -92,6 +92,11 @@ class SearchFragment : Fragment() {
     private fun toolbarSetup() {
         toolbar.title = getString(R.string.title_home)
         toolbar.menu.findItem(R.id.filters)?.isVisible = true
+
+        toolbar.menu.findItem(R.id.filters)?.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
+            true
+        }
     }
 
     private fun render(state: SearchState) {

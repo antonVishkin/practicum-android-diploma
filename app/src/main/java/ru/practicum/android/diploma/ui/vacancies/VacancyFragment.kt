@@ -44,6 +44,13 @@ class VacancyFragment : Fragment() {
         viewModel.fetchVacancyDetails(vacancyId)
     }
 
+    override fun onStop() {
+        super.onStop()
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
+    }
+
     private fun render(state: VacancyState) {
         when (state) {
             is VacancyState.Loading -> showLoading()
