@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.filtration.industry
+package ru.practicum.android.diploma.ui.filtration.region
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
+import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.ui.root.RootActivity
 
-class IndustryFragment : Fragment() {
-    private var _binding: FragmentIndustryBinding? = null
+class RegionFragment : Fragment() {
+    private var _binding: FragmentFiltrationBinding? = null
     private val binding get() = _binding!!
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
@@ -21,7 +21,7 @@ class IndustryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentIndustryBinding.inflate(inflater, container, false)
+        _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -30,6 +30,7 @@ class IndustryFragment : Fragment() {
 
         toolbarSetup()
     }
+
     override fun onStop() {
         super.onStop()
         toolbar.menu.findItem(R.id.share).isVisible = false
