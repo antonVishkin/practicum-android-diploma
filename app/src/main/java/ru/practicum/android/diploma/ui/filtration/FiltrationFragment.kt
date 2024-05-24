@@ -16,7 +16,6 @@ class FiltrationFragment : Fragment() {
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
