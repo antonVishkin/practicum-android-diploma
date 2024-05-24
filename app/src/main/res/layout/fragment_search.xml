@@ -63,29 +63,35 @@
         app:layout_constraintTop_toBottomOf="@id/etButtonSearch"
         tools:text="@string/search_vacancy_not_found" />
 
-    <ImageView
-        android:id="@+id/ivPlaceholder"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/nothing_found_cat"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etButtonSearch" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvPlaceholder"
-        style="@style/placeholder_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
-        tools:text="@string/search_vacancy_list_not_found"
-        android:visibility="gone" />
+        <ImageView
+            android:id="@+id/ivPlaceholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/server_error_cat"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvPlaceholder"
+            style="@style/placeholder_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
+            android:text="" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBarBottom"
