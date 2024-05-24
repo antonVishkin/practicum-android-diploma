@@ -56,4 +56,6 @@
     <string name="comment_label">Коментарии</string>
     <string name="comments">Заполнить эту анкету вы можете на нашем сайте</string>
     <string name="favorite_empty_list">Список пуст</string>
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
 </resources>
