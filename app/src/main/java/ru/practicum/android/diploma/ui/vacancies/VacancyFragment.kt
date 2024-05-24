@@ -53,6 +53,10 @@ class VacancyFragment : Fragment() {
     }
 
     private fun showContent(vacancyDetails: VacancyDetails, currencySymbol: String, isFavorite: Boolean) {
+        toolbar.menu.findItem(R.id.share).isVisible = true
+        toolbar.menu.findItem(R.id.favorite).isVisible = true
+        toolbar.menu.findItem(R.id.filters).isVisible = false
+
         binding.apply {
             nsvDetailsContent.isVisible = true
             ivPlaceholder.isVisible = false
@@ -98,8 +102,8 @@ class VacancyFragment : Fragment() {
         }
 
         toolbar.title = getString(R.string.title_vacancies)
-        toolbar.menu.findItem(R.id.share).isVisible = true
-        toolbar.menu.findItem(R.id.favorite).isVisible = true
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
 
         toolbar.menu.findItem(R.id.favorite).setOnMenuItemClickListener {
