@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
 
     <EditText
-        android:id="@+id/etButtonSearch"
+        android:id="@+id/etSelectIndustry"
         style="@style/searchEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         android:cursorVisible="true"
         android:drawableEnd="@drawable/search_icon"
-        android:hint="@string/search_hint"
+        android:hint="@string/industry_hint"
         android:imeOptions="actionDone"
         android:singleLine="true"
         android:textCursorDrawable="@drawable/search_et_cursor"
@@ -30,49 +44,42 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSearch"
-        android:layout_width="match_parent"
+        android:id="@+id/rvIndustry"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvButtonSearchResult"
-        app:layout_constraintBottom_toTopOf="@id/progressBarBottom"
-        tools:listitem="@layout/vacancy_view"
-        android:visibility="visible" />
-
-    <TextView
-        android:id="@+id/tvButtonSearchResult"
-        style="@style/search_vacancy_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="4dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginLeft="0dp"
         android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/progressBarBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etButtonSearch"
-        tools:text="@string/search_vacancy_not_found" />
+        app:layout_constraintTop_toBottomOf="@id/etSelectIndustry"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:listitem="@layout/industry_view" />
 
     <ImageView
         android:id="@+id/ivPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/nothing_found_cat"
-        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/search_server_error"
+        android:scaleType="centerInside"
+        android:src="@drawable/server_error_cat"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="223dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etButtonSearch" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/tvPlaceholder"
@@ -81,11 +88,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textAlignment="center"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
-        tools:text="@string/search_vacancy_list_not_found"
-        android:visibility="gone" />
+        tools:text="@string/industry_not_found" />
 
     <ProgressBar
         android:id="@+id/progressBarBottom"
@@ -97,4 +104,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/filterSettingsApply"
+        style="industry_button_select"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/ic_search_result_background"
+        android:gravity="center"
+        android:text="@string/industry_button_select"
+        android:textColor="@color/whiteDay"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/left_guideline" />
 </androidx.constraintlayout.widget.ConstraintLayout>

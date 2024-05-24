@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -32,7 +31,7 @@ class RootActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController!!)
 
         binding.btnFilter.setOnClickListener {
-            navController!!.navigate(R.id.action_searchFragment_to_filtrationFragment)
+            navController?.navigate(R.id.action_searchFragment_to_filtrationFragment)
         }
     }
 
@@ -66,15 +65,14 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun searchFragmentShown() {
-        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.isVisible = true
         binding.toolbar.navigationIcon = null
         binding.btnFilter.isVisible = true
         binding.bottomNavigationView.isVisible = true
-
     }
 
     private fun filtrationFragmentShown() {
-        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.isVisible = true
         binding.toolbar.setNavigationOnClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
@@ -83,7 +81,7 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun vacanciesFragmentShown() {
-        binding.toolbar.visibility = View.GONE
+        binding.toolbar.isVisible = false
         binding.toolbar.setNavigationOnClickListener {
             this.onBackPressedDispatcher.onBackPressed()
         }
@@ -92,19 +90,16 @@ class RootActivity : AppCompatActivity() {
     }
 
     private fun favoriteFragmentShown() {
-        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.isVisible = true
         binding.toolbar.navigationIcon = null
         binding.btnFilter.isVisible = false
         binding.bottomNavigationView.isVisible = true
-
     }
 
     private fun teamFragmentShown() {
-        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.isVisible = true
         binding.toolbar.navigationIcon = null
         binding.btnFilter.isVisible = false
         binding.bottomNavigationView.isVisible = true
-
     }
-
 }
