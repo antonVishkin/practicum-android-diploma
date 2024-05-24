@@ -156,5 +156,8 @@ class VacancyFragment : Fragment() {
         toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_icon)
         toolbar.navigationIcon = null
         _binding = null
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
     }
 }
