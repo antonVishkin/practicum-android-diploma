@@ -57,7 +57,7 @@
         android:layout_marginTop="11dp"
         android:paddingHorizontal="12dp"
         android:paddingVertical="4dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etButtonSearch"

@@ -23,6 +23,7 @@
         android:name="ru.practicum.android.diploma.ui.filtration.FiltrationFragment"
         android:label="@string/title_filtration"
         tools:layout="@layout/fragment_filtration" />
+
     <fragment
         android:id="@+id/vacanciesFragment"
         android:name="ru.practicum.android.diploma.ui.vacancies.VacancyFragment"
