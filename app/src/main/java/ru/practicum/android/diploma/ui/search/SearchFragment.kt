@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +24,15 @@ import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.ui.root.RootActivity
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
+
+    private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
+
     private var _adapter: VacancyAdapter? = null
 
     override fun onCreateView(
@@ -40,6 +46,10 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
+        toolbarSetup()
+
         viewModel.stateSearch.observe(viewLifecycleOwner) {
             render(it)
         }
@@ -71,6 +81,21 @@ class SearchFragment : Fragment() {
             if (binding.etButtonSearch.hasFocus()) {
                 viewModel.searchDebounce(text.toString())
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        toolbarSetup()
+    }
+
+    private fun toolbarSetup() {
+        toolbar.title = getString(R.string.title_home)
+        toolbar.menu.findItem(R.id.filters)?.isVisible = true
+
+        toolbar.menu.findItem(R.id.filters)?.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
+            true
         }
     }
 
