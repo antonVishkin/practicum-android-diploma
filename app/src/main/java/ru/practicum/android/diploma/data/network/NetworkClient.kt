@@ -1,9 +1,9 @@
 package ru.practicum.android.diploma.data.network
 
-import ru.practicum.android.diploma.data.dto.IndustryResponse
+import ru.practicum.android.diploma.data.dto.IndustryResult
 import ru.practicum.android.diploma.data.dto.Response
 
 interface NetworkClient {
     suspend fun doRequest(dto: Any): Response
-    suspend fun getIndustries(): Result<List<IndustryResponse>>?
+    suspend fun getIndustries(): Result<List<IndustryResult>>?
 }

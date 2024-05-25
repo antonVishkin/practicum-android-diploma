@@ -12,7 +12,7 @@ import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
 import ru.practicum.android.diploma.data.dto.ExperienceDTO
-import ru.practicum.android.diploma.data.dto.IndustryResponse
+import ru.practicum.android.diploma.data.dto.IndustryResult
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
 import ru.practicum.android.diploma.data.dto.SearchResponse
@@ -100,7 +100,7 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
         }
     }
 
-    override suspend fun getIndustries(): Result<List<IndustryResponse>> {
+    override suspend fun getIndustries(): Result<List<IndustryResult>> {
         if (!isConnected()) {
             return Result.failure(ConnectException())
         }
