@@ -1,11 +1,13 @@
 package ru.practicum.android.diploma.data.network
 
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
+import ru.practicum.android.diploma.data.dto.IndustryDTO
 import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 
@@ -29,4 +31,7 @@ interface HeadHunterApi {
         @Header("Authorization") accessToken: String,
         @Path("vacancy_id") vacancyId: String
     ): VacancyDetailsResponse
+
+    @GET("industries")
+    suspend fun getIndustries(): Response<List<IndustryDTO>>
 }

@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
 import ru.practicum.android.diploma.data.dto.ExperienceDTO
+import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
 import ru.practicum.android.diploma.data.dto.SearchResponse
@@ -93,6 +94,28 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
         } catch (e: IOException) {
             Log.e(NETWORK_ERROR, e.toString())
             return SearchResponse(null, 0, 0, 0).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+        }
+    }
+
+    override suspend fun getIndustries(): Response {
+        if (!isConnected()) {
+            return Response().apply { resultCode = -1 }
+        }
+        return withContext(Dispatchers.IO) {
+            val response = headHunterApi.getIndustries()
+
+            when (response.isSuccessful) {
+                true -> {
+                    IndustryResponse().apply {
+                        resultCode = response.code()
+                        items = response.body()!!
+                    }
+                }
+
+                else -> {
+                    Response().apply { resultCode = response.code() }
+                }
+            }
         }
     }
 
