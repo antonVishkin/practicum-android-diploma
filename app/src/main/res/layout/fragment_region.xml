@@ -7,15 +7,14 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/etButtonSearch"
+        android:id="@+id/etRegionSearch"
         style="@style/searchEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
         android:cursorVisible="true"
         android:drawableEnd="@drawable/search_icon"
-        android:hint="@string/search_hint"
+        android:hint="@string/region_hint"
         android:imeOptions="actionDone"
         android:singleLine="true"
         android:textCursorDrawable="@drawable/search_et_cursor"
@@ -40,67 +39,37 @@
         android:id="@+id/rvSearch"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvButtonSearchResult"
-        app:layout_constraintBottom_toTopOf="@id/progressBarBottom"
-        tools:listitem="@layout/vacancy_view"
+        app:layout_constraintTop_toBottomOf="@id/etRegionSearch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/region_view"
         android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/tvButtonSearchResult"
-        style="@style/search_vacancy_result"
+    <ImageView
+        android:id="@+id/ivPlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="4dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etButtonSearch"
-        tools:text="@string/search_vacancy_not_found" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/ivPlaceholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/server_error_cat"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tvPlaceholder"
-            style="@style/placeholder_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textAlignment="center"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
-            android:text="" />
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBarBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/blue"
-        android:paddingVertical="16dp"
+        android:src="@drawable/nothing_found_cat"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etRegionSearch" />
+
+    <TextView
+        android:id="@+id/tvPlaceholder"
+        style="@style/placeholder_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
+        tools:text="@string/search_vacancy_list_not_found"
+        android:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

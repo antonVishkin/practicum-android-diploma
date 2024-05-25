@@ -5,7 +5,7 @@
     <string name="team">Команда</string>
     <string name="title_home">Поиск вакансий</string>
     <string name="title_vacancies">Вакансия</string>
-    <string name="title_filtration">Настройка фильтрации</string>
+    <string name="title_filtration">Настройки фильтрации</string>
     <string name="title_favorite">Избранное</string>
     <string name="title_team">Команда</string>
 
@@ -64,4 +64,11 @@
     <string name="pick_job_location">Выбор места работы</string>
     <string name="pick_country">Выбор страны</string>
     <string name="russia">Россия</string>
+
+    <!-- INDUSTRY FRAGMENT-->
+    <string name="industry_hint">Введите отрасль</string>
+    <string name="industry_not_found">Такой отрасли нет</string>
+    <string name="industry_button_select">Выбрать</string>
+    <string name="industry_text_test">Авиационная, вертолетная и аэрокосмическая промышленность</string>
+    <string name="region_hint">Введите регион</string>
 </resources>

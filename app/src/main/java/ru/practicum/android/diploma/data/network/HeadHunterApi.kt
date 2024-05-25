@@ -6,6 +6,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
+import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 
@@ -29,4 +30,7 @@ interface HeadHunterApi {
         @Header("Authorization") accessToken: String,
         @Path("vacancy_id") vacancyId: String
     ): VacancyDetailsResponse
+
+    @GET("industries")
+    suspend fun getIndustries(): List<IndustryResponse>
 }

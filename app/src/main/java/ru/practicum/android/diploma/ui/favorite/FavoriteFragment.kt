@@ -13,12 +13,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFavoriteBinding
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.ui.root.RootActivity
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
 
 class FavoriteFragment : Fragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<FavoriteViewModel>()
+
+    private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
     private var favoriteAdapter: VacancyAdapter? = null
 
@@ -33,6 +36,9 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toolbarSetup()
+
         viewModel.stateFavorite.observe(viewLifecycleOwner) {
             render(it)
         }
@@ -49,6 +55,13 @@ class FavoriteFragment : Fragment() {
             render(it)
         }
         viewModel.fillData()
+    }
+
+    private fun toolbarSetup() {
+        toolbar.title = getString(R.string.title_favorite)
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
     }
 
     private fun render(state: FavoriteState) {

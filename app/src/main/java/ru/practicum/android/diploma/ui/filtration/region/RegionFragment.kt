@@ -1,16 +1,17 @@
-package ru.practicum.android.diploma.ui.team
+package ru.practicum.android.diploma.ui.filtration.region
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentTeamBinding
+import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.ui.root.RootActivity
 
-class TeamFavorite : Fragment() {
-    private var _binding: FragmentTeamBinding? = null
+class RegionFragment : Fragment() {
+    private var _binding: FragmentFiltrationBinding? = null
     private val binding get() = _binding!!
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
@@ -20,7 +21,7 @@ class TeamFavorite : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentTeamBinding.inflate(inflater, container, false)
+        _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -30,8 +31,20 @@ class TeamFavorite : Fragment() {
         toolbarSetup()
     }
 
+    override fun onStop() {
+        super.onStop()
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
+    }
+
     private fun toolbarSetup() {
-        toolbar.title = getString(R.string.title_team)
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        toolbar.title = getString(R.string.title_filtration)
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
