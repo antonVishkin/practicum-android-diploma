@@ -23,6 +23,25 @@
         android:name="ru.practicum.android.diploma.ui.filtration.FiltrationFragment"
         android:label="@string/title_filtration"
         tools:layout="@layout/fragment_filtration" />
+    <action
+        android:id="@+id/action_filtrationFragment_to_locationFragment"
+        app:destination="@id/locationFragment" />
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="ru.practicum.android.diploma.ui.location.LocationFragment"
+        android:label="@string/pick_job_location"
+        tools:layout="@layout/fragment_location" />
+    <action
+        android:id="@+id/action_locationFragment_to_countryFragment"
+        app:destination="@id/countryFragment" />
+    <fragment
+        android:id="@+id/countryFragment"
+        android:name="ru.practicum.android.diploma.ui.country.CountryFragment"
+        android:label="@string/pick_country"
+        tools:layout="@layout/fragment_country" />
+    <action
+        android:id="@+id/action_countryFragment_to_locationFragment"
+        app:destination="@id/locationFragment"/>
     <fragment
         android:id="@+id/vacanciesFragment"
         android:name="ru.practicum.android.diploma.ui.vacancies.VacancyFragment"
