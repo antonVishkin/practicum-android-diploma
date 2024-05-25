@@ -29,7 +29,7 @@ class CountryFragment : Fragment() {
         return _binding?.root
     }
 
-    //!!!!!В ЭТОМ ФРАГМЕНТЕ ВРЕМЕННЫЙ КОД!!!!
+    // !!!!!В ЭТОМ ФРАГМЕНТЕ ВРЕМЕННЫЙ КОД!!!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

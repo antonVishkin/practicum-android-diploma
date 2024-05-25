@@ -14,6 +14,7 @@ class CountryAdapter(
     companion object {
         private const val TYPE_COUNTRY = 0
         private const val TYPE_OTHER_REGIONS = 1
+        private const val MAX_VISIBLE_COUNTRIES = 8
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -37,10 +38,10 @@ class CountryAdapter(
         }
     }
 
-    override fun getItemCount(): Int = minOf(countries.size, 8) + 1
+    override fun getItemCount(): Int = minOf(countries.size, MAX_VISIBLE_COUNTRIES) + 1
 
     override fun getItemViewType(position: Int): Int {
-        return if (position < 8 && position < countries.size) {
+        return if (position < MAX_VISIBLE_COUNTRIES && position < countries.size) {
             TYPE_COUNTRY
         } else {
             TYPE_OTHER_REGIONS

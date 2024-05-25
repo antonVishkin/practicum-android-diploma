@@ -24,7 +24,7 @@ class LocationFragment : Fragment() {
         return _binding?.root
     }
 
-    //!!!!!В ЭТОМ ФРАГМЕНТЕ ВРЕМЕННЫЙ КОД!!!!
+    // !!!!!В ЭТОМ ФРАГМЕНТЕ ВРЕМЕННЫЙ КОД!!!!
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,16 +42,18 @@ class LocationFragment : Fragment() {
 
         // Слушатель для кнопки очистки
         binding.etCountry.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= (binding.etCountry.right - binding.etCountry.compoundDrawables[2].bounds.width())) {
-                    binding.etCountry.setText("")
-                    binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_forward, 0)
-                    binding.btnSelectionContainer.visibility = View.GONE
-                    true
-                }
+            if (event.action == MotionEvent.ACTION_UP &&
+                event.rawX >= binding.etCountry.right - binding.etCountry.compoundDrawables[2].bounds.width()
+            ) {
+                binding.etCountry.setText("")
+                binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_forward, 0)
+                binding.btnSelectionContainer.visibility = View.GONE
+                true
+            } else {
+                false
             }
-            false
         }
+
     }
 
     private fun setupCountryField() {
