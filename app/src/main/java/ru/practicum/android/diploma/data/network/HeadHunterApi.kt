@@ -7,7 +7,8 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
-import ru.practicum.android.diploma.data.dto.IndustryDTO
+import ru.practicum.android.diploma.data.dto.IndustryDto
+import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 
@@ -33,5 +34,5 @@ interface HeadHunterApi {
     ): VacancyDetailsResponse
 
     @GET("industries")
-    suspend fun getIndustries(): Response<List<IndustryDTO>>
+    suspend fun getIndustries(): List<IndustryResponse>
 }
