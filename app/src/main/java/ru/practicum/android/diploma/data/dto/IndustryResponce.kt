@@ -2,13 +2,13 @@ package ru.practicum.android.diploma.data.dto
 
 import ru.practicum.android.diploma.domain.models.Industry
 
-data class IndustryResult(
+data class IndustryForResponceWithList(
     val id: String,
     val industries: List<IndustryDto>,
     val name: String
 )
 
-fun mapToListIndustries(industriesList: List<IndustryResult>): List<Industry> {
+fun mapToListIndustries(industriesList: List<IndustryForResponceWithList>): List<Industry> {
     val list = mutableListOf<Industry>()
     industriesList.forEach {
         list.addAll(createIndustriesList(it.industries))
