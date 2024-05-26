@@ -65,6 +65,9 @@
     <string name="pick_country">Выбор страны</string>
     <string name="russia">Россия</string>
 
+    <!-- DETAILS VACANCY FRAGMENT-->
+    <string name="details_vacancy_error">Не удалось получить сведения о вакансии</string>
+
     <!-- INDUSTRY FRAGMENT-->
     <string name="industry_hint">Введите отрасль</string>
     <string name="industry_not_found">Такой отрасли нет</string>
@@ -72,4 +75,12 @@
     <string name="industry_text_test">Авиационная, вертолетная и аэрокосмическая промышленность</string>
     <string name="region_hint">Введите регион</string>
 
+    <!-- FILTRATION FRAGMENT-->
+    <string name="filtration_work_area_hint">Место работы</string>
+    <string name="filtration_industry_hint">Отрасль</string>
+    <string name="filtration_waiting_salary">Ожидаемая зарплата</string>
+    <string name="filtration_not_show_without_salary">Не показывать без зарплаты</string>
+    <string name="filtration_salary_placeholder">Введите сумму</string>
+    <string name="filtration_remove_button">Сбросить</string>
+    <string name="filtration_save_button">Применить</string>
 </resources>
