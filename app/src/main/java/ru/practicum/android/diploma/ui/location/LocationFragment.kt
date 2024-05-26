@@ -39,8 +39,11 @@ class LocationFragment : Fragment() {
             binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
+        setupClearButton()
+    }
 
-        // Слушатель для кнопки очистки
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupClearButton() { // Слушатель для кнопки очистки
         binding.etCountry.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP &&
                 event.rawX >= binding.etCountry.right - binding.etCountry.compoundDrawables[2].bounds.width()
