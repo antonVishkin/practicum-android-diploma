@@ -1,6 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ilAreaOfWork"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/filtration_work_area_hint"
+        android:textColorHint="@color/stroke_filtration_text_colors"
+        app:endIconDrawable="@drawable/arrow_forward"
+        app:endIconMode="custom"
+        app:endIconTint="?attr/colorSecondary"
+        app:hintTextColor="@color/stroke_filtration_text_colors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etAreaOfWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/background"
+            android:enabled="false"
+            android:fontFamily="@font/ys_display_regular"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="@dimen/text_16" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ilIndustry"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/filtration_industry_hint"
+        android:textColorHint="@color/stroke_filtration_text_colors"
+        app:endIconDrawable="@drawable/arrow_forward"
+        app:endIconMode="custom"
+        app:endIconTint="?attr/colorSecondary"
+        app:hintTextColor="@color/stroke_filtration_text_colors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ilAreaOfWork">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etIndustry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/background"
+            android:enabled="false"
+            android:fontFamily="@font/ys_display_regular"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="@dimen/text_16" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ilSalary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/filtration_waiting_salary"
+        app:placeholderText="Введите сумму"
+        app:expandedHintEnabled="false"
+        android:textColorHint="@color/stroke_filtration_text_colors"
+        app:endIconDrawable="@drawable/clean_icon"
+        app:endIconMode="clear_text"
+        app:endIconTint="?attr/colorSecondary"
+        app:hintTextColor="@color/stroke_filtration_text_colors"
+        android:background="@drawable/ic_edit_text_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ilIndustry"
+        android:layout_marginHorizontal="16dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSalary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ys_display_regular"
+            android:inputType="numberDecimal"
+
+            android:maxLines="1"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="@dimen/text_16" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tvCheckbox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/checkBoxSalary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ilSalary"
+        android:text="@string/filtration_not_show_without_salary"
+        android:layout_marginVertical="16dp"
+        android:paddingStart="16dp"
+        />
+    <CheckBox
+        android:id="@+id/checkBoxSalary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvCheckbox"
+        app:layout_constraintTop_toBottomOf="@id/ilSalary"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

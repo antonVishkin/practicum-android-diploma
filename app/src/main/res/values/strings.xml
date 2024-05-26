@@ -63,4 +63,12 @@
     <string name="industry_button_select">Выбрать</string>
     <string name="industry_text_test">Авиационная, вертолетная и аэрокосмическая промышленность</string>
     <string name="region_hint">Введите регион</string>
+
+    <!-- FILTRATION FRAGMENT-->
+    <string name="filtration_work_area_hint">Место работы</string>
+    <string name="filtration_industry_hint">Отрасль</string>
+    <string name="filtration_waiting_salary">Ожидаемая зарплата</string>
+    <string name="filtration_not_show_without_salary">Не показывать без зарплаты</string>
+
+
 </resources>
