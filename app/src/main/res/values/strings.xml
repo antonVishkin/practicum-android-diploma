@@ -7,6 +7,7 @@
     <string name="title_vacancies">Вакансия</string>
     <string name="title_filtration">Настройки фильтрации</string>
     <string name="title_favorite">Избранное</string>
+    <string name="title_industry">Выбор отрасли</string>
     <string name="title_team">Команда</string>
 
     <!-- SEARCH FRAGMENT-->
