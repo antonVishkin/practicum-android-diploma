@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,13 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         toolbarSetup()
+        binding.etAreaOfWork.apply {
+            setText("test")
+        }
+        binding.ilAreaOfWork.apply {
+            setEndIconDrawable(R.drawable.clean_icon)
+        }
     }
 
     override fun onStop() {

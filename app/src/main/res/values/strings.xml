@@ -69,6 +69,7 @@
     <string name="filtration_industry_hint">Отрасль</string>
     <string name="filtration_waiting_salary">Ожидаемая зарплата</string>
     <string name="filtration_not_show_without_salary">Не показывать без зарплаты</string>
-
-
+    <string name="filtration_salary_placeholder">Введите сумму</string>
+    <string name="filtration_remove_button">Сбросить</string>
+    <string name="filtration_save_button">Применить</string>
 </resources>
