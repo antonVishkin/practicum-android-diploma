@@ -57,6 +57,10 @@
     <string name="comments">Заполнить эту анкету вы можете на нашем сайте</string>
     <string name="favorite_empty_list">Список пуст</string>
 
+
+    <!-- DETAILS VACANCY FRAGMENT-->
+    <string name="details_vacancy_error">Не удалось получить сведения о вакансии</string>
+
     <!-- INDUSTRY FRAGMENT-->
     <string name="industry_hint">Введите отрасль</string>
     <string name="industry_not_found">Такой отрасли нет</string>
