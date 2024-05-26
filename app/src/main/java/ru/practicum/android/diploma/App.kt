@@ -24,6 +24,6 @@ class App : Application() {
                 sharingModule,
                 vacancyModule
             )
-       }
+        }
     }
 }
