@@ -27,8 +27,13 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         toolbarSetup()
+        binding.etAreaOfWork.apply {
+            setText("test")
+        }
+        binding.ilAreaOfWork.apply {
+            setEndIconDrawable(R.drawable.clean_icon)
+        }
     }
 
     override fun onStop() {
