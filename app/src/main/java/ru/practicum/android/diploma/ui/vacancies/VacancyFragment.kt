@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -104,14 +103,11 @@ class VacancyFragment : Fragment() {
             tvEmail.setOnClickListener {
                 vacancyDetails.email?.let { viewModel.eMail() }
             }
-
             tvTelephone.setOnClickListener {
                 vacancyDetails.phones?.firstOrNull()?.let { viewModel.phoneCall() }
             }
-
         }
     }
-
 
     private fun toolbarSetup(vacancyId: String) {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
@@ -156,8 +152,8 @@ class VacancyFragment : Fragment() {
                 vacancyDetails.phones.isNullOrEmpty()
             ) {
                 tvContactsLabel.isVisible = false
-            }else {
-                    tvContactsLabel.isVisible = true
+            } else {
+                tvContactsLabel.isVisible = true
             }
             if (vacancyDetails.contactPerson != null) {
                 tvContacts.text = vacancyDetails.contactPerson

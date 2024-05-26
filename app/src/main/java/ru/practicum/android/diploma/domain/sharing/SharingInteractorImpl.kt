@@ -4,7 +4,6 @@ class SharingInteractorImpl(
     private var externalNavigator: ExternalNavigator,
 ) : SharingInteractor {
 
-
     override fun shareApp(vacancyId: String) {
         externalNavigator.shareApp(vacancyId)
     }
@@ -18,7 +17,6 @@ class SharingInteractorImpl(
     }
 
     override fun getShareLink(vacancyId: String) {
-
         externalNavigator.getShareLink(vacancyId)
     }
 }

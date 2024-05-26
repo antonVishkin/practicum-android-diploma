@@ -143,10 +143,9 @@ class RetrofitNetworkClient(
             description = "",
             keySkills = listOf(),
             contacts = null,
-            alternateUrl=""
+            alternateUrl = "",
         )
     }
-
 
     companion object {
         const val CLIENT_ERROR_RESULT_CODE = 400

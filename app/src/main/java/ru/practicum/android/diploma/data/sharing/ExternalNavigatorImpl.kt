@@ -52,13 +52,7 @@ class ExternalNavigatorImpl(
         }
     }
 
-
     override fun getShareLink(vacancyId: String): String {
         return "https://hh.ru/vacancy/$vacancyId"
     }
-
-    // Метод для установки ссылки на профессию
-//    fun setVacancyLink(vacancyDetailsRequest: VacancyDetailsRequest) {
-//        vacancyLink =  "https://hh.ru/vacancy/${vacancyDetailsRequest.vacancyId}"
-//    }
 }
