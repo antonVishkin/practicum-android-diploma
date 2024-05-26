@@ -82,6 +82,10 @@ class SearchFragment : Fragment() {
                 viewModel.searchDebounce(text.toString())
             }
         }
+        toolbar.menu.findItem(R.id.filters).setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
+            true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
