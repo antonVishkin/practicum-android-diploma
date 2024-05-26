@@ -42,16 +42,19 @@ class FiltrationFragment : Fragment() {
         }
         val industry = arguments?.getString(INDUSTRY)?:null
         val area = arguments?.getString(AREA)?:null
+        binding.checkBoxSalary.setOnClickListener {
+            viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
+        }
     }
 
     private fun render(state: FiltrationState) {
         when (state) {
             is FiltrationState.Empty -> showEmpty()
             is FiltrationState.Content -> showContent(
-                state.area,
-                state.industry,
-                state.salary,
-                state.salaryEmptyNotShowing
+                state.filtration.area,
+                state.filtration.industry,
+                state.filtration.salary,
+                state.filtration.onlyWithSalary
             )
 
         }
@@ -124,6 +127,7 @@ class FiltrationFragment : Fragment() {
     private fun toolbarSetup() {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
+            viewModel.saveStateToPrefs()
             val args = Bundle().putString(AREA,"")
             findNavController().navigateUp()
         }
