@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -32,16 +33,17 @@ class VacancyFragment : Fragment() {
     ): View? {
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
         return _binding?.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbarSetup()
-
         val vacancyId = arguments?.getString("vacancy_model") ?: ""
+        toolbarSetup(vacancyId)
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         viewModel.fetchVacancyDetails(vacancyId)
+
     }
 
     override fun onStop() {
@@ -99,10 +101,19 @@ class VacancyFragment : Fragment() {
             } else {
                 toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_icon)
             }
+            tvEmail.setOnClickListener {
+                vacancyDetails.email?.let { viewModel.eMail() }
+            }
+
+            tvTelephone.setOnClickListener {
+                vacancyDetails.phones?.firstOrNull()?.let { viewModel.phoneCall() }
+            }
+
         }
     }
 
-    private fun toolbarSetup() {
+
+    private fun toolbarSetup(vacancyId: String) {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -115,6 +126,11 @@ class VacancyFragment : Fragment() {
 
         toolbar.menu.findItem(R.id.favorite).setOnMenuItemClickListener {
             viewModel.addToFavorite()
+            true
+        }
+
+        toolbar.menu.findItem(R.id.share).setOnMenuItemClickListener {
+            viewModel.shareApp(vacancyId)
             true
         }
     }
@@ -140,6 +156,8 @@ class VacancyFragment : Fragment() {
                 vacancyDetails.phones.isNullOrEmpty()
             ) {
                 tvContactsLabel.isVisible = false
+            }else {
+                    tvContactsLabel.isVisible = true
             }
             if (vacancyDetails.contactPerson != null) {
                 tvContacts.text = vacancyDetails.contactPerson
@@ -147,17 +165,31 @@ class VacancyFragment : Fragment() {
                 tvContactsPersonLabel.isVisible = false
                 tvContacts.isVisible = false
             }
+            if (vacancyDetails.contactPerson != null) {
+                tvContacts.text = vacancyDetails.contactPerson
+                tvContacts.isVisible = true
+                tvContactsPersonLabel.isVisible = true
+            } else {
+                tvContactsPersonLabel.isVisible = false
+                tvContacts.isVisible = false
+            }
+
             if (vacancyDetails.email != null) {
                 tvEmail.text = vacancyDetails.email
+                tvEmail.isVisible = true
+                tvEmailLabel.isVisible = true
             } else {
                 tvEmailLabel.isVisible = false
                 tvEmail.isVisible = false
             }
+
             if (vacancyDetails.phones.isNullOrEmpty()) {
                 tvTelephoneLable.isVisible = false
                 tvTelephone.isVisible = false
             } else {
-                tvTelephone.text = vacancyDetails.phones.joinToString(",", "", "")
+                tvTelephone.text = vacancyDetails.phones.joinToString(", ")
+                tvTelephone.isVisible = true
+                tvTelephoneLable.isVisible = true
             }
         }
     }
