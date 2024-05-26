@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
-
+    id("kotlin-kapt")
 }
 
 android {
@@ -62,7 +62,6 @@ dependencies {
 
     implementation("androidx.constraintlayout:constraintlayout-core:1.0.4")
     implementation("com.android.volley:volley:1.2.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -81,13 +80,14 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
-    implementation("androidx.room:room-runtime:2.6.1") // библиотека Room
-    implementation("androidx.room:room-ktx:2.6.1")
     implementation("com.github.tbruyelle:rxpermissions:0.12")
     implementation("io.reactivex.rxjava3:rxjava:3.1.3")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     implementation("com.markodevcic:peko:2.1.2")
     implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0")
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
 }

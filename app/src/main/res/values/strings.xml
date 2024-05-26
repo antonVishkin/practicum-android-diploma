@@ -8,9 +8,52 @@
     <string name="title_filtration">Настройка фильтрации</string>
     <string name="title_favorite">Избранное</string>
     <string name="title_team">Команда</string>
+
+    <!-- SEARCH FRAGMENT-->
+    <string name="search_hint">Введите запрос</string>
+    <string name="search_vacancy_not_found">Таких вакансий нет</string>
+    <string name="search_vacancy_list_not_found">Не удалось получить \n список вакансий</string>
+    <string name="search_no_connection">Нет интернета</string>
+    <string name="search_server_error">Ошибка сервера</string>
+    <string name="found_vacancies_count">Найдено %1$d вакансий</string>
+
+    <!-- TEAM FRAGMENT-->
     <string name="about">Над приложением работали</string>
     <string name="anton_vishkin">Антон Вышкин</string>
     <string name="anton_ignatov">Антон Игнатов</string>
     <string name="kate_mahova">Екатерина Махова</string>
     <string name="milan_isaev">Милан Исаев</string>
+
+    <!-- SALARY-->
+    <string name="salary_not_specified">Зарплата не указана</string>
+    <string name="salary_from">от %1$s %2$s</string>
+    <string name="salary_to">до %1$s %2$s</string>
+    <string name="salary_from_to">от %1$s до %2$s %3$s</string>
+
+    <!-- VACANCY FRAGMENT-->
+    <string name="android_developer">Android-разработчик</string>
+    <string name="company_name">Еда</string>
+    <string name="vacancy_salary">от 100 000 ₽</string>
+    <string name="vacancy_town">Москва</string>
+    <string name="experience">Требуемый опыт</string>
+    <string name="years_of_experience">От 1 года до 3 лет\nПолная занятость. Удаленная работа.</string>
+    <string name="responsibilities_label">Обязанности</string>
+    <string name="responsibilities">• Разрабатывать новую функциональность приложения\n• Помогать с интеграцией нашего SDK в другие приложения\n• Проектировать большие новые модули\n• Писать UI- и unit-тесты\n• Следить за работоспособностью сервиса и устранять технический долг</string>
+    <string name="job_description_label">Описание вакансии</string>
+    <string name="job_description">Требования</string>
+    <string name="requirements">• 100% Kotlin\n• WebRTC\n• CI по модели Trunk Based Development</string>
+    <string name="conditions_label">Условия</string>
+    <string name="conditions">• сильная команда, с которой можно расти\n• возможность влиять на процесс и результат\n• расширенная программа ДМС: стоматология, обследования, вызов врача на дом и многое другое</string>
+    <string name="key_skills_label">Ключевые навыки</string>
+    <string name="key_skills">• Знание классических алгоритмов и структуры данных\n• Программирование для Android больше одного года\n• Знание WebRTC</string>
+    <string name="contacts_label">Контакты</string>
+    <string name="contacts_person_label">Контактное лицо</string>
+    <string name="contacts">Ирина</string>
+    <string name="e_mail_label">E-mail</string>
+    <string name="irina_mail_ru">irina@mail.ru</string>
+    <string name="telephone">Телефон</string>
+    <string name="telephone_number">+7 (904) 329–27–71</string>
+    <string name="comment_label">Коментарии</string>
+    <string name="comments">Заполнить эту анкету вы можете на нашем сайте</string>
+    <string name="favorite_empty_list">Список пуст</string>
 </resources>

@@ -1,43 +1,38 @@
 package ru.practicum.android.diploma.ui.root
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ActivityRootBinding
 
 class RootActivity : AppCompatActivity() {
-    private var binding: ActivityRootBinding? = null
-
+    private val binding: ActivityRootBinding by lazy { ActivityRootBinding.inflate(layoutInflater) }
+    var navController: NavController? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRootBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-
-        // Пример использования access token для HeadHunter API
-//        networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
-        Log.v("TEST", "${BuildConfig.HH_ACCESS_TOKEN}")
+        setContentView(binding.root)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fcvRootConteiner) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         // Toolbar
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding?.toolbar?.setupWithNavController(navController, appBarConfiguration)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        val appBarConfiguration = AppBarConfiguration(navController!!.graph)
+        binding.toolbar.setupWithNavController(navController!!, appBarConfiguration)
+        navController?.addOnDestinationChangedListener { _, destination, _ ->
             toolBarController(destination)
         }
 
-        binding?.bottomNavigationView?.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController!!)
 
-        binding?.btnFilter?.setOnClickListener {
-            navController.navigate(R.id.action_searchFragment_to_filtrationFragment)
+        binding.btnFilter.setOnClickListener {
+            navController!!.navigate(R.id.action_searchFragment_to_filtrationFragment)
         }
     }
 
@@ -49,39 +44,67 @@ class RootActivity : AppCompatActivity() {
     private fun toolBarController(destination: NavDestination) {
         when (destination.id) {
             R.id.searchFragment -> {
-                binding?.toolbar?.isVisible = true
-                binding?.toolbar?.navigationIcon = null
-                binding?.btnFilter?.isVisible = true
+                searchFragmentShown()
             }
 
             R.id.filtrationFragment -> {
-                binding?.toolbar?.isVisible = true
-                binding?.toolbar?.setNavigationOnClickListener {
-                    this.onBackPressedDispatcher.onBackPressed()
-                }
-                binding?.btnFilter?.isVisible = false
+                filtrationFragmentShown()
             }
 
             R.id.vacanciesFragment -> {
-                binding?.toolbar?.isVisible = true
-                binding?.toolbar?.setNavigationOnClickListener {
-                    this.onBackPressedDispatcher.onBackPressed()
-                }
-                binding?.btnFilter?.isVisible = false
+                vacanciesFragmentShown()
             }
 
             R.id.favoriteFragment -> {
-                binding?.toolbar?.isVisible = true
-                binding?.toolbar?.navigationIcon = null
-                binding?.btnFilter?.isVisible = false
+                favoriteFragmentShown()
             }
 
             R.id.teamFragment -> {
-                binding?.toolbar?.isVisible = true
-                binding?.toolbar?.navigationIcon = null
-                binding?.btnFilter?.isVisible = false
+                teamFragmentShown()
             }
         }
+    }
+
+    private fun searchFragmentShown() {
+        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.navigationIcon = null
+        binding.btnFilter.isVisible = true
+        binding.bottomNavigationView.isVisible = true
+
+    }
+
+    private fun filtrationFragmentShown() {
+        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.setNavigationOnClickListener {
+            this.onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnFilter.isVisible = false
+        binding.bottomNavigationView.isVisible = true
+    }
+
+    private fun vacanciesFragmentShown() {
+        binding.toolbar.visibility = View.GONE
+        binding.toolbar.setNavigationOnClickListener {
+            this.onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnFilter.isVisible = false
+        binding.bottomNavigationView.isVisible = false
+    }
+
+    private fun favoriteFragmentShown() {
+        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.navigationIcon = null
+        binding.btnFilter.isVisible = false
+        binding.bottomNavigationView.isVisible = true
+
+    }
+
+    private fun teamFragmentShown() {
+        binding.toolbar.visibility = View.VISIBLE
+        binding.toolbar.navigationIcon = null
+        binding.btnFilter.isVisible = false
+        binding.bottomNavigationView.isVisible = true
+
     }
 
 }
