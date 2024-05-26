@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.domain.sharing.ExternalNavigator
 import ru.practicum.android.diploma.ui.vacancies.VacancyViewModel
 
 val vacancyModule = module {
-    single<VacancyDetailsRepository> { VacancyDetailsRepositoryImpl(get(), get()) }
+    single<VacancyDetailsRepository> { VacancyDetailsRepositoryImpl(get(), get(), get()) }
     factory<VacancyDetailsInteractor> { VacancyDetailsInteractorImpl(get()) }
     viewModel { VacancyViewModel(get(), get(), get(), get()) }
     single<ExternalNavigator> { ExternalNavigatorImpl(get(), get()) }
