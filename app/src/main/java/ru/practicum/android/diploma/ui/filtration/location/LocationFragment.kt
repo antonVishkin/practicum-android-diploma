@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.location
+package ru.practicum.android.diploma.ui.filtration.location
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -31,6 +31,7 @@ class LocationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupCountryField()
+        setupRegionField()
 
         // Получить выбранную страну из аргументов, если она есть
         val selectedCountry = arguments?.getString("selectedCountry")
@@ -39,8 +40,17 @@ class LocationFragment : Fragment() {
             binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
+        // Получить выбранный регион из аргументов, если он есть
+        val selectedRegion = arguments?.getString("selectedRegion")
+        if (!selectedRegion.isNullOrEmpty()) {
+            binding.etRegion.setText(selectedRegion)
+            binding.etRegion.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
+            binding.btnSelectionContainer.visibility = View.VISIBLE
+        }
         setupClearButton()
     }
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupClearButton() { // Слушатель для кнопки очистки
@@ -62,6 +72,12 @@ class LocationFragment : Fragment() {
     private fun setupCountryField() {
         binding.etCountry.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_countryFragment)
+        }
+    }
+
+    private fun setupRegionField() {
+        binding.etRegion.setOnClickListener {
+            findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
         }
     }
 

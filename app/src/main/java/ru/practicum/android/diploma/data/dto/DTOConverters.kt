@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.dto
 
+import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -44,8 +45,17 @@ class DTOConverters {
             keySkills = detailsResponse.keySkills.map { it.name },
             contactPerson = detailsResponse.contacts?.name,
             email = detailsResponse.contacts?.email,
-            phones = detailsResponse.contacts?.phones?.map { it.formatted },
-            alternateUrl = detailsResponse.alternateUrl
+            phones = detailsResponse.contacts?.phones?.map { it.formatted }
         )
+    }
+
+    fun map(areaDTO: AreaDTO): Country = Country(
+        id = areaDTO.id,
+        name = areaDTO.name,
+        url = areaDTO.url
+    )
+
+    fun mapToListCountries(areaDTOs: List<AreaDTO>): List<Country> {
+        return areaDTOs.map { map(it) }
     }
 }

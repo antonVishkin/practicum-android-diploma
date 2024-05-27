@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation_graph"
-    app:startDestination="@id/searchFragment">
+    app:startDestination="@id/locationFragment">
 
     <fragment
         android:id="@+id/searchFragment"
@@ -28,15 +28,26 @@
         app:destination="@id/locationFragment" />
     <fragment
         android:id="@+id/locationFragment"
-        android:name="ru.practicum.android.diploma.ui.location.LocationFragment"
+        android:name="ru.practicum.android.diploma.ui.filtration.location.LocationFragment"
         android:label="@string/pick_job_location"
         tools:layout="@layout/fragment_location" />
     <action
         android:id="@+id/action_locationFragment_to_countryFragment"
         app:destination="@id/countryFragment" />
+    <action
+        android:id="@+id/action_locationFragment_to_regionFragment"
+        app:destination="@id/regionFragment" />
+    <fragment
+        android:id="@+id/regionFragment"
+        android:name="ru.practicum.android.diploma.ui.filtration.region.RegionFragment"
+        android:label="@string/pick_country"
+        tools:layout="@layout/fragment_region" />
+    <action
+        android:id="@+id/action_regionFragment_to_locationFragment"
+        app:destination="@id/locationFragment"/>
     <fragment
         android:id="@+id/countryFragment"
-        android:name="ru.practicum.android.diploma.ui.country.CountryFragment"
+        android:name="ru.practicum.android.diploma.ui.filtration.country.CountryFragment"
         android:label="@string/pick_country"
         tools:layout="@layout/fragment_country" />
     <action
