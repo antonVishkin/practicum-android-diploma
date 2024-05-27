@@ -7,14 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class RegionFragment : Fragment() {
     private var _binding: FragmentRegionBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: RegionViewModel by viewModel()
+    private var _adapter: RegionAdapter? = null
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -34,6 +37,11 @@ class RegionFragment : Fragment() {
 
         val selectedCountryId = arguments?.getString("selectedCountryId")
         Log.d("selectedCountryId", selectedCountryId.toString())
+
+        viewModel.getRegions()
+
+        binding.rvRegions.adapter = _adapter
+        binding.rvRegions.layoutManager = LinearLayoutManager(context)
     }
 
     override fun onStop() {

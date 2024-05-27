@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.di.dataModule
 import ru.practicum.android.diploma.di.favoriteModule
 import ru.practicum.android.diploma.di.filtrationModule
 import ru.practicum.android.diploma.di.industryModule
+import ru.practicum.android.diploma.di.regionModule
 import ru.practicum.android.diploma.di.searchModule
 import ru.practicum.android.diploma.di.vacancyModule
 import ru.practicum.android.diploma.di.сountryModule
@@ -22,7 +23,8 @@ class App : Application() {
                 searchModule,
                 vacancyModule,
                 industryModule,
-                сountryModule)
+                сountryModule,
+                regionModule)
         }
     }
 }

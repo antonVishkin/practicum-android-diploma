@@ -6,13 +6,13 @@ import retrofit2.HttpException
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.dto.DTOConverters
 import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.domain.api.filtration.country.CountryRepository
+import ru.practicum.android.diploma.domain.api.filtration.region.RegionRepository
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.util.SearchResultData
 
-class CountryRepositoryImpl (private val networkClient: NetworkClient) : CountryRepository {
+class RegionRepositoryImpl (private val networkClient: NetworkClient) : RegionRepository {
     private val dtoConverters = DTOConverters()
-    override suspend fun getCountries(): Flow<SearchResultData<List<Country>>> = flow {
+    override suspend fun getRegions(): Flow<SearchResultData<List<Country>>> = flow {
         val response = networkClient.getCountries()
         val data = response?.getOrNull()
         val error = response?.exceptionOrNull()
@@ -31,4 +31,3 @@ class CountryRepositoryImpl (private val networkClient: NetworkClient) : Country
         }
     }
 }
-

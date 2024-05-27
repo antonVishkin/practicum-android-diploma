@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.domain.api.country
+package ru.practicum.android.diploma.domain.api.filtration.country
 
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.models.Country
