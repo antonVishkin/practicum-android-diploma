@@ -20,7 +20,10 @@ import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import java.io.IOException
 
-class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private val context: Context) : NetworkClient {
+class RetrofitNetworkClient(
+    private val headHunterApi: HeadHunterApi,
+    private val context: Context
+) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
@@ -69,6 +72,7 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
                 response.description,
                 response.keySkills,
                 response.contacts,
+                response.alternateUrl,
             ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
         } catch (e: IOException) {
             Log.e(NETWORK_ERROR, e.toString())
@@ -139,6 +143,7 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
             description = "",
             keySkills = listOf(),
             contacts = null,
+            alternateUrl = "",
         )
     }
 
