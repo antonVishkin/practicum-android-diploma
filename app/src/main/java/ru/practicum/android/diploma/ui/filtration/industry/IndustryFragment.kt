@@ -150,19 +150,16 @@ class IndustryFragment : Fragment() {
 
     private fun textWatcherListener() = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (!binding.etSelectIndustry.text.toString().isNullOrEmpty()) {
                 binding.ivClear.setImageResource(R.drawable.clean_icon)
                 viewModel.searchDebounce(s.toString())
-
-                } else {
+            } else {
                 binding.ivClear.setImageResource(R.drawable.search_icon)
                 hideKeyboard()
                 viewModel.searchIndustries()
             }
         }
-
         override fun afterTextChanged(p0: Editable?) = Unit
     }
 

@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.ui.filtration.industry.IndustryViewModel
 
 val industryModule = module {
     single<IndustryRepository> { IndustryRepositoryImpl(get(), get()) }
-    factory<IndustryInteractor> { IndustryInteractorImpl(get()) }
+    single<IndustryInteractor> { IndustryInteractorImpl(get()) }
     viewModel {
         IndustryViewModel(get())
     }
