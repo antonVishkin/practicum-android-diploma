@@ -30,6 +30,7 @@ class IndustryFragment : Fragment() {
 
         toolbarSetup()
     }
+
     override fun onStop() {
         super.onStop()
         toolbar.menu.findItem(R.id.share).isVisible = false

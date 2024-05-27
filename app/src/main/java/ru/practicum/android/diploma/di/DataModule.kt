@@ -37,7 +37,7 @@ val dataModule = module {
     single<DictionaryRepository> { DictionaryRepositoryImpl(get(), get()) }
     factory { DTOConverters() }
     factory { DBConverters() }
-    single<PreferencesProvider> { PreferencesProviderImpl(get(),get()) }
+    single<PreferencesProvider> { PreferencesProviderImpl(get(), get()) }
     factory { Gson() }
-    single { androidContext().getSharedPreferences(App.PREFERENCE_NAME,Context.MODE_PRIVATE) }
+    single { androidContext().getSharedPreferences(App.PREFERENCE_NAME, Context.MODE_PRIVATE) }
 }

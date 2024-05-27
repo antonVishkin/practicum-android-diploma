@@ -18,7 +18,8 @@ class App : Application() {
             modules(dataModule, favoriteModule, filtrationModule, searchModule, vacancyModule, industryModule)
         }
     }
-    companion object{
+
+    companion object {
         const val PREFERENCE_NAME = "DIPLOMA SHARED PREFERENCE"
     }
 }

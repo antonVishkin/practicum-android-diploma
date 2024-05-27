@@ -1,3 +1,3 @@
 package ru.practicum.android.diploma.domain.models
 
-data class Area(val id:String,val name:String)
+data class Area(val id: String, val name: String)

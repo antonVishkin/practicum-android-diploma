@@ -10,9 +10,13 @@ class PreferencesProviderImpl(
     private val prefs: SharedPreferences,
 ) : PreferencesProvider {
     override suspend fun saveFiltration(filtration: Filtration) {
-        if (filtration.salary == null && filtration.area == null && filtration.industry == null && !filtration.onlyWithSalary)
+        val filtrationNullCheck =
+            filtration.salary == null && filtration.area == null && filtration.industry == null
+        if (filtrationNullCheck && !filtration.onlyWithSalary) {
             return
-        prefs.edit().putString(FILTRATION_LABEL, gson.toJson(filtration)).apply()
+        } else {
+            prefs.edit().putString(FILTRATION_LABEL, gson.toJson(filtration)).apply()
+        }
     }
 
     override suspend fun getFiltration(): Filtration? {

@@ -1,12 +1,9 @@
 package ru.practicum.android.diploma.ui.filtration
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -40,10 +37,16 @@ class FiltrationFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             render(it)
         }
-        val industry = arguments?.getString(INDUSTRY)?:null
-        val area = arguments?.getString(AREA)?:null
+        viewModel.getFiltrationFromPrefs()
+        val industry = arguments?.getString(INDUSTRY) ?: null
+        viewModel.setIndustry(industry)
+        val area = arguments?.getString(AREA) ?: null
+        viewModel.setArea(area)
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
+        }
+        binding.etSalary.doOnTextChanged { text, start, before, count ->
+            viewModel.salaryDebounce(text.toString())
         }
     }
 
@@ -62,31 +65,18 @@ class FiltrationFragment : Fragment() {
 
     private fun showContent(area: Area?, industry: Industry?, salary: String?, salaryEmptyNotShowing: Boolean) {
         binding.apply {
-            Log.v("FILTRATION", "show content $salary")
             if (area != null) {
                 etAreaOfWork.setText(area.name)
                 ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
                 ilAreaOfWork.setEndIconOnClickListener {
-                    binding.apply {
-                        Log.v("FILTRATION", "Clear area")
-                        etAreaOfWork.setText("")
-                        ilAreaOfWork.setEndIconDrawable(R.drawable.arrow_forward)
-                        ilAreaOfWork.clearOnEndIconChangedListeners()
-                        etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
-                    }
+                    areaEndIconListener()
                 }
             }
             if (industry != null) {
                 etIndustry.setText(industry.name)
                 ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
                 ilIndustry.setEndIconOnClickListener {
-                    binding.apply {
-                        Log.v("FILTRATION", "Clear industry")
-                        etIndustry.setText("")
-                        ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
-                        ilIndustry.clearOnEndIconChangedListeners()
-                        etIndustry.setOnClickListener { onIndustryClick.invoke() }
-                    }
+                    industryEndIconListener()
                 }
             }
             if (!salary.isNullOrEmpty()) {
@@ -95,6 +85,24 @@ class FiltrationFragment : Fragment() {
             checkBoxSalary.isChecked = salaryEmptyNotShowing
             buttonSave.isVisible = true
             buttonRemove.isVisible = true
+        }
+    }
+
+    private fun industryEndIconListener() {
+        binding.apply {
+            etIndustry.setText("")
+            ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
+            ilIndustry.clearOnEndIconChangedListeners()
+            etIndustry.setOnClickListener { onIndustryClick.invoke() }
+        }
+    }
+
+    private fun areaEndIconListener() {
+        binding.apply {
+            etAreaOfWork.setText("")
+            ilAreaOfWork.setEndIconDrawable(R.drawable.arrow_forward)
+            ilAreaOfWork.clearOnEndIconChangedListeners()
+            etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
         }
     }
 
@@ -108,13 +116,11 @@ class FiltrationFragment : Fragment() {
     }
 
     private val onAreaClick: () -> Unit = {
-        Log.v("FILTRATION", "Navigate to Area")
-        //findNavController().navigate()
+        // findNavController().navigate()
     }
 
     private val onIndustryClick: () -> Unit = {
-        Log.v("FILTRATION", "Navigate to Industry")
-        //findNavController().navigate()
+        // findNavController().navigate()
     }
 
     override fun onStop() {
@@ -128,7 +134,7 @@ class FiltrationFragment : Fragment() {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
             viewModel.saveStateToPrefs()
-            val args = Bundle().putString(AREA,"")
+            val args = Bundle().putString(AREA, "")
             findNavController().navigateUp()
         }
 
@@ -143,7 +149,7 @@ class FiltrationFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         const val INDUSTRY = "industry"
         const val AREA = "area"
     }
