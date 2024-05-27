@@ -6,12 +6,12 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
 import ru.practicum.android.diploma.data.dto.ExperienceDTO
+import ru.practicum.android.diploma.data.dto.IndustryRequest
 import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
@@ -19,8 +19,6 @@ import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import java.io.IOException
-import java.net.ConnectException
-import java.net.SocketTimeoutException
 
 class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private val context: Context) : NetworkClient {
 
@@ -44,6 +42,12 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
             is VacancyDetailsRequest -> {
                 withContext(Dispatchers.IO) {
                     doVacancyDetailsRequest(dto.vacancyId)
+                }
+            }
+
+            is IndustryRequest -> {
+                withContext(Dispatchers.IO) {
+                    doIndustryRequest()
                 }
             }
 
@@ -100,21 +104,17 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
         }
     }
 
-    override suspend fun getIndustries(): Result<List<IndustryResponse>> {
-        if (!isConnected()) {
-            return Result.failure(ConnectException())
-        }
-        val result = withContext(Dispatchers.IO) {
-            try {
-                val resultList = headHunterApi.getIndustries()
-                Result.success(resultList)
-            } catch (e: HttpException) {
-                Result.failure(e)
-            } catch (e: SocketTimeoutException) {
-                Result.failure(e)
+    private suspend fun doIndustryRequest(): Response {
+        try {
+            val response = headHunterApi.getIndustries()
+            return IndustryResponse().apply {
+                resultCode = CLIENT_SUCCESS_RESULT_CODE
+                items = response.body()!!
             }
+        } catch (e: IOException) {
+            Log.e(NETWORK_ERROR, e.toString())
+            return IndustryResponse().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
-        return result
     }
 
     private fun isConnected(): Boolean {

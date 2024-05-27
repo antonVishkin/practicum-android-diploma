@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.data.dto
 
-data class IndustryDto(
+class IndustryFilterDto(
     val id: String,
     val name: String,
-    val industriesList: List<IndustryDto>?
+    val isSelected: Boolean
 )

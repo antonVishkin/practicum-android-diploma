@@ -1,24 +1,42 @@
 package ru.practicum.android.diploma.ui.filtration.industry
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.IndustryViewBinding
 import ru.practicum.android.diploma.domain.models.Industry
-import ru.practicum.android.diploma.domain.models.IndustryUi
-import ru.practicum.android.diploma.util.IndustryDiffCallback
 
-class IndustryAdapter(private val onClick: (Industry) -> Unit) : ListAdapter<IndustryUi, IndustryViewHolder>(
-    IndustryDiffCallback()
-) {
+class IndustryAdapter(private val onClickListener: (Industry) -> Unit) : RecyclerView.Adapter<IndustryViewHolder>() {
+    var industries = mutableListOf<Industry>()
+    var selectedIndustry: Industry? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IndustryViewHolder {
-        val binding = IndustryViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = IndustryViewBinding.inflate(layoutInflater, parent, false)
         return IndustryViewHolder(binding)
     }
 
+    override fun getItemCount() = industries.size
+
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: IndustryViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item.industry, item.isSelected)
-        holder.itemView.setOnClickListener { onClick.invoke(currentList[holder.adapterPosition].industry) }
+        val clickListener = View.OnClickListener() {
+            industries[position].isSelected = !industries[position].isSelected
+            selectedIndustry = industries[position]
+            industries.forEach {
+                it.isSelected = it == industries[position]
+            }
+            notifyDataSetChanged()
+            onClickListener(industries[position])
+        }
+        if (selectedIndustry != null && industries[position].id == selectedIndustry!!.id) {
+            industries[position].isSelected = true
+        }
+
+        holder.bind(industries[position])
+        holder.checkBox.setOnClickListener(clickListener)
+        holder.itemView.setOnClickListener(clickListener)
     }
 }

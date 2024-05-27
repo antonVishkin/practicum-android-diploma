@@ -28,7 +28,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         android:cursorVisible="true"
-        android:drawableEnd="@drawable/search_icon"
         android:hint="@string/industry_hint"
         android:imeOptions="actionDone"
         android:singleLine="true"
@@ -37,6 +36,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="Autofill,MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/ivClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="28dp"
+        android:contentDescription="@string/industry_it_test"
+        android:src="@drawable/search_icon"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/etSelectIndustry"
+        app:layout_constraintEnd_toEndOf="@id/etSelectIndustry"
+        app:layout_constraintTop_toTopOf="@+id/etSelectIndustry" />
+
+    <ImageView
+        android:id="@+id/ivClean"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/clean_icon"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/etSelectIndustry"
+        app:layout_constraintTop_toTopOf="@id/etSelectIndustry"
+        app:layout_constraintBottom_toBottomOf="@id/etSelectIndustry"
+        />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -94,19 +118,8 @@
         app:layout_constraintTop_toBottomOf="@id/ivPlaceholder"
         tools:text="@string/industry_not_found" />
 
-    <ProgressBar
-        android:id="@+id/progressBarBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/blue"
-        android:paddingVertical="16dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
-        android:id="@+id/filterSettingsApply"
+        android:id="@+id/buttonSelectIndustry"
         style="industry_button_select"
         android:layout_width="0dp"
         android:layout_height="60dp"

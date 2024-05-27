@@ -67,6 +67,7 @@
     <string name="industry_not_found">Такой отрасли нет</string>
     <string name="industry_button_select">Выбрать</string>
     <string name="industry_text_test">Авиационная, вертолетная и аэрокосмическая промышленность</string>
+    <string name="industry_it_test">IT</string>
     <string name="region_hint">Введите регион</string>
 
     <!-- FILTRATION FRAGMENT-->
