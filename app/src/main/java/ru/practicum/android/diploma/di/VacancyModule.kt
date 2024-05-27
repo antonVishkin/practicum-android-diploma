@@ -14,5 +14,5 @@ val vacancyModule = module {
     single<VacancyDetailsRepository> { VacancyDetailsRepositoryImpl(get(), get(), get()) }
     factory<VacancyDetailsInteractor> { VacancyDetailsInteractorImpl(get()) }
     viewModel { VacancyViewModel(get(), get(), get(), get()) }
-    single<ExternalNavigator> { ExternalNavigatorImpl(get(), get()) }
+    single<ExternalNavigator> { ExternalNavigatorImpl(get()) }
 }
