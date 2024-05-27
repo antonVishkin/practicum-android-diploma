@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.domain.models
 
-data class Industry(
+class Industry(
     val id: String,
     val name: String,
     var isSelected: Boolean

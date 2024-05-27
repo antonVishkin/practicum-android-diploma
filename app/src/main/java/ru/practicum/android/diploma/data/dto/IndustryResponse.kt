@@ -1,5 +1,5 @@
 package ru.practicum.android.diploma.data.dto
 
-class IndustryResponse: Response() {
+class IndustryResponse : Response() {
     var items = emptyList<IndustryDto>()
 }
