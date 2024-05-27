@@ -154,7 +154,7 @@ class RetrofitNetworkClient(
             name = "",
             salary = null,
             employer = null,
-            area = AreaDTO("", "", ""),
+            area = AreaDTO("", "", "", "", emptyList()),
             experience = ExperienceDTO(""),
             description = "",
             keySkills = listOf(),

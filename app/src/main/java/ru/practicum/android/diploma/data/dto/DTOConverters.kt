@@ -45,7 +45,8 @@ class DTOConverters {
             keySkills = detailsResponse.keySkills.map { it.name },
             contactPerson = detailsResponse.contacts?.name,
             email = detailsResponse.contacts?.email,
-            phones = detailsResponse.contacts?.phones?.map { it.formatted }
+            phones = detailsResponse.contacts?.phones?.map { it.formatted },
+            alternateUrl = detailsResponse.alternateUrl
         )
     }
 
