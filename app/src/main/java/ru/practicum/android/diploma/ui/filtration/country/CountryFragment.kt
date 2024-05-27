@@ -37,25 +37,28 @@ class CountryFragment : Fragment() {
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
 
         viewModel.countries.observe(viewLifecycleOwner) { countries ->
-            binding.rvSearch.adapter = CountryAdapter(countries) { country ->
-                onCountryClick(country)
+            binding.rvSearch.adapter = CountryAdapter(countries) { country, countryId ->
+                onCountryClick(country, countryId)
             }
         }
 
         // Пример: Слушатель для нажатия на страну
         binding.rvSearch.setOnClickListener {
-            val selectedCountry = "Россия" // Здесь должен быть выбранный вариант страны
+            val selectedCountry = "Россия"
+            val selectedCountryId = "113"
             val bundle = Bundle().apply {
                 putString("selectedCountry", selectedCountry)
+                putString("selectedCountryId", selectedCountryId)
             }
             findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
         }
     }
 
-    private fun onCountryClick(country: String) {
+    private fun onCountryClick(country: String, countryId: String) {
         // Обработка нажатия на страну
         val bundle = Bundle().apply {
             putString("selectedCountry", country)
+            putString("selectedCountryId", countryId) // Передача идентификатора страны
         }
         findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
     }

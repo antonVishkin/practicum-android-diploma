@@ -22,7 +22,11 @@
         android:id="@+id/filtrationFragment"
         android:name="ru.practicum.android.diploma.ui.filtration.FiltrationFragment"
         android:label="@string/title_filtration"
-        tools:layout="@layout/fragment_filtration" />
+        tools:layout="@layout/fragment_filtration" >
+        <action
+            android:id="@+id/action_filtrationFragment_to_locationFragment2"
+            app:destination="@id/locationFragment" />
+    </fragment>
     <action
         android:id="@+id/action_filtrationFragment_to_locationFragment"
         app:destination="@id/locationFragment" />

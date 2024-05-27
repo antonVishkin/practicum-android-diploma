@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.filtration.region
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
+import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class RegionFragment : Fragment() {
-    private var _binding: FragmentFiltrationBinding? = null
+    private var _binding: FragmentRegionBinding? = null
     private val binding get() = _binding!!
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
@@ -21,7 +23,7 @@ class RegionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
+        _binding = FragmentRegionBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -29,6 +31,9 @@ class RegionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         toolbarSetup()
+
+        val selectedCountryId = arguments?.getString("selectedCountryId")
+        Log.d("selectedCountryId", selectedCountryId.toString())
     }
 
     override fun onStop() {
