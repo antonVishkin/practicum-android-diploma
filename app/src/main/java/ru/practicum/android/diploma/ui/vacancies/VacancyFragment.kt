@@ -39,7 +39,6 @@ class VacancyFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val vacancyId = arguments?.getString("vacancy_model") ?: ""
-        toolbarSetup(vacancyId)
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         viewModel.fetchVacancyDetails(vacancyId)
 
@@ -56,7 +55,12 @@ class VacancyFragment : Fragment() {
         when (state) {
             is VacancyState.Loading -> showLoading()
             is VacancyState.Error -> showError()
-            is VacancyState.Content -> showContent(state.vacancyDetails, state.currencySymbol, state.isFavorite)
+            is VacancyState.Content -> {
+                val vacancyDetails = state.vacancyDetails
+                toolbarSetup(vacancyDetails)
+                showContent(state.vacancyDetails, state.currencySymbol, state.isFavorite)
+            }
+
         }
     }
 
@@ -100,16 +104,10 @@ class VacancyFragment : Fragment() {
             } else {
                 toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_icon)
             }
-            tvEmail.setOnClickListener {
-                vacancyDetails.email?.let { viewModel.eMail() }
-            }
-            tvTelephone.setOnClickListener {
-                vacancyDetails.phones?.firstOrNull()?.let { viewModel.phoneCall() }
-            }
         }
     }
 
-    private fun toolbarSetup(vacancyId: String) {
+    private fun toolbarSetup(vacancyDetails: VacancyDetails) {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -126,7 +124,7 @@ class VacancyFragment : Fragment() {
         }
 
         toolbar.menu.findItem(R.id.share).setOnMenuItemClickListener {
-            viewModel.shareApp(vacancyId)
+            viewModel.shareApp(vacancyDetails)
             true
         }
     }
@@ -152,19 +150,9 @@ class VacancyFragment : Fragment() {
                 vacancyDetails.phones.isNullOrEmpty()
             ) {
                 tvContactsLabel.isVisible = false
-            } else {
-                tvContactsLabel.isVisible = true
             }
             if (vacancyDetails.contactPerson != null) {
                 tvContacts.text = vacancyDetails.contactPerson
-            } else {
-                tvContactsPersonLabel.isVisible = false
-                tvContacts.isVisible = false
-            }
-            if (vacancyDetails.contactPerson != null) {
-                tvContacts.text = vacancyDetails.contactPerson
-                tvContacts.isVisible = true
-                tvContactsPersonLabel.isVisible = true
             } else {
                 tvContactsPersonLabel.isVisible = false
                 tvContacts.isVisible = false
@@ -174,18 +162,24 @@ class VacancyFragment : Fragment() {
                 tvEmail.text = vacancyDetails.email
                 tvEmail.isVisible = true
                 tvEmailLabel.isVisible = true
+                tvEmail.setOnClickListener {
+                    viewModel.eMail(vacancyDetails.email)
+                }
             } else {
                 tvEmailLabel.isVisible = false
                 tvEmail.isVisible = false
             }
 
-            if (vacancyDetails.phones.isNullOrEmpty()) {
-                tvTelephoneLable.isVisible = false
-                tvTelephone.isVisible = false
-            } else {
+            if (!vacancyDetails.phones.isNullOrEmpty()) {
                 tvTelephone.text = vacancyDetails.phones.joinToString(", ")
                 tvTelephone.isVisible = true
                 tvTelephoneLable.isVisible = true
+                tvTelephone.setOnClickListener {
+                    viewModel.phoneCall(vacancyDetails.phones[0])
+                }
+            } else {
+                tvTelephoneLable.isVisible = false
+                tvTelephone.isVisible = false
             }
         }
     }

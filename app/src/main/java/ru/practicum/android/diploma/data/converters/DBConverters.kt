@@ -48,7 +48,8 @@ class DBConverters {
             keySkills = vacancyDetails.keySkills.toString(),
             contactPerson = vacancyDetails.contactPerson ?: "",
             email = vacancyDetails.email ?: "",
-            phones = vacancyDetails.phones.toString()
+            phones = vacancyDetails.phones.toString(),
+            alternateUrl = vacancyDetails.alternateUrl
         )
     }
 
@@ -65,7 +66,8 @@ class DBConverters {
             keySkills = listOf(),
             contactPerson = vacancyDetailsEntity.contactPerson,
             email = vacancyDetailsEntity.email,
-            phones = listOf()
+            phones = listOf(),
+            alternateUrl = vacancyDetailsEntity.alternateUrl
         )
     }
 

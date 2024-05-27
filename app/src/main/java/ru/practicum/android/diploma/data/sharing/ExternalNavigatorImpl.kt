@@ -3,22 +3,16 @@ package ru.practicum.android.diploma.data.sharing
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import kotlinx.coroutines.runBlocking
-import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
-import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
-import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.domain.sharing.ExternalNavigator
 
 class ExternalNavigatorImpl(
     private val context: Context,
-    private val retrofitNetworkClient: RetrofitNetworkClient
 ) : ExternalNavigator {
 
-    override fun shareApp(vacancyId: String) {
-        val vacancyLink = getVacancyLink(vacancyId)
+    override fun shareApp(url: String) {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, vacancyLink)
+            putExtra(Intent.EXTRA_TEXT, url)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         val shareIntent = Intent.createChooser(intent, null).apply {
@@ -37,22 +31,13 @@ class ExternalNavigatorImpl(
         }
     }
 
-    override fun openEmail() {
+    override fun openEmail(email: String) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
+            data = Uri.parse("mailto:$email")
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        context.startActivity(intent)
-    }
-
-    private fun getVacancyLink(vacancyId: String): String {
-        return runBlocking {
-            val response = retrofitNetworkClient.doRequest(VacancyDetailsRequest(vacancyId)) as VacancyDetailsResponse
-            response.alternateUrl ?: getShareLink(vacancyId)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
         }
-    }
-
-    override fun getShareLink(vacancyId: String): String {
-        return "https://hh.ru/vacancy/$vacancyId"
     }
 }
