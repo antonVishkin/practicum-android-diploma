@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.country
+package ru.practicum.android.diploma.ui.filtration.country
 
 import android.view.View
 import android.widget.TextView

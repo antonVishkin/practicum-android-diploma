@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.country
+package ru.practicum.android.diploma.ui.filtration.country
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.ui.search.VacancyAdapter
@@ -15,10 +16,7 @@ class CountryFragment : Fragment() {
     private var _binding: FragmentCountryBinding? = null
     private val binding get() = _binding!!
     private var _adapter: VacancyAdapter? = null
-    private val countries = listOf(
-        "Россия", "США", "Китай", "Япония", "Германия",
-        "Франция", "Индия", "Бразилия", "Канада"
-    )
+    private val viewModel by viewModel<CountryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,15 +27,20 @@ class CountryFragment : Fragment() {
         return _binding?.root
     }
 
-    // !!!!!В ЭТОМ ФРАГМЕНТЕ ВРЕМЕННЫЙ КОД!!!!
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        viewModel.fetchCountries()
+
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
-        binding.rvSearch.adapter =
-            CountryAdapter(countries, { country -> onCountryClick(country) }, { onOtherRegionsClick() })
+
+        viewModel.countries.observe(viewLifecycleOwner) { countries ->
+            binding.rvSearch.adapter = CountryAdapter(countries) { country ->
+                onCountryClick(country)
+            }
+        }
 
         // Пример: Слушатель для нажатия на страну
         binding.rvSearch.setOnClickListener {
@@ -57,9 +60,9 @@ class CountryFragment : Fragment() {
         findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
     }
 
-    private fun onOtherRegionsClick() {
-        // Обработка нажатия на "Другие регионы"
-    }
+    /* private fun onOtherRegionsClick() {
+         // Обработка нажатия на "Другие регионы"
+     }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
