@@ -34,8 +34,8 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
     fun getFiltrationFromPrefs() {
         viewModelScope.launch {
             val filtration = filtrationInteractor.getFiltration()
-            Log.v("FILTRATION","get $filtration")
-            Log.v("FILTRATION","get industry ${filtration?.industry}")
+            Log.v("FILTRATION", "get $filtration")
+            Log.v("FILTRATION", "get industry ${filtration?.industry}")
             if (filtration != null) {
                 renderState(
                     Content(

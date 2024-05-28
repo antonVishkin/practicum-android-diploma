@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data.converters
 
-import android.util.Log
 import ru.practicum.android.diploma.data.dto.IndustryDto
 import ru.practicum.android.diploma.data.dto.IndustryFilterDto
 import ru.practicum.android.diploma.domain.models.Industry
