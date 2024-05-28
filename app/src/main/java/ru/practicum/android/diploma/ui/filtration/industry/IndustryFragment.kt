@@ -170,6 +170,7 @@ class IndustryFragment : Fragment() {
         binding.etSelectIndustry.isEnabled = true
     }
 
+
     override fun onStop() {
         super.onStop()
         toolbar.menu.findItem(R.id.share).isVisible = false
