@@ -76,10 +76,6 @@ class IndustryViewModel(private val interactor: IndustryInteractor) : ViewModel(
         _stateIndustry.postValue(IndustryState.Selected)
     }
 
-    fun saveSelectIndustryForFilter(industry: Industry) {
-        TODO()
-    }
-
     fun searchDebounce(changedText: String) {
         if (lastSearchQueryText == changedText) return
         this.lastSearchQueryText = changedText

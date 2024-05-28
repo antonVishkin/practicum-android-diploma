@@ -45,7 +45,6 @@ object IndustryConverter {
         }
         val list = mutableListOf<IndustryDto>()
         for (industry in dtoList) {
-            Log.v("INDUSTRY", "$industry")
             if (industry.industriesList != null) {
                 for (i in industry.industriesList!!) {
                     list.add(i)
