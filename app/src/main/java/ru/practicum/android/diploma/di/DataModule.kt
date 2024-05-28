@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.data.converters.DBConverters
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.dto.DTOConverters
 import ru.practicum.android.diploma.data.network.HeadHunterApi
+import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.domain.api.dictionary.CurrencyRepository
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryRepository
@@ -32,4 +33,6 @@ val dataModule = module {
     single<DictionaryRepository> { DictionaryRepositoryImpl(get(), get()) }
     factory { DTOConverters() }
     factory { DBConverters() }
+
+    single { RetrofitNetworkClient(get(), get()) }
 }
