@@ -16,7 +16,6 @@ import ru.practicum.android.diploma.data.dto.DTOConverters
 import ru.practicum.android.diploma.data.network.HeadHunterApi
 import ru.practicum.android.diploma.data.preferences.PreferencesProvider
 import ru.practicum.android.diploma.data.preferences.PreferencesProviderImpl
-import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.domain.api.dictionary.CurrencyRepository
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryRepository
