@@ -7,8 +7,8 @@ import ru.practicum.android.diploma.di.CountryModule
 import ru.practicum.android.diploma.di.dataModule
 import ru.practicum.android.diploma.di.favoriteModule
 import ru.practicum.android.diploma.di.filtrationModule
-import ru.practicum.android.diploma.di.industryModule
 import ru.practicum.android.diploma.di.searchModule
+import ru.practicum.android.diploma.di.sharingModule
 import ru.practicum.android.diploma.di.vacancyModule
 
 class App : Application() {
@@ -16,7 +16,16 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(dataModule, favoriteModule, filtrationModule, searchModule, vacancyModule, industryModule, CountryModule)
+            modules(
+                dataModule,
+                favoriteModule,
+                filtrationModule,
+                searchModule,
+                sharingModule,
+                vacancyModule,
+                industryModule,
+                CountryModule,
+            )
         }
     }
 }

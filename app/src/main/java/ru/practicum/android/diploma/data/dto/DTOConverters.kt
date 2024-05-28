@@ -47,6 +47,7 @@ class DTOConverters {
             contactPerson = detailsResponse.contacts?.name,
             email = detailsResponse.contacts?.email,
             phones = detailsResponse.contacts?.phones?.map { it.formatted },
+            alternateUrl = detailsResponse.alternateUrl,
         )
     }
 
@@ -58,5 +59,7 @@ class DTOConverters {
 
     fun mapToListCountries(areaDTOs: List<AreaDTO>): List<Country> {
         return areaDTOs.map { map(it) }
+    }
+           
     }
 }
