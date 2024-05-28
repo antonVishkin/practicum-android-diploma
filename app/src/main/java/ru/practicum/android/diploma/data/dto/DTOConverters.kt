@@ -60,6 +60,6 @@ class DTOConverters {
     fun mapToListCountries(areaDTOs: List<AreaDTO>): List<Country> {
         return areaDTOs.map { map(it) }
     }
-           
-    }
+
 }
+
