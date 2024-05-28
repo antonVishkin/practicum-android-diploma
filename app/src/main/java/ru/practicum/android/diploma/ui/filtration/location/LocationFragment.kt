@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
+import ru.practicum.android.diploma.ui.root.RootActivity
 
 class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
     private val binding get() = _binding!!
+    private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,14 +26,15 @@ class LocationFragment : Fragment() {
         return _binding?.root
     }
 
-    // !!!!!В ЭТОМ ФРАГМЕНТЕ ВРЕМЕННЫЙ КОД!!!!
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupCountryField()
         setupRegionField()
+        setupSelectButton()
+        setupClearButton()
+        toolbarSetup()
 
         // Получить выбранную страну из аргументов, если она есть
         val selectedCountry = arguments?.getString("selectedCountry")
@@ -47,10 +50,7 @@ class LocationFragment : Fragment() {
             binding.etRegion.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
-        setupClearButton()
     }
-
-
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupClearButton() { // Слушатель для кнопки очистки
@@ -60,13 +60,20 @@ class LocationFragment : Fragment() {
             ) {
                 binding.etCountry.setText("")
                 binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_forward, 0)
-                binding.btnSelectionContainer.visibility = View.GONE
+                binding.btnSelectionContainer.visibility =
+                    if (binding.etRegion.text!!.isEmpty()) View.GONE else View.VISIBLE
                 true
             } else {
                 false
             }
         }
 
+    }
+
+    private fun setupSelectButton() {
+        binding.btnSelectionContainer.setOnClickListener {
+            findNavController().navigate(R.id.action_locationFragment_to_filtrationFragment)
+        }
     }
 
     private fun setupCountryField() {
@@ -79,6 +86,25 @@ class LocationFragment : Fragment() {
         binding.etRegion.setOnClickListener {
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
+    }
+
+    private fun toolbarSetup() {
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        toolbar.title = getString(R.string.pick_job_location)
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
     }
 
     override fun onDestroyView() {

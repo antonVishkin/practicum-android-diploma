@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.network
 
+import AreaDTO
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -8,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
 import ru.practicum.android.diploma.data.dto.ExperienceDTO
@@ -150,7 +150,7 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
             name = "",
             salary = null,
             employer = null,
-            area = AreaDTO("", "", ""),
+            area = AreaDTO("", "", "", "", emptyList()),
             experience = ExperienceDTO(""),
             description = "",
             keySkills = listOf(),
