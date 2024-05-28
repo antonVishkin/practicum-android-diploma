@@ -9,7 +9,7 @@ data class AreaDTO(
     val areas: List<AreaDTO>
 ) {
 
-    fun getAreasList(): List<AreaDTO>{
+   /* fun getAreasList(): List<AreaDTO> {
         val countries = mutableListOf<AreaDTO>()
 
         for (area in areas) {
@@ -20,7 +20,7 @@ data class AreaDTO(
         return countries
     }
 
-    fun getRegionsList(): List<AreaDTO>{
+    fun getRegionsList(): List<AreaDTO> {
         val regions = mutableListOf<AreaDTO>()
 
         for (area in areas) {
@@ -29,5 +29,5 @@ data class AreaDTO(
             }
         }
         return regions
-    }
+    }*/
 }
