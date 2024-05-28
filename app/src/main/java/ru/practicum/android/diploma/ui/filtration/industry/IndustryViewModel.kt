@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration.industry
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +13,7 @@ import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.util.SearchResultData
 
 class IndustryViewModel(private val interactor: IndustryInteractor) : ViewModel() {
-    private val industriesList: MutableList<Industry>? = null
+    private val industriesList: MutableList<Industry> = mutableListOf()
     private var selectedIndustry: Industry? = null
     private var lastSearchQueryText: String? = null
     private var isClickAllowed = true
@@ -34,9 +35,12 @@ class IndustryViewModel(private val interactor: IndustryInteractor) : ViewModel(
         when (result) {
             is SearchResultData.Data -> {
                 if (result.value != null) {
-                    industriesList?.clear()
-                    industriesList?.addAll(result.value)
-                    industriesList?.sortBy { it.name }
+                    Log.v("INDUSTRY", "1 ${result.value}")
+                    industriesList.clear()
+                    industriesList.addAll(result.value)
+                    industriesList.sortBy { it.name }
+                    Log.v("INDUSTRY", "2 $industriesList")
+                    _stateIndustry.postValue(IndustryState.Content(industriesList!!))
                 } else {
                     _stateIndustry.postValue(IndustryState.NotFound)
                 }

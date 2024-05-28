@@ -13,7 +13,6 @@ import ru.practicum.android.diploma.util.SearchResultData
 
 class IndustryRepositoryImpl(
     private val client: NetworkClient,
-    private val converter: IndustryConverter
 ) : IndustryRepository {
 
     override suspend fun getIndustries(): Flow<SearchResultData<List<Industry>>> = flow {
@@ -21,7 +20,7 @@ class IndustryRepositoryImpl(
         when (response.resultCode) {
             CLIENT_SUCCESS_RESULT_CODE -> {
                 val list = (response as IndustryResponse).items
-                emit(SearchResultData.Data(converter.mapToList(list)))
+                emit(SearchResultData.Data(IndustryConverter.mapToList(list)))
             }
 
             NO_CONNECTION_HTTP_CODE -> {

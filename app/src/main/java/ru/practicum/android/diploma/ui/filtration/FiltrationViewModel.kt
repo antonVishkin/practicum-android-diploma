@@ -95,7 +95,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
             Content(
                 Filtration(
                     area = filtration.area,
-                    industry = if (industry == null) null else Industry(industry, ""),
+                    industry = if (industry == null) null else Industry(industry, "", false),
                     salary = filtration.salary,
                     onlyWithSalary = filtration.onlyWithSalary
                 )

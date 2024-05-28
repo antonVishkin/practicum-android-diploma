@@ -57,8 +57,12 @@ class IndustryFragment : Fragment() {
         binding.etSelectIndustry.addTextChangedListener(textWatcherListener())
 
         binding.buttonSelectIndustry.setOnClickListener {
-            selectedIndustry?.let { viewModel.saveSelectIndustryForFilter(it) }
-            findNavController().popBackStack()
+            val args = Bundle()
+            args.putString("industry", selectedIndustry?.id)
+            findNavController().navigate(
+                R.id.action_industryFragment_to_filtrationFragment,
+                args
+            )
         }
 
         binding.ivClear.setOnClickListener {
@@ -160,6 +164,7 @@ class IndustryFragment : Fragment() {
                 viewModel.searchIndustries()
             }
         }
+
         override fun afterTextChanged(p0: Editable?) = Unit
     }
 
@@ -169,7 +174,6 @@ class IndustryFragment : Fragment() {
         inputMethodManager?.hideSoftInputFromWindow(binding.etSelectIndustry.windowToken, 0)
         binding.etSelectIndustry.isEnabled = true
     }
-
 
     override fun onStop() {
         super.onStop()

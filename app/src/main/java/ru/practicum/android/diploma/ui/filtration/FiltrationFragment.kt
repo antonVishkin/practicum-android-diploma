@@ -71,6 +71,8 @@ class FiltrationFragment : Fragment() {
                 ilAreaOfWork.setEndIconOnClickListener {
                     areaEndIconListener()
                 }
+            } else {
+                etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
             }
             if (industry != null) {
                 etIndustry.setText(industry.name)
@@ -78,6 +80,8 @@ class FiltrationFragment : Fragment() {
                 ilIndustry.setEndIconOnClickListener {
                     industryEndIconListener()
                 }
+            } else {
+                etIndustry.setOnClickListener { onIndustryClick.invoke() }
             }
             if (!salary.isNullOrEmpty()) {
                 etSalary.setText(salary)
@@ -120,7 +124,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private val onIndustryClick: () -> Unit = {
-        // findNavController().navigate()
+        findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
     }
 
     override fun onStop() {
