@@ -60,6 +60,9 @@
         android:name="ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment"
         android:label="@string/title_industry"
         tools:layout="@layout/fragment_industry">
+        <action
+            android:id="@+id/action_industryFragment_to_filtrationFragment"
+            app:destination="@id/filtrationFragment" />
     </fragment>
 
     <fragment
