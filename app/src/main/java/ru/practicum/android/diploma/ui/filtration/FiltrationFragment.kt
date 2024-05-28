@@ -1,11 +1,12 @@
 package ru.practicum.android.diploma.ui.filtration
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,27 +39,34 @@ class FiltrationFragment : Fragment() {
             render(it)
         }
         viewModel.getFiltrationFromPrefs()
-        val industry = arguments?.getString(INDUSTRY) ?: null
-        viewModel.setIndustry(industry)
+        val industry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(INDUSTRY, Industry::class.java)
+        } else {
+            arguments?.getParcelable(INDUSTRY)
+        }
+        if (industry != null) viewModel.setIndustry(industry)
         val area = arguments?.getString(AREA) ?: null
         viewModel.setArea(area)
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
-        binding.etSalary.doOnTextChanged { text, start, before, count ->
-            viewModel.salaryDebounce(text.toString())
-        }
+        /*        binding.etSalary.doOnTextChanged { text, start, before, count ->
+                    viewModel.salaryDebounce(text.toString())
+                }*/
     }
 
     private fun render(state: FiltrationState) {
         when (state) {
             is FiltrationState.Empty -> showEmpty()
-            is FiltrationState.Content -> showContent(
-                state.filtration.area,
-                state.filtration.industry,
-                state.filtration.salary,
-                state.filtration.onlyWithSalary
-            )
+            is FiltrationState.Content -> {
+                Log.v("FILTRATION", "render fragment ${state.filtration.industry}")
+                showContent(
+                    state.filtration.area,
+                    state.filtration.industry,
+                    state.filtration.salary,
+                    state.filtration.onlyWithSalary
+                )
+            }
 
         }
     }
@@ -74,6 +82,7 @@ class FiltrationFragment : Fragment() {
             } else {
                 etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
             }
+            Log.v("FILTRATION", "industry $industry")
             if (industry != null) {
                 etIndustry.setText(industry.name)
                 ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
@@ -137,7 +146,6 @@ class FiltrationFragment : Fragment() {
     private fun toolbarSetup() {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
-            viewModel.saveStateToPrefs()
             val args = Bundle().putString(AREA, "")
             findNavController().navigateUp()
         }
@@ -146,6 +154,11 @@ class FiltrationFragment : Fragment() {
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
+    }
+
+    override fun onPause() {
+        viewModel.setSalary(binding.etSalary.text.toString())
+        super.onPause()
     }
 
     override fun onDestroyView() {

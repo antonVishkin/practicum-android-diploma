@@ -62,6 +62,8 @@
         tools:layout="@layout/fragment_industry">
         <action
             android:id="@+id/action_industryFragment_to_filtrationFragment"
+            app:popUpTo="@id/filtrationFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/filtrationFragment" />
     </fragment>
 

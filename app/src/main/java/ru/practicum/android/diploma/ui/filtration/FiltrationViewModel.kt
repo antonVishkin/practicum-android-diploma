@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,8 +24,8 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         _state.value = FiltrationState.Empty
     }
 
-    fun saveStateToPrefs() {
-        val filtration = (state.value as Content).filtration
+    private fun saveStateToPrefs(state: FiltrationState) {
+        val filtration = (state as Content).filtration
         viewModelScope.launch {
             filtrationInteractor.saveFiltration(filtration)
         }
@@ -33,6 +34,8 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
     fun getFiltrationFromPrefs() {
         viewModelScope.launch {
             val filtration = filtrationInteractor.getFiltration()
+            Log.v("FILTRATION", "get $filtration")
+            Log.v("FILTRATION", "get industry ${filtration?.industry}")
             if (filtration != null) {
                 renderState(
                     Content(
@@ -61,7 +64,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         )
     }
 
-    private fun setSalary(salary: String) {
+    fun setSalary(salary: String) {
         val filtration = getCurrFiltration()
         renderState(
             Content(
@@ -89,13 +92,13 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         )
     }
 
-    fun setIndustry(industry: String?) {
+    fun setIndustry(industry: Industry?) {
         val filtration = getCurrFiltration()
         renderState(
             Content(
                 Filtration(
                     area = filtration.area,
-                    industry = if (industry == null) null else Industry(industry, "", false),
+                    industry = industry,
                     salary = filtration.salary,
                     onlyWithSalary = filtration.onlyWithSalary
                 )
@@ -105,6 +108,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
 
     private fun renderState(state: FiltrationState) {
         _state.value = state
+        saveStateToPrefs(state)
     }
 
     private fun getCurrFiltration(): Filtration {

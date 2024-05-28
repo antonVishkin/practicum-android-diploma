@@ -58,7 +58,7 @@ class IndustryFragment : Fragment() {
 
         binding.buttonSelectIndustry.setOnClickListener {
             val args = Bundle()
-            args.putString("industry", selectedIndustry?.id)
+            args.putParcelable(INDUSTRY, selectedIndustry)
             findNavController().navigate(
                 R.id.action_industryFragment_to_filtrationFragment,
                 args
@@ -197,5 +197,10 @@ class IndustryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val INDUSTRY = "industry"
+        const val AREA = "area"
     }
 }
