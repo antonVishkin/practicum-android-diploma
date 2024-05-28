@@ -22,10 +22,15 @@
         android:id="@+id/filtrationFragment"
         android:name="ru.practicum.android.diploma.ui.filtration.FiltrationFragment"
         android:label="@string/title_filtration"
-        tools:layout="@layout/fragment_filtration" />
-    <action
-        android:id="@+id/action_filtrationFragment_to_locationFragment"
-        app:destination="@id/locationFragment" />
+        tools:layout="@layout/fragment_filtration">
+        <action
+            android:id="@+id/action_filtrationFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+        <action
+            android:id="@+id/action_filtrationFragment_to_industryFragment"
+            app:destination="@id/industryFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/locationFragment"
         android:name="ru.practicum.android.diploma.ui.location.LocationFragment"
@@ -42,11 +47,19 @@
     <action
         android:id="@+id/action_countryFragment_to_locationFragment"
         app:destination="@id/locationFragment"/>
+  
     <fragment
         android:id="@+id/vacanciesFragment"
         android:name="ru.practicum.android.diploma.ui.vacancies.VacancyFragment"
         android:label="@string/title_vacancies"
         tools:layout="@layout/fragment_vacancy">
+    </fragment>
+
+    <fragment
+        android:id="@+id/industryFragment"
+        android:name="ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment"
+        android:label="@string/title_industry"
+        tools:layout="@layout/fragment_industry">
     </fragment>
 
     <fragment
