@@ -25,4 +25,8 @@ class App : Application() {
             )
         }
     }
+
+    companion object {
+        const val PREFERENCE_NAME = "DIPLOMA SHARED PREFERENCE"
+    }
 }
