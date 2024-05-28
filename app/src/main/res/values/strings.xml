@@ -56,7 +56,14 @@
     <string name="comment_label">Коментарии</string>
     <string name="comments">Заполнить эту анкету вы можете на нашем сайте</string>
     <string name="favorite_empty_list">Список пуст</string>
-
+    <string name="country">Страна</string>
+    <string name="region">Регион</string>
+    <string name="cant_find_list">Не удалось получить \n  список</string>
+    <string name="select">Выбрать</string>
+    <string name="other_regions">Другие регионы</string>
+    <string name="pick_job_location">Выбор места работы</string>
+    <string name="pick_country">Выбор страны</string>
+    <string name="russia">Россия</string>
 
     <!-- DETAILS VACANCY FRAGMENT-->
     <string name="details_vacancy_error">Не удалось получить сведения о вакансии</string>

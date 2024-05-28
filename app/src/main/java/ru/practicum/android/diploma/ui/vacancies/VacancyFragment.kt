@@ -32,16 +32,16 @@ class VacancyFragment : Fragment() {
     ): View? {
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
         return _binding?.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbarSetup()
-
         val vacancyId = arguments?.getString("vacancy_model") ?: ""
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
         viewModel.fetchVacancyDetails(vacancyId)
+
     }
 
     override fun onStop() {
@@ -55,7 +55,12 @@ class VacancyFragment : Fragment() {
         when (state) {
             is VacancyState.Loading -> showLoading()
             is VacancyState.Error -> showError()
-            is VacancyState.Content -> showContent(state.vacancyDetails, state.currencySymbol, state.isFavorite)
+            is VacancyState.Content -> {
+                val vacancyDetails = state.vacancyDetails
+                toolbarSetup(vacancyDetails)
+                showContent(state.vacancyDetails, state.currencySymbol, state.isFavorite)
+            }
+
         }
     }
 
@@ -102,7 +107,7 @@ class VacancyFragment : Fragment() {
         }
     }
 
-    private fun toolbarSetup() {
+    private fun toolbarSetup(vacancyDetails: VacancyDetails) {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -115,6 +120,11 @@ class VacancyFragment : Fragment() {
 
         toolbar.menu.findItem(R.id.favorite).setOnMenuItemClickListener {
             viewModel.addToFavorite()
+            true
+        }
+
+        toolbar.menu.findItem(R.id.share).setOnMenuItemClickListener {
+            viewModel.shareApp(vacancyDetails)
             true
         }
     }
@@ -147,17 +157,29 @@ class VacancyFragment : Fragment() {
                 tvContactsPersonLabel.isVisible = false
                 tvContacts.isVisible = false
             }
+
             if (vacancyDetails.email != null) {
                 tvEmail.text = vacancyDetails.email
+                tvEmail.isVisible = true
+                tvEmailLabel.isVisible = true
+                tvEmail.setOnClickListener {
+                    viewModel.eMail(vacancyDetails.email)
+                }
             } else {
                 tvEmailLabel.isVisible = false
                 tvEmail.isVisible = false
             }
-            if (vacancyDetails.phones.isNullOrEmpty()) {
+
+            if (!vacancyDetails.phones.isNullOrEmpty()) {
+                tvTelephone.text = vacancyDetails.phones.joinToString(", ")
+                tvTelephone.isVisible = true
+                tvTelephoneLable.isVisible = true
+                tvTelephone.setOnClickListener {
+                    viewModel.phoneCall(vacancyDetails.phones[0])
+                }
+            } else {
                 tvTelephoneLable.isVisible = false
                 tvTelephone.isVisible = false
-            } else {
-                tvTelephone.text = vacancyDetails.phones.joinToString(",", "", "")
             }
         }
     }

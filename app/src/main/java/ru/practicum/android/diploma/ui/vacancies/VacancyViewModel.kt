@@ -9,11 +9,15 @@ import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
+import ru.practicum.android.diploma.domain.models.VacancyDetails
+import ru.practicum.android.diploma.domain.sharing.SharingInteractor
 
 class VacancyViewModel(
     private val vacancyInteractor: VacancyDetailsInteractor,
     private val dictionaryInteractor: DictionaryInteractor,
     private val favoritesInteractor: FavoritesInteractor,
+    private var sharingInteractor: SharingInteractor
+
 ) : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<VacancyState>()
@@ -70,5 +74,17 @@ class VacancyViewModel(
 
     private fun renderState(state: VacancyState) {
         _stateLiveData.value = state
+    }
+
+    fun shareApp(vacancyDetails: VacancyDetails) {
+        sharingInteractor.shareApp(vacancyDetails.alternateUrl)
+    }
+
+    fun phoneCall(phoneNumber: String) {
+        sharingInteractor.phoneCall(phoneNumber)
+    }
+
+    fun eMail(email: String) {
+        sharingInteractor.eMail(email)
     }
 }

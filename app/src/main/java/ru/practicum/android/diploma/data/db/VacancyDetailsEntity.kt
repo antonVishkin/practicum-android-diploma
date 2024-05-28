@@ -17,5 +17,6 @@ data class VacancyDetailsEntity(
     val keySkills: String,
     val contactPerson: String,
     val email: String,
-    val phones: String?
+    val phones: String?,
+    val alternateUrl: String
 )
