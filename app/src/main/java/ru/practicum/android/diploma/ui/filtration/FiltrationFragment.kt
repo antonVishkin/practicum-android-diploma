@@ -58,6 +58,9 @@ class FiltrationFragment : Fragment() {
         binding.buttonRemove.setOnClickListener {
             viewModel.setEmpty()
         }
+        binding.buttonSave.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun showSaveButton(show:Boolean) {
@@ -87,6 +90,7 @@ class FiltrationFragment : Fragment() {
                 etAreaOfWork.setText(area.name)
                 ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
                 ilAreaOfWork.setEndIconOnClickListener {
+                    viewModel.setArea(null)
                     areaEndIconListener()
                 }
             } else {
@@ -97,6 +101,7 @@ class FiltrationFragment : Fragment() {
                 etIndustry.setText(industry.name)
                 ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
                 ilIndustry.setEndIconOnClickListener {
+                    viewModel.setIndustry(null)
                     industryEndIconListener()
                 }
             } else {
@@ -160,7 +165,6 @@ class FiltrationFragment : Fragment() {
     private fun toolbarSetup() {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
-            val args = Bundle().putString(AREA, "")
             findNavController().navigateUp()
         }
 
