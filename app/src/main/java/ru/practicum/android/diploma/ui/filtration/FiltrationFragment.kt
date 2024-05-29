@@ -46,13 +46,26 @@ class FiltrationFragment : Fragment() {
         }
         if (industry != null) viewModel.setIndustry(industry)
         val area = arguments?.getString(AREA) ?: null
-        viewModel.setArea(area)
+        if (area != null) {
+            viewModel.setArea(area)
+        }
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
-        /*        binding.etSalary.doOnTextChanged { text, start, before, count ->
-                    viewModel.salaryDebounce(text.toString())
-                }*/
+        viewModel.isChanged.observe(viewLifecycleOwner){
+            Log.v("FILTRATION","is button visible $it")
+            showSaveButton(it)
+        }
+        binding.buttonRemove.setOnClickListener {
+            viewModel.setEmpty()
+        }
+    }
+
+    private fun showSaveButton(show:Boolean) {
+        Log.v("FILTRATION","is button visible $show")
+        binding.buttonSave.isVisible = show
+        Log.v("FILTRATION","button visibility ${binding.buttonSave.isVisible}")
+
     }
 
     private fun render(state: FiltrationState) {
@@ -90,23 +103,25 @@ class FiltrationFragment : Fragment() {
                     industryEndIconListener()
                 }
             } else {
+                etIndustry.setText("")
                 etIndustry.setOnClickListener { onIndustryClick.invoke() }
             }
             if (!salary.isNullOrEmpty()) {
                 etSalary.setText(salary)
             }
             checkBoxSalary.isChecked = salaryEmptyNotShowing
-            buttonSave.isVisible = true
+            buttonSave.isVisible = false
             buttonRemove.isVisible = true
         }
     }
 
     private fun industryEndIconListener() {
         binding.apply {
-            etIndustry.setText("")
+            viewModel.setIndustry(null)
             ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
             ilIndustry.clearOnEndIconChangedListeners()
             etIndustry.setOnClickListener { onIndustryClick.invoke() }
+            ilIndustry.setEndIconOnClickListener { onIndustryClick.invoke() }
         }
     }
 
@@ -121,6 +136,10 @@ class FiltrationFragment : Fragment() {
 
     private fun showEmpty() {
         binding.apply {
+            etAreaOfWork.setText("")
+            etIndustry.setText("")
+            etSalary.setText("")
+            checkBoxSalary.isChecked = false
             buttonSave.isVisible = false
             buttonRemove.isVisible = false
             etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
