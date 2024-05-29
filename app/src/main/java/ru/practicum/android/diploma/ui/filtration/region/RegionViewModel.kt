@@ -25,13 +25,15 @@ class RegionViewModel(private val regionInteractor: RegionInteractor) : ViewMode
                         _regions.value = result.value!!
                     }
 
-                    is SearchResultData.ServerError -> {
+                    is SearchResultData.Error -> {
                         _error.value = "Server Error: ${result.message}"
                     }
 
                     is SearchResultData.NoConnection -> {
                         _error.value = "No Connection: ${result.message}"
                     }
+
+                    is SearchResultData.NotFound -> TODO()
                 }
             }
         }

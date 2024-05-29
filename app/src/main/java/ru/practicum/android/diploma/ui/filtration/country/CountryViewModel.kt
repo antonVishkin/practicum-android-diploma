@@ -24,12 +24,14 @@ class CountryViewModel(private val countryInteractor: CountryInteractor) : ViewM
                     is SearchResultData.Data -> {
                         _countries.value = result.value!!
                     }
-                    is SearchResultData.ServerError -> {
+                    is SearchResultData.Error -> {
                         _error.value = "Server Error: ${result.message}"
                     }
                     is SearchResultData.NoConnection -> {
                         _error.value = "No Connection: ${result.message}"
                     }
+
+                    is SearchResultData.NotFound -> TODO()
                 }
             }
         }

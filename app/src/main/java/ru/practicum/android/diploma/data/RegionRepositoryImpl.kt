@@ -27,7 +27,7 @@ class RegionRepositoryImpl(private val networkClient: NetworkClient) : RegionRep
             }
 
             error is HttpException -> {
-                emit(SearchResultData.ServerError(R.string.search_server_error))
+                emit(SearchResultData.Error(R.string.search_server_error))
             }
 
             else -> {

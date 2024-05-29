@@ -8,7 +8,6 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,6 +23,8 @@ import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 class RetrofitNetworkClient(
     private val headHunterApi: HeadHunterApi,
@@ -62,6 +63,7 @@ class RetrofitNetworkClient(
             else -> Response().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
     }
+
 
     private suspend fun doVacancyDetailsRequest(vacancyId: String): Response {
         try {
@@ -196,26 +198,6 @@ class RetrofitNetworkClient(
         const val NO_INTERNET_RESULT_CODE = -1
         const val NETWORK_ERROR = "NETWORK ERROR"
         const val BEARER_TOKEN = "Bearer " + BuildConfig.HH_ACCESS_TOKEN
-
-
-        fun create(context: Context): RetrofitNetworkClient {
-            val logging = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
-
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build()
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            val headHunterApi = retrofit.create(HeadHunterApi::class.java)
-            return RetrofitNetworkClient(headHunterApi, context)
-        }
     }
 
 }
