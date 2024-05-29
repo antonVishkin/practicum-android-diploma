@@ -36,11 +36,11 @@ interface HeadHunterApi {
     @GET("industries")
     suspend fun getIndustries(): List<IndustryResponse>
 
-    @GET("areas")
+    @GET("areas/countries")
     suspend fun getCountries(): List<AreaDTO>
 
-    @GET("areas/{parentId}")
+    @GET("areas/{parent_id}")
     suspend fun getRegions(
-        @Path("parent_id") parentId: String?
-    ): List<AreaDTO>
+        @Path("parent_id") parent_id: String?
+    ): AreaDTO
 }

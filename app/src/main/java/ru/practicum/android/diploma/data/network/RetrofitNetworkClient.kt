@@ -144,7 +144,7 @@ class RetrofitNetworkClient(
         return withContext(Dispatchers.IO) {
             try {
                 val regions = headHunterApi.getRegions(selectedCountryId.toString())
-                Result.success(regions)
+                Result.success(regions.areas)
             } catch (e: HttpException) {
                 Result.failure(e)
             } catch (e: SocketTimeoutException) {
