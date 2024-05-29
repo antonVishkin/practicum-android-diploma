@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.network
 
+import androidx.room.Query
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -38,6 +39,8 @@ interface HeadHunterApi {
     @GET("areas")
     suspend fun getCountries(): List<AreaDTO>
 
-    @GET("areas/{area_id}")
-    suspend fun getRegions(@Path("area_id") countryId: String): List<AreaDTO>
+    @GET("areas/{parentId}")
+    suspend fun getRegions(
+        @Path("parent_id") parentId: String?
+    ): List<AreaDTO>
 }
