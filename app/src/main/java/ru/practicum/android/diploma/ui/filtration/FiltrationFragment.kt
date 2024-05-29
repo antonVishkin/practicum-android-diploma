@@ -52,7 +52,7 @@ class FiltrationFragment : Fragment() {
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
-        viewModel.isChanged.observe(viewLifecycleOwner){
+        viewModel.isChanged.observe(viewLifecycleOwner) {
             showSaveButton(it)
         }
         binding.buttonRemove.setOnClickListener {
@@ -63,7 +63,7 @@ class FiltrationFragment : Fragment() {
         }
     }
 
-    private fun showSaveButton(show:Boolean) {
+    private fun showSaveButton(show: Boolean) {
         binding.buttonSave.isVisible = show
 
     }

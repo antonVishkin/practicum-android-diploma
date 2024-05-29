@@ -111,7 +111,8 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
     }
 
     private fun isEmpty(filtration: Filtration): Boolean {
-        return filtration.industry == null && filtration.area == null && filtration.salary.isNullOrEmpty() && !filtration.onlyWithSalary
+        val checkFiltrationNull = filtration.industry == null && filtration.area == null
+        return checkFiltrationNull && filtration.salary.isNullOrEmpty() && !filtration.onlyWithSalary
     }
 
     private fun renderState(state: FiltrationState) {
