@@ -53,7 +53,6 @@ class FiltrationFragment : Fragment() {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
         viewModel.isChanged.observe(viewLifecycleOwner){
-            Log.v("FILTRATION","is button visible $it")
             showSaveButton(it)
         }
         binding.buttonRemove.setOnClickListener {
@@ -62,9 +61,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showSaveButton(show:Boolean) {
-        Log.v("FILTRATION","is button visible $show")
         binding.buttonSave.isVisible = show
-        Log.v("FILTRATION","button visibility ${binding.buttonSave.isVisible}")
 
     }
 
@@ -110,16 +107,15 @@ class FiltrationFragment : Fragment() {
                 etSalary.setText(salary)
             }
             checkBoxSalary.isChecked = salaryEmptyNotShowing
-            buttonSave.isVisible = false
             buttonRemove.isVisible = true
         }
     }
 
     private fun industryEndIconListener() {
         binding.apply {
-            viewModel.setIndustry(null)
-            ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
+            etIndustry.setText("")
             ilIndustry.clearOnEndIconChangedListeners()
+            ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
             etIndustry.setOnClickListener { onIndustryClick.invoke() }
             ilIndustry.setEndIconOnClickListener { onIndustryClick.invoke() }
         }
@@ -128,22 +124,21 @@ class FiltrationFragment : Fragment() {
     private fun areaEndIconListener() {
         binding.apply {
             etAreaOfWork.setText("")
-            ilAreaOfWork.setEndIconDrawable(R.drawable.arrow_forward)
             ilAreaOfWork.clearOnEndIconChangedListeners()
+            ilAreaOfWork.setEndIconDrawable(R.drawable.arrow_forward)
             etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
+            ilAreaOfWork.setEndIconOnClickListener { onAreaClick.invoke() }
         }
     }
 
     private fun showEmpty() {
         binding.apply {
-            etAreaOfWork.setText("")
-            etIndustry.setText("")
+            areaEndIconListener()
+            industryEndIconListener()
             etSalary.setText("")
             checkBoxSalary.isChecked = false
             buttonSave.isVisible = false
             buttonRemove.isVisible = false
-            etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
-            etIndustry.setOnClickListener { onIndustryClick.invoke() }
         }
     }
 
