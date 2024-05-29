@@ -39,9 +39,6 @@ object IndustryConverter {
 
     fun mapToList(dtoList: List<IndustryDto>): List<Industry> {
         val itemList = mutableListOf<Industry>()
-        val industries = dtoList.map {
-            Industry(id = it.id, name = it.name, isSelected = false)
-        }
         val list = mutableListOf<IndustryDto>()
         for (industry in dtoList) {
             if (industry.industriesList != null) {
@@ -54,7 +51,6 @@ object IndustryConverter {
         val industryList = list.map {
             Industry(id = it.id, name = it.name, isSelected = false)
         }
-        itemList.addAll(industries)
         itemList.addAll(industryList)
         return itemList
     }
