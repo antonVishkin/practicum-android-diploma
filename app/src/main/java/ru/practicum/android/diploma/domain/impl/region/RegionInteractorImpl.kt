@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.util.SearchResultData
 
 class RegionsInteractorImpl(private val repository: RegionsRepository) : RegionsInteractor {
-    override suspend fun getRegions(): Flow<SearchResultData<List<Country>>> {
-        return repository.getRegions(selectedCountryId = null)
+    override suspend fun getRegions(selectedCountryId: String?): Flow<SearchResultData<List<Country>>> {
+        return repository.getRegions(selectedCountryId = selectedCountryId)
     }
 }

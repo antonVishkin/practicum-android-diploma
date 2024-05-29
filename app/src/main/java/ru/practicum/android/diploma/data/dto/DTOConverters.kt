@@ -53,7 +53,8 @@ class DTOConverters {
     fun map(areaDTO: AreaDTO): Country = Country(
         id = areaDTO.id,
         name = areaDTO.name,
-        url = areaDTO.url
+        url = areaDTO.url?: "",
+        parentId = areaDTO.parentId?: "",
     )
 
     fun mapToListCountries(areaDTOs: List<AreaDTO>): List<Country> {

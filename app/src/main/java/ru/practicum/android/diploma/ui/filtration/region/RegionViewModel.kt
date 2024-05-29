@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration.region
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,18 +19,20 @@ class RegionsViewModel(private val regionsInteractor: RegionsInteractor) : ViewM
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    fun fetchRegions() {
+    fun fetchRegions(selectedCountryId: String?) {
         viewModelScope.launch {
-            regionsInteractor.getRegions().collect { result: SearchResultData<List<Country>> ->
+            regionsInteractor.getRegions(selectedCountryId).collect { result: SearchResultData<List<Country>> ->
+                Log.d("regions RESULT", result.toString())
                 when (result) {
                     is SearchResultData.Data -> {
                         _regions.value = result.value!!
+                        Log.d("_regions", "Список регионов: {$_regions.value}")
                     }
                     is SearchResultData.ServerError -> {
-                        _error.value = "Server Error: ${result.message}"
+                        _error.value = "Server Error: ${result.message} regions server error"
                     }
                     is SearchResultData.NoConnection -> {
-                        _error.value = "No Connection: ${result.message}"
+                        _error.value = "No Connection: ${result.message} regions connection error"
                     }
                 }
             }

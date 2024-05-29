@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration.country
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ class CountryViewModel(private val countryInteractor: CountryInteractor) : ViewM
                 when (result) {
                     is SearchResultData.Data -> {
                         _countries.value = result.value!!
+                        Log.d("_countries", _countries.value.toString())
                     }
                     is SearchResultData.ServerError -> {
                         _error.value = "Server Error: ${result.message}"

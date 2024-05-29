@@ -16,8 +16,8 @@ class RegionsRepositoryImpl(private val networkClient: NetworkClient) : RegionsR
 
     override suspend fun getRegions(selectedCountryId: String?): Flow<SearchResultData<List<Country>>> = flow {
         val response = networkClient.getRegions(selectedCountryId)
-        val data = response?.getOrNull()
-        val error = response?.exceptionOrNull()
+        val data = response.getOrNull()
+        val error = response.exceptionOrNull()
         when {
             data != null -> {
                 emit(SearchResultData.Data(dtoConverters.mapToListCountries(data)))
