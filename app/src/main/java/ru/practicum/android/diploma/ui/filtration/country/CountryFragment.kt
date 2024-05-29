@@ -48,10 +48,9 @@ class CountryFragment : Fragment() {
 
         // Пример: Слушатель для нажатия на страну
         binding.rvSearch.setOnClickListener {
-            // Здесь должен быть выбранный вариант страны
-            val selectedCountry = "selectedCountry"
+            val selectedCountry = SELECTED_COUNTRY_KEY
             val bundle = Bundle().apply {
-                putString("selectedCountry", selectedCountry)
+                putString(SELECTED_COUNTRY_KEY, selectedCountry)
             }
             findNavController().navigate(R.id.action_countryFragment_to_regionFragment, bundle)
         }
@@ -80,7 +79,7 @@ class CountryFragment : Fragment() {
         selectedCountry = country
         Log.d("CountryFragment", "Selected country: $country")
         val bundle = Bundle().apply {
-            putString("selectedCountry", country)
+            putString(SELECTED_COUNTRY_KEY, country)
         }
         findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
     }
@@ -107,5 +106,9 @@ class CountryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val SELECTED_COUNTRY_KEY = "selectedCountry"
     }
 }

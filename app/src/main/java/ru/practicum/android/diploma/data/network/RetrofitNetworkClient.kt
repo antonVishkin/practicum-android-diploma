@@ -61,7 +61,6 @@ class RetrofitNetworkClient(
         }
     }
 
-
     private suspend fun doVacancyDetailsRequest(vacancyId: String): Response {
         try {
             val response =
