@@ -137,6 +137,38 @@ class RetrofitNetworkClient(
         }
     }
 
+    override suspend fun getRegions(selectedCountryId: String?): Result<List<AreaDTO>> {
+        if (!isConnected()) {
+            return Result.failure(ConnectException())
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val regions = headHunterApi.getRegions(selectedCountryId.toString())
+                Result.success(regions)
+            } catch (e: HttpException) {
+                Result.failure(e)
+            } catch (e: SocketTimeoutException) {
+                Result.failure(e)
+            }
+        }
+    }
+
+//    override suspend fun getRegions(): Result<List<AreaDTO>> {
+//        if (!isConnected()) {
+//            return Result.failure(ConnectException())
+//        }
+//        return withContext(Dispatchers.IO) {
+//            try {
+//                val countries = headHunterApi.getCountries()
+//                Result.success(countries)
+//            } catch (e: HttpException) {
+//                Result.failure(e)
+//            } catch (e: SocketTimeoutException) {
+//                Result.failure(e)
+//            }
+//        }
+//    }
+
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE

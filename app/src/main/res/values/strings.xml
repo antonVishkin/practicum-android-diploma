@@ -83,4 +83,7 @@
     <string name="filtration_salary_placeholder">Введите сумму</string>
     <string name="filtration_remove_button">Сбросить</string>
     <string name="filtration_save_button">Применить</string>
+    <string name="title_country_select">Выбор страны</string>
+    <string name="title_region_selection">Выбор региона</string>
+    <string name="title_location">Выбор места работы</string>
 </resources>

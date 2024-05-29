@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Country
 
-class RegionViewHolder (
+class RegionsViewHolder(
     itemView: View,
     private val onClick: (String, String) -> Unit,
 ) : RecyclerView.ViewHolder(itemView) {

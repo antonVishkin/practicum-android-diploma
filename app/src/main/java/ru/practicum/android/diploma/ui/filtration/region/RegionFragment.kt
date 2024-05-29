@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
+import ru.practicum.android.diploma.ui.filtration.country.CountryAdapter
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class RegionFragment : Fragment() {
     private var _binding: FragmentRegionBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RegionViewModel by viewModel()
-    private var _adapter: RegionAdapter? = null
+    private var _adapter: RegionsAdapter? = null
+    private val viewModel: RegionsViewModel by viewModel()
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -35,13 +36,36 @@ class RegionFragment : Fragment() {
 
         toolbarSetup()
 
+        val selectedCountry = arguments?.getString("selectedCountry")
         val selectedCountryId = arguments?.getString("selectedCountryId")
-        Log.d("selectedCountryId", selectedCountryId.toString())
+        Log.d("selectedCountryId", "$selectedCountryId получили ID страны")
 
-        viewModel.getRegions()
+        viewModel.fetchRegions()
+
+        _adapter = RegionsAdapter(emptyList()) { region, regionId ->
+            onRegionsClick(selectedCountry ?: "", selectedCountryId ?: "", region, regionId)
+        }
 
         binding.rvRegions.adapter = _adapter
-        binding.rvRegions.layoutManager = LinearLayoutManager(context)
+        binding.rvRegions.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.regions.observe(viewLifecycleOwner) { regions ->
+            _adapter?.updateRegions(regions)
+        }
+    }
+
+    private fun onRegionsClick(country: String, countryId: String, region: String, regionId: String) {
+        // Обработка нажатия на htubjy
+        val bundle = Bundle().apply {
+            putString("selectedCountry", country)
+            putString("selectedCountryId", countryId)
+            putString("selectedRegion", region)
+            putString("selectedRegionId", regionId) // Передача идентификатора страны
+        }
+
+        Log.d("selectedRegion","$region $regionId")
+
+        findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
     }
 
     override fun onStop() {
@@ -57,7 +81,7 @@ class RegionFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        toolbar.title = getString(R.string.title_filtration)
+        toolbar.title = getString(R.string.title_region_selection)
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
