@@ -2,31 +2,39 @@ package ru.practicum.android.diploma.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.data.dto.mapToListIndustries
+import ru.practicum.android.diploma.data.converters.IndustryConverter
+import ru.practicum.android.diploma.data.dto.IndustryRequest
+import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.domain.api.industry.IndustryRepository
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.util.SearchResultData
 
-class IndustryRepositoryImpl(private val client: NetworkClient) : IndustryRepository {
+class IndustryRepositoryImpl(
+    private val client: NetworkClient,
+) : IndustryRepository {
+
     override suspend fun getIndustries(): Flow<SearchResultData<List<Industry>>> = flow {
-        val response = client.getIndustries()
-        val data = response?.getOrNull()
-        val error = response?.exceptionOrNull()
-        when {
-            data != null -> {
-                emit(SearchResultData.Data(mapToListIndustries(data)))
+        val response = client.doRequest(IndustryRequest())
+        when (response.resultCode) {
+            CLIENT_SUCCESS_RESULT_CODE -> {
+                val list = (response as IndustryResponse).items
+                emit(SearchResultData.Data(IndustryConverter.mapToList(list)))
             }
 
-            error is HttpException -> {
-                emit(SearchResultData.ServerError(R.string.search_server_error))
+            NO_CONNECTION_HTTP_CODE -> {
+                emit(SearchResultData.Error(R.string.search_no_connection))
             }
 
             else -> {
-                emit(SearchResultData.NoConnection(R.string.search_no_connection))
+                emit(SearchResultData.Error(R.string.search_server_error))
             }
         }
+    }
+
+    companion object {
+        const val CLIENT_SUCCESS_RESULT_CODE = 200
+        const val NO_CONNECTION_HTTP_CODE = 500
     }
 }

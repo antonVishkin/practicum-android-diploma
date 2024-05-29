@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -15,7 +16,6 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField(type = "String", name = "HH_ACCESS_TOKEN", value = "\"${developProperties.hhAccessToken}\"")

@@ -8,8 +8,4 @@ interface NetworkClient {
     suspend fun doRequest(dto: Any): Response
     suspend fun getIndustries(): Result<List<IndustryResponse>>?
     suspend fun getCountries(): Result<List<AreaDTO>>?
-//    suspend fun getRegionsByCountryId(countryId: String): Result<List<AreaDTO>>?
 }
-
-
-
