@@ -1,17 +1,14 @@
 package ru.practicum.android.diploma.data.network
 
-import ru.practicum.android.diploma.data.dto.AreaDTO
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import retrofit2.HttpException
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
 import ru.practicum.android.diploma.data.dto.ExperienceDTO

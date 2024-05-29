@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data.dto
 
-import android.util.Log
 import ru.practicum.android.diploma.domain.models.City
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Currency

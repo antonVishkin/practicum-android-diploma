@@ -48,8 +48,8 @@ class CountryFragment : Fragment() {
 
         // Пример: Слушатель для нажатия на страну
         binding.rvSearch.setOnClickListener {
-             // Здесь должен быть выбранный вариант страны
-            val selectedCountry= "selectedCountry"
+            // Здесь должен быть выбранный вариант страны
+            val selectedCountry = "selectedCountry"
             val bundle = Bundle().apply {
                 putString("selectedCountry", selectedCountry)
             }

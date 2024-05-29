@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.domain.impl.country.CountryInteractorImpl
 import ru.practicum.android.diploma.ui.filtration.country.CountryViewModel
 
 val countryModule = module {
-    single<CountryRepository> { CountryRepositoryImpl(get(),get()) }
+    single<CountryRepository> { CountryRepositoryImpl(get(), get()) }
     factory<CountryInteractor> { CountryInteractorImpl(get()) }
     viewModel { CountryViewModel(get()) }
 }

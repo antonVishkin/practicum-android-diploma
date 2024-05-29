@@ -10,25 +10,25 @@ data class AreaDTO(
     val areas: List<AreaDTO>
 ) {
 
-   /* fun getAreasList(): List<ru.practicum.android.diploma.data.dto.AreaDTO> {
-        val countries = mutableListOf<ru.practicum.android.diploma.data.dto.AreaDTO>()
+    /* fun getAreasList(): List<ru.practicum.android.diploma.data.dto.AreaDTO> {
+         val countries = mutableListOf<ru.practicum.android.diploma.data.dto.AreaDTO>()
 
-        for (area in areas) {
-            if (area.parentId == null) {
-                countries.add(area)
-            }
-        }
-        return countries
-    }
+         for (area in areas) {
+             if (area.parentId == null) {
+                 countries.add(area)
+             }
+         }
+         return countries
+     }
 
-    fun getRegionsList(): List<ru.practicum.android.diploma.data.dto.AreaDTO> {
-        val regions = mutableListOf<ru.practicum.android.diploma.data.dto.AreaDTO>()
+     fun getRegionsList(): List<ru.practicum.android.diploma.data.dto.AreaDTO> {
+         val regions = mutableListOf<ru.practicum.android.diploma.data.dto.AreaDTO>()
 
-        for (area in areas) {
-            if (area.parentId != null) {
-                regions.add(area)
-            }
-        }
-        return regions
-    }*/
+         for (area in areas) {
+             if (area.parentId != null) {
+                 regions.add(area)
+             }
+         }
+         return regions
+     }*/
 }
