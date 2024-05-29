@@ -19,6 +19,7 @@ class CountryFragment : Fragment() {
     private var _adapter: VacancyAdapter? = null
     private val viewModel by viewModel<CountryViewModel>()
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
+    private var selectedCountry: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,11 +47,12 @@ class CountryFragment : Fragment() {
 
         // Пример: Слушатель для нажатия на страну
         binding.rvSearch.setOnClickListener {
-            val selectedCountry = "Россия" // Здесь должен быть выбранный вариант страны
+             // Здесь должен быть выбранный вариант страны
+            val selectedCountry= "selectedCountry"
             val bundle = Bundle().apply {
                 putString("selectedCountry", selectedCountry)
             }
-            findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
+            findNavController().navigate(R.id.action_countryFragment_to_regionFragment, bundle)
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
@@ -74,6 +76,7 @@ class CountryFragment : Fragment() {
 
     private fun onCountryClick(country: String) {
         // Обработка нажатия на страну
+        selectedCountry = country
         val bundle = Bundle().apply {
             putString("selectedCountry", country)
         }

@@ -60,7 +60,7 @@
     <string name="region">Регион</string>
     <string name="cant_find_list">Не удалось получить \n  список</string>
     <string name="select">Выбрать</string>
-    <string name="other_regions">Другие регионы</string>
+    <string name="pick_regions">Выбор региона</string>
     <string name="pick_job_location">Выбор места работы</string>
     <string name="pick_country">Выбор страны</string>
     <string name="russia">Россия</string>

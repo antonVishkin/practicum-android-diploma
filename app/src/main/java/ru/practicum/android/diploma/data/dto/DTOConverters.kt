@@ -1,8 +1,9 @@
 package ru.practicum.android.diploma.data.dto
 
-import AreaDTO
+import ru.practicum.android.diploma.domain.models.City
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Currency
+import ru.practicum.android.diploma.domain.models.Region
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyDetails
@@ -51,15 +52,29 @@ class DTOConverters {
         )
     }
 
-    fun map(areaDTO: AreaDTO): Country = Country(
+    fun mapToCountry(areaDTO: AreaDTO): Country = Country(
         id = areaDTO.id,
         name = areaDTO.name,
-        url = areaDTO.url ?: ""
+        regions = areaDTO.areas.map { mapToRegion(it) }
+    )
+
+    fun mapToRegion(areaDTO: AreaDTO): Region = Region(
+        id = areaDTO.id,
+        name = areaDTO.name,
+        cities = areaDTO.areas.map { mapToCity(it) }
+    )
+
+    fun mapToCity(areaDTO: AreaDTO): City = City(
+        id = areaDTO.id,
+        name = areaDTO.name
     )
 
     fun mapToListCountries(areaDTOs: List<AreaDTO>): List<Country> {
-        return areaDTOs.map { map(it) }
+        return areaDTOs.filter { it.parentId == null }.map { mapToCountry(it) }
     }
 
+    fun mapToListRegions(areaDTOs: List<AreaDTO>, countryId: String): List<Region> {
+        return areaDTOs.filter { it.parentId == countryId }.map { mapToRegion(it) }
+    }
 }
 

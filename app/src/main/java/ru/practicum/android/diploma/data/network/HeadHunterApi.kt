@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.data.network
 
-import AreaDTO
+import ru.practicum.android.diploma.data.dto.AreaDTO
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -37,4 +37,9 @@ interface HeadHunterApi {
 
     @GET("areas")
     suspend fun getCountries(): List<AreaDTO>
+
+    @GET("areas/{parent_id}")
+    suspend fun getRegions(@Path("parent_id") parentId: String?): List<AreaDTO>
+
+
 }

@@ -1,13 +1,17 @@
 package ru.practicum.android.diploma.data.network
 
-import AreaDTO
+import ru.practicum.android.diploma.data.dto.AreaDTO
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
@@ -25,6 +29,7 @@ import java.net.SocketTimeoutException
 class RetrofitNetworkClient(
     private val headHunterApi: HeadHunterApi,
     private val context: Context
+
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
@@ -74,7 +79,6 @@ class RetrofitNetworkClient(
             Log.e(NETWORK_ERROR, e.toString())
             return createEmptyVacancyDetails().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
-
     }
 
     private suspend fun doCurrencyRequest(): Response {
@@ -137,6 +141,27 @@ class RetrofitNetworkClient(
         }
     }
 
+//    override suspend fun getRegionsByCountryId(countryId: String): Result<List<AreaDTO>>? {
+//        if (!isConnected()) {
+//            return Result.failure(ConnectException())
+//        }
+//        return withContext(Dispatchers.IO) {
+//            try {
+//                val areas = headHunterApi.getCountries()
+//                Log.d("Response", areas.toString()) // Лог для проверки ответа
+//                Result.success(areas)
+//            } catch (e: HttpException) {
+//                Result.failure(e)
+//            } catch (e: SocketTimeoutException) {
+//                Result.failure(e)
+//            } catch (e: IOException) {
+//                Result.failure(e)
+//            } catch (e: Exception) {
+//                Result.failure(e)
+//            }
+//        }
+//    }
+
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -154,7 +179,7 @@ class RetrofitNetworkClient(
             name = "",
             salary = null,
             employer = null,
-            area = AreaDTO("", "", "", "", emptyList()),
+            area = AreaDTO("", "", "", listOf()),
             experience = ExperienceDTO(""),
             description = "",
             keySkills = listOf(),
@@ -164,10 +189,32 @@ class RetrofitNetworkClient(
     }
 
     companion object {
+        private const val BASE_URL = "https://api.hh.ru/"
         const val CLIENT_ERROR_RESULT_CODE = 400
         const val CLIENT_SUCCESS_RESULT_CODE = 200
         const val NO_INTERNET_RESULT_CODE = -1
         const val NETWORK_ERROR = "NETWORK ERROR"
         const val BEARER_TOKEN = "Bearer " + BuildConfig.HH_ACCESS_TOKEN
+
+
+        fun create(context: Context): RetrofitNetworkClient {
+            val logging = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+
+            val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val headHunterApi = retrofit.create(HeadHunterApi::class.java)
+            return RetrofitNetworkClient(headHunterApi, context)
+        }
     }
+
 }

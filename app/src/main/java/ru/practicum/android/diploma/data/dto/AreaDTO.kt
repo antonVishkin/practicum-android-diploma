@@ -1,16 +1,17 @@
+package ru.practicum.android.diploma.data.dto
+
 import com.google.gson.annotations.SerializedName
 
 data class AreaDTO(
     val id: String,
-    @SerializedName("parentId")
+    @SerializedName("parent_id")
     val parentId: String?,
     val name: String,
-    val url: String?,
     val areas: List<AreaDTO>
 ) {
 
-   /* fun getAreasList(): List<AreaDTO> {
-        val countries = mutableListOf<AreaDTO>()
+   /* fun getAreasList(): List<ru.practicum.android.diploma.data.dto.AreaDTO> {
+        val countries = mutableListOf<ru.practicum.android.diploma.data.dto.AreaDTO>()
 
         for (area in areas) {
             if (area.parentId == null) {
@@ -20,8 +21,8 @@ data class AreaDTO(
         return countries
     }
 
-    fun getRegionsList(): List<AreaDTO> {
-        val regions = mutableListOf<AreaDTO>()
+    fun getRegionsList(): List<ru.practicum.android.diploma.data.dto.AreaDTO> {
+        val regions = mutableListOf<ru.practicum.android.diploma.data.dto.AreaDTO>()
 
         for (area in areas) {
             if (area.parentId != null) {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation_graph"
-    app:startDestination="@id/searchFragment">
+    app:startDestination="@id/locationFragment">
 
     <fragment
         android:id="@+id/searchFragment"
@@ -56,6 +56,9 @@
     <action
         android:id="@+id/action_countryFragment_to_locationFragment"
         app:destination="@id/locationFragment"/>
+    <action
+        android:id="@+id/action_countryFragment_to_regionFragment"
+        app:destination="@id/regionFragment"/>
     <fragment
         android:id="@+id/vacanciesFragment"
         android:name="ru.practicum.android.diploma.ui.vacancies.VacancyFragment"

@@ -1,7 +1,5 @@
 package ru.practicum.android.diploma.data.dto
 
-import AreaDTO
-
 data class VacancyDTO(
     val id: String,
     val name: String,
