@@ -74,10 +74,11 @@ class DTOConverters {
     }
 
     fun mapToListRegions(areaDTOs: List<AreaDTO>, countryId: String): List<Region> {
-        return if (countryId.isEmpty())
+        return if (countryId.isEmpty()) {
             convertTreeToList(areaDTOs).map { mapToRegion(it) }
-        else
+        } else {
             convertTreeToList(areaDTOs.first { it.id == countryId }.areas).map { mapToRegion(it) }
+        }
     }
 
     private fun convertTreeToList(areaDTOs: List<AreaDTO>): List<AreaDTO> {
