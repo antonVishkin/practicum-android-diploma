@@ -6,7 +6,6 @@ import retrofit2.HttpException
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.dto.DTOConverters
 import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.domain.api.filtration.country.CountryRepository
 import ru.practicum.android.diploma.domain.api.filtration.region.RegionsRepository
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.util.SearchResultData
