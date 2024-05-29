@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.data.dto
 
+import android.util.Log
 import ru.practicum.android.diploma.domain.models.City
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Currency
@@ -74,7 +75,24 @@ class DTOConverters {
     }
 
     fun mapToListRegions(areaDTOs: List<AreaDTO>, countryId: String): List<Region> {
-        return areaDTOs.filter { it.parentId == countryId }.map { mapToRegion(it) }
+        return if (countryId.isEmpty())
+            convertTreeToList(areaDTOs).map { mapToRegion(it) }
+        else
+            convertTreeToList(areaDTOs.first { it.id == countryId }.areas).map { mapToRegion(it) }
     }
+
+    private fun convertTreeToList(areaDTOs: List<AreaDTO>): List<AreaDTO> {
+        val result = mutableListOf<AreaDTO>()
+        areaDTOs.forEach {
+            if (it.areas.isEmpty()) {
+                result.add(it)
+            } else {
+                result.add(AreaDTO(it.id, it.parentId, it.name, listOf()))
+                result.addAll(convertTreeToList(it.areas))
+            }
+        }
+        return result
+    }
+
 }
 

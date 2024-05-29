@@ -17,8 +17,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginLeft="16dp"
-        style="@style/vacancy_location_text"
-        tools:text="Московская область" />
+        style="@style/vacancy_view_regular_text"
+        tools:text="@string/moscow_region" />
 
 
     <ImageView

@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.filtration.country
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,6 +78,7 @@ class CountryFragment : Fragment() {
     private fun onCountryClick(country: String) {
         // Обработка нажатия на страну
         selectedCountry = country
+        Log.d("CountryFragment", "Selected country: $country")
         val bundle = Bundle().apply {
             putString("selectedCountry", country)
         }
