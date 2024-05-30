@@ -43,44 +43,17 @@ class VacancyDetailsViewModel(
                     is VacancyDetailStatus.NoConnection -> {
                         if (isVacancyFavorite(vacancyId)) {
                             getVacancyFromDb(vacancyId)
-                            _stateLiveData.value = VacancyDetailsState.SimilarVacanciesButtonState(false)
                         } else
-                            _stateLiveData.value = VacancyDetailsState.Error
+                            renderState(VacancyDetailsState.Error)
                     }
 
-                    is VacancyDetailStatus.Error -> renderState(VacancyDetailsState.Error)
-
-                    else -> {}
-                }
-
-
-
-                result.onSuccess { vacancyDetails ->
-                    val currSymbol = currencyDictionary[vacancyDetails?.salary?.currency]?.abbr ?: ""
-                    val isFavorite = favoritesInteractor.isVacancyFavorite(vacancyDetails.id)
-                    renderState(
-                        VacancyDetailsState.Content(vacancyDetails, currSymbol, isFavorite)
-                    )
-                }.onFailure {
-                    renderState(
-                        VacancyDetailsState.Error
-                    )
+                    else -> renderState(VacancyDetailsState.Error)
                 }
             }
         }
     }
 
     fun addToFavorite() {
-        val state = stateLiveData.value as VacancyDetailsState.Content
-        val vacancyDetails = state.vacancy
-        val vacancy = Vacancy(
-            id = vacancyDetails.id,
-            name = vacancyDetails.name,
-            salary = vacancyDetails.salary,
-            city = vacancyDetails.areaName,
-            employerName = vacancyDetails.employerName ?: "",
-            urlImage = vacancyDetails.logoUrl
-        )
         viewModelScope.launch {
             if (state.isFavorite) {
                 favoritesInteractor.removeVacancyFromFavorites(vacancy)

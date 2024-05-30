@@ -28,7 +28,7 @@ data class Salary(
 data class Contacts(
     val email: String?,
     val name: String?,
-    val phones: List<Phone?>?
+    val phones: List<String>?
 )
 
 data class Phone(
