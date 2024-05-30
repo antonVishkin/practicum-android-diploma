@@ -30,9 +30,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
-
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
-
     private var _adapter: VacancyAdapter? = null
 
     override fun onCreateView(
@@ -46,14 +44,11 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setHasOptionsMenu(true)
         toolbarSetup()
-
         viewModel.stateSearch.observe(viewLifecycleOwner) {
             render(it)
         }
-
         _adapter = VacancyAdapter(arrayListOf(), object : VacancyAdapter.OnClickListener {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
@@ -81,7 +76,7 @@ class SearchFragment : Fragment() {
                 viewModel.searchDebounce(text.toString())
             }
         }
-        viewModel.filtration.observe(viewLifecycleOwner){
+        viewModel.filtration.observe(viewLifecycleOwner) {
             setFiltrationIcon(it != null)
         }
         toolbar.menu.findItem(R.id.filters).setOnMenuItemClickListener {
@@ -92,7 +87,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setFiltrationIcon(hasFiltration: Boolean) {
-        if (hasFiltration){
+        if (hasFiltration) {
             toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_on)
         } else {
             toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_off)

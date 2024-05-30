@@ -39,4 +39,3 @@ class RegionViewModel(private val regionInteractor: RegionInteractor) : ViewMode
         }
     }
 }
-

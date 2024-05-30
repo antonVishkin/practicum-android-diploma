@@ -31,21 +31,21 @@ class SearchViewModel(
     private val _stateSearch = MutableLiveData<SearchState>(SearchState.Default)
     val stateSearch: LiveData<SearchState> get() = _stateSearch
     private val _filtration = MutableLiveData<Filtration?>(null)
-    val filtration : LiveData<Filtration?> get() = _filtration
+    val filtration: LiveData<Filtration?> get() = _filtration
 
     private fun search(request: String, options: HashMap<String, String>) {
-        if (filtration.value != null){
+        if (filtration.value != null) {
             val filtrationValue = filtration.value
-            if (filtrationValue?.area != null){
+            if (filtrationValue?.area != null) {
                 options["area"] = filtrationValue.area.id
             }
-            if (filtrationValue?.industry != null){
+            if (filtrationValue?.industry != null) {
                 options["industry"] = filtrationValue.industry.id
             }
-            if (!filtrationValue?.salary.isNullOrEmpty()){
+            if (!filtrationValue?.salary.isNullOrEmpty()) {
                 options["salary"] = filtrationValue?.salary!!
             }
-            if (filtrationValue?.onlyWithSalary == true){
+            if (filtrationValue?.onlyWithSalary == true) {
                 options["only_with_salary"] = "true"
             }
         }
@@ -79,14 +79,15 @@ class SearchViewModel(
         }
     }
 
-    fun getFiltration(){
+    fun getFiltration() {
         viewModelScope.launch {
             _filtration.value = filtrationInteractor.getFiltration()
-            if (stateSearch.value !is SearchState.Default){
-                search(lastSearchQueryText?:"", hashMapOf())
+            if (stateSearch.value !is SearchState.Default) {
+                search(lastSearchQueryText ?: "", hashMapOf())
             }
         }
     }
+
     private fun searchVacancies(request: String, options: HashMap<String, String>) {
         options["text"] = request
         viewModelScope.launch {
