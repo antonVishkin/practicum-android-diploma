@@ -64,7 +64,6 @@ class FiltrationFragment : Fragment() {
         binding.buttonSave.setOnClickListener {
             findNavController().navigateUp()
         }
-        
         binding.etSalary.setOnKeyListener(onKeyListener())
     }
 
