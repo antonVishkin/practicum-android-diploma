@@ -5,7 +5,7 @@ import ru.practicum.android.diploma.domain.api.filtration.FiltrationRepository
 import ru.practicum.android.diploma.domain.models.Filtration
 
 class FiltrationRepositoryImpl(private val preferencesProvider: PreferencesProvider) : FiltrationRepository {
-    override suspend fun saveFiltration(filtration: Filtration) {
+    override suspend fun saveFiltration(filtration: Filtration?) {
         preferencesProvider.saveFiltration(filtration)
     }
 
