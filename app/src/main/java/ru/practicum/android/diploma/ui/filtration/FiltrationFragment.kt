@@ -64,19 +64,19 @@ class FiltrationFragment : Fragment() {
         binding.buttonSave.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.etSalary.setOnFocusChangeListener { view, focus ->
-            viewModel.setSalary(binding.etSalary.text.toString())
-        }
-        binding.etSalary.setOnKeyListener { view, keyCode, keyEvent ->
+        binding.etSalary.setOnKeyListener(onKeyListener())
+    }
+
+    private fun onKeyListener(): View.OnKeyListener? {
+        return View.OnKeyListener { view, keyCode, keyEvent ->
             if (keyCode == KeyEvent.KEYCODE_ENTER) {
                 val inputMethodManager =
                     requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                 inputMethodManager?.hideSoftInputFromWindow(binding.etSalary.windowToken, 0)
-                binding.etSalary.isFocusable = false
-                return@setOnKeyListener true
+                viewModel.setSalary(binding.etSalary.text.toString())
+                true
             } else {
-                binding.etSalary.isFocusable = true
-                return@setOnKeyListener false
+                false
             }
         }
     }
