@@ -48,4 +48,8 @@ class FavoritesRepositoryImpl(
     override suspend fun removeVacancyDetails(vacancyId: String) {
         appDatabase.favoritesDAO().removeVacancyDetails(vacancyId)
     }
+
+    override suspend fun getVacancyById(vacancyId: String): Vacancy {
+        return dBConverters.mapDetailsToVacancy(appDatabase.favoritesDAO().getVacancyDetails(vacancyId))
+    }
 }

@@ -22,4 +22,6 @@ interface FavoritesRepository {
     suspend fun getVacancyDetails(vacancyId: String): VacancyDetails
 
     suspend fun removeVacancyDetails(vacancyId: String)
+
+    suspend fun getVacancyById(vacancyId: String): Vacancy
 }

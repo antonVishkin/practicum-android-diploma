@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
+import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.domain.sharing.SharingInteractor
 
 class VacancyDetailsViewModel(
@@ -18,6 +18,8 @@ class VacancyDetailsViewModel(
     private val favoritesInteractor: FavoritesInteractor,
     private var sharingInteractor: SharingInteractor
 ) : ViewModel() {
+
+    private var currencySymbol: String? = null
 
     private val _stateLiveData = MutableLiveData<VacancyDetailsState>()
     val stateLiveData: LiveData<VacancyDetailsState> get() = _stateLiveData
@@ -35,14 +37,14 @@ class VacancyDetailsViewModel(
 
                     is VacancyDetailStatus.Content -> {
                         _currentVacancy.value = result.data
-                        val currSymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
+                        currencySymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
                         val isFavorite = isVacancyFavorite(vacancyId)
-                        renderState(VacancyDetailsState.Content(result.data!!, currSymbol, isFavorite))
+                        renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
                     }
 
                     is VacancyDetailStatus.NoConnection -> {
                         if (isVacancyFavorite(vacancyId)) {
-                            getVacancyFromDb(vacancyId)
+                            getVacancyFromDb(vacancyId, currencySymbol!!)
                         } else
                             renderState(VacancyDetailsState.Error)
                     }
@@ -53,32 +55,40 @@ class VacancyDetailsViewModel(
         }
     }
 
-    fun addToFavorite() {
+    fun addToFavorite(vacancy: Vacancy) {
         viewModelScope.launch {
-            if (state.isFavorite) {
+            val state = isVacancyFavorite(vacancy.id)
+            if (state) {
                 favoritesInteractor.removeVacancyFromFavorites(vacancy)
-                favoritesInteractor.removeVacancyDetails(vacancyDetails.id)
-            } else {
-                favoritesInteractor.addVacancyDetails(vacancyDetails)
-                favoritesInteractor.addVacancyToFavorites(vacancy)
-            }
-            renderState(
-                VacancyDetailsState.Content(
-                    vacancy = vacancyDetails,
-                    currencySymbol = state.currencySymbol,
-                    isFavorite = !state.isFavorite
+                favoritesInteractor.removeVacancyDetails(vacancy.id)
+                renderState(
+                    VacancyDetailsState.Content(
+                        vacancy = vacancy,
+                        currencySymbol = currencySymbol!!,
+                        isFavorite = false
+                    )
                 )
-            )
+            } else {
+                favoritesInteractor.addVacancyDetails(vacancy)
+                favoritesInteractor.addVacancyToFavorites(vacancy)
+                renderState(
+                    VacancyDetailsState.Content(
+                        vacancy = vacancy,
+                        currencySymbol = currencySymbol!!,
+                        isFavorite = true
+                    )
+                )
+            }
         }
     }
 
-    private fun getVacancyFromDb(vacancyId: String) {
+    private fun getVacancyFromDb(vacancyId: String, symbol: String) {
         viewModelScope.launch {
-            val vacancyFromDb = favoritesInteractor.getVacancyDetails(vacancyId)
+            val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
             _currentVacancy.value = vacancyFromDb
             renderState(VacancyDetailsState.Content(
                 vacancy = vacancyFromDb,
-                currencySymbol = null,
+                currencySymbol = symbol,
                 isFavorite = true))
         }
     }
@@ -91,12 +101,12 @@ class VacancyDetailsViewModel(
         _stateLiveData.value = state
     }
 
-    fun shareApp(vacancyDetails: VacancyDetails) {
-        sharingInteractor.shareApp(vacancyDetails.alternateUrl)
+    fun shareApp(vacancyUrl: String) {
+        sharingInteractor.shareApp(vacancyUrl)
     }
 
-    fun phoneCall(phoneNumber: String) {
-        sharingInteractor.phoneCall(phoneNumber)
+    fun phoneCall(phone: Phone) {
+        sharingInteractor.phoneCall(phone)
     }
 
     fun eMail(email: String) {

@@ -4,7 +4,6 @@ import ru.practicum.android.diploma.data.db.CurrencyDictionaryEntity
 import ru.practicum.android.diploma.data.db.SalaryEntity
 import ru.practicum.android.diploma.data.db.VacancyDetailsEntity
 import ru.practicum.android.diploma.data.db.VacancyEntity
-import ru.practicum.android.diploma.domain.models.Contacts
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
@@ -29,7 +28,7 @@ class DBConverters {
             ),
             description = vacancy.description,
             keySkills = vacancy.keySkills,
-            contacts = null, // ИСПРААВИТЬ
+            contacts = null, // ИСПРАВИТЬ
             comment = vacancy.comment,
             schedule = vacancy.schedule,
             address = vacancy.address
@@ -49,7 +48,7 @@ class DBConverters {
             salary = Salary(vacancy.salary?.currency, vacancy.salary?.from, vacancy.salary?.gross, vacancy.salary?.to),
             description = vacancy.description,
             keySkills = vacancy.keySkills,
-            contacts = null, // ИСПРААВИТЬ
+            contacts = null, // ИСПРАВИТЬ
             comment = vacancy.comment,
             schedule = vacancy.schedule,
             address = vacancy.address
@@ -58,59 +57,68 @@ class DBConverters {
 
     // Details
 
-    fun map(vacancyDetails: VacancyDetails): VacancyDetailsEntity {
+    fun map(vacancy: VacancyDetails): VacancyDetailsEntity {
         return VacancyDetailsEntity(
-            id = vacancyDetails.id,
-            name = vacancyDetails.name,
-            salary = "",
-            employerName = vacancyDetails.employerName ?: "",
-            logoUrl = vacancyDetails.logoUrl ?: "",
-            areaName = vacancyDetails.areaName,
-            experienceName = vacancyDetails.experienceName,
-            description = vacancyDetails.description,
-            keySkills = vacancyDetails.keySkills.toString(),
-            contactPerson = vacancyDetails.contactPerson ?: "",
-            email = vacancyDetails.email ?: "",
-            phones = vacancyDetails.phones.toString(),
-            alternateUrl = vacancyDetails.alternateUrl
+            id = vacancy.id,
+            vacancyName = vacancy.vacancyName,
+            companyName = vacancy.companyName,
+            alternateUrl = vacancy.alternateUrl,
+            logoUrl = vacancy.logoUrl,
+            city = vacancy.city,
+            employment = vacancy.employment,
+            experience = vacancy.experience,
+            salary = SalaryEntity(
+                vacancy.salary?.currency,
+                vacancy.salary?.from,
+                vacancy.salary?.gross,
+                vacancy.salary?.to,
+            ),
+            description = vacancy.description,
+            keySkills = vacancy.keySkills,
+            contacts = null, // ИСПРАВИТЬ
+            comment = vacancy.comment,
+            schedule = vacancy.schedule,
+            address = vacancy.address
         )
     }
 
-    fun map(vacancyDetailsEntity: VacancyDetailsEntity): VacancyDetails {
+    fun map(vacancy: VacancyDetailsEntity): VacancyDetails {
         return VacancyDetails(
-            id = vacancyDetailsEntity.id,
-            name = vacancyDetailsEntity.name,
-            salary = Salary(null, null, null, null),
-            employerName = vacancyDetailsEntity.employerName,
-            logoUrl = vacancyDetailsEntity.logoUrl,
-            areaName = vacancyDetailsEntity.areaName,
-            experienceName = vacancyDetailsEntity.experienceName,
-            description = vacancyDetailsEntity.description,
-            keySkills = listOf(),
-            contactPerson = vacancyDetailsEntity.contactPerson,
-            email = vacancyDetailsEntity.email,
-            phones = listOf(),
-            alternateUrl = vacancyDetailsEntity.alternateUrl
+            id = vacancy.id,
+            vacancyName = vacancy.vacancyName,
+            companyName = vacancy.companyName,
+            alternateUrl = vacancy.alternateUrl,
+            logoUrl = vacancy.logoUrl,
+            city = vacancy.city,
+            employment = vacancy.employment,
+            experience = vacancy.experience,
+            salary = Salary(vacancy.salary?.currency, vacancy.salary?.from, vacancy.salary?.gross, vacancy.salary?.to),
+            description = vacancy.description,
+            keySkills = vacancy.keySkills,
+            contacts = null, // ИСПРАВИТЬ
+            comment = vacancy.comment,
+            schedule = vacancy.schedule,
+            address = vacancy.address
         )
     }
 
-    fun mapDetailsToVacancy(vacancyDetails: VacancyDetails): Vacancy {
+    fun mapDetailsToVacancy(vacancy: VacancyDetailsEntity): Vacancy {
         return Vacancy(
-            id = vacancyDetails.id,
-            vacancyName = vacancyDetails.name,
-            companyName = vacancyDetails.employerName.toString(),
-            alternateUrl = vacancyDetails.alternateUrl,
-            logoUrl = vacancyDetails.logoUrl,
-            city = vacancyDetails.areaName,
-            employment = "",
-            experience = vacancyDetails.experienceName,
-            salary = vacancyDetails.salary,
-            description = vacancyDetails.description,
-            keySkills = vacancyDetails.keySkills,
-            contacts = Contacts(vacancyDetails.email, vacancyDetails.contactPerson, vacancyDetails.phones),
-            comment = "",
-            schedule = "",
-            address = ""
+            id = vacancy.id,
+            vacancyName = vacancy.vacancyName,
+            companyName = vacancy.companyName,
+            alternateUrl = vacancy.alternateUrl,
+            logoUrl = vacancy.logoUrl,
+            city = vacancy.city,
+            employment = vacancy.employment,
+            experience = vacancy.experience,
+            salary = Salary(vacancy.salary?.currency, vacancy.salary?.from, vacancy.salary?.gross, vacancy.salary?.to),
+            description = vacancy.description,
+            keySkills = vacancy.keySkills,
+            contacts = null, // ИСПРАВИТЬ
+            comment = vacancy.comment,
+            schedule = vacancy.schedule,
+            address = vacancy.address
         )
     }
 
