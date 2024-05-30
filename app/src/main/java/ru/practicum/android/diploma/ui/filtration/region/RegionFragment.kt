@@ -81,11 +81,15 @@ class RegionFragment : Fragment() {
     }
 
     private fun showContent(regions: List<Region>) {
-        binding.progressBar.isVisible = false
-        binding.rvSearch.isVisible = true
-        binding.ivPlaceholder.isVisible = false
-        binding.tvPlaceholder.isVisible = false
-        _adapter?.updateRegions(regions)
+        if (regions.isEmpty()) {
+            showNotFound()
+        } else {
+            binding.progressBar.isVisible = false
+            binding.rvSearch.isVisible = true
+            binding.ivPlaceholder.isVisible = false
+            binding.tvPlaceholder.isVisible = false
+            _adapter?.updateRegions(regions)
+        }
     }
 
     private fun showNotFound() {
