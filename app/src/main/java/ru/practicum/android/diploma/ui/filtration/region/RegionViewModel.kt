@@ -5,40 +5,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.api.region.RegionInteractor
 import ru.practicum.android.diploma.domain.models.Region
 import ru.practicum.android.diploma.util.SearchResultData
 
 class RegionViewModel(private val regionInteractor: RegionInteractor) : ViewModel() {
 
-    private val _regions = MutableLiveData<List<Region>>()
-    val regions: LiveData<List<Region>> = _regions
-
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> get() = _error
+    private val _regionState = MutableLiveData<RegionState>()
+    val regionState: LiveData<RegionState> = _regionState
 
     fun fetchRegions(countryId: String) {
+        _regionState.value = RegionState.Loading
         viewModelScope.launch {
             regionInteractor.getRegions(countryId).collect { result: SearchResultData<List<Region>> ->
                 when (result) {
                     is SearchResultData.Data -> {
-                        _regions.value = result.value!!
+                        _regionState.value = RegionState.Content(result.value ?: emptyList())
                     }
 
                     is SearchResultData.Error -> {
-                        _error.value = "Server Error: ${result.message}"
+                        _regionState.value = RegionState.ServerError(R.string.search_server_error)
                     }
 
                     is SearchResultData.NoConnection -> {
-                        _error.value = "No Connection: ${result.message}"
+                        _regionState.value = RegionState.NoConnection(R.string.cant_find_list)
                     }
 
                     is SearchResultData.NotFound -> {
-                        _error.value = "Not found: ${result.message}"
+                        _regionState.value = RegionState.NotFound
                     }
                 }
             }
         }
     }
 }
-
