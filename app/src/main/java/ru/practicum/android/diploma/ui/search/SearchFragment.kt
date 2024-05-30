@@ -53,13 +53,11 @@ class SearchFragment : Fragment() {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
         })
-
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.rvSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 if (dy > 0) {
                     val pos = (binding.rvSearch.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = _adapter?.itemCount ?: 0
@@ -101,7 +99,6 @@ class SearchFragment : Fragment() {
     private fun toolbarSetup() {
         toolbar.title = getString(R.string.title_home)
         toolbar.menu.findItem(R.id.filters)?.isVisible = true
-
         toolbar.menu.findItem(R.id.filters)?.setOnMenuItemClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
             true
@@ -236,7 +233,6 @@ class SearchFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables", "ClickableViewAccessibility")
     private fun hideIconEditText(text: CharSequence?) {
         val editText = binding.etButtonSearch
-
         if (text.isNullOrEmpty()) {
             binding.etButtonSearch.setCompoundDrawablesWithIntrinsicBounds(
                 0,
@@ -266,7 +262,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
