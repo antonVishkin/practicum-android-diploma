@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.domain.impl.region
 
-
 import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.domain.api.region.RegionInteractor
 import ru.practicum.android.diploma.domain.api.region.RegionRepository

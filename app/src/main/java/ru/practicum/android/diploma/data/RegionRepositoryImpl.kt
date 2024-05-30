@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data
 
-
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,7 +15,6 @@ class RegionRepositoryImpl(private val networkClient: NetworkClient) : RegionRep
     private val dtoConverters = DTOConverters()
 
     override suspend fun getRegions(countryId: String): Flow<SearchResultData<List<Region>>> = flow {
-
         val response = networkClient.getCountries()
         Log.d("Response", response.toString()) // Добавлен лог
         val data = response?.getOrNull()
