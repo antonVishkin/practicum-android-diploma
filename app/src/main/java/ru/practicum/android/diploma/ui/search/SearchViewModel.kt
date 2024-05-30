@@ -34,21 +34,6 @@ class SearchViewModel(
     val filtration: LiveData<Filtration?> get() = _filtration
 
     private fun search(request: String, options: HashMap<String, String>) {
-        if (filtration.value != null) {
-            val filtrationValue = filtration.value
-            if (filtrationValue?.area != null) {
-                options["area"] = filtrationValue.area.id
-            }
-            if (filtrationValue?.industry != null) {
-                options["industry"] = filtrationValue.industry.id
-            }
-            if (!filtrationValue?.salary.isNullOrEmpty()) {
-                options["salary"] = filtrationValue?.salary!!
-            }
-            if (filtrationValue?.onlyWithSalary == true) {
-                options["only_with_salary"] = "true"
-            }
-        }
         if (request.isNullOrEmpty()) {
             renderState(SearchState.Default)
         } else {
@@ -89,6 +74,9 @@ class SearchViewModel(
     }
 
     private fun searchVacancies(request: String, options: HashMap<String, String>) {
+        if (filtration.value != null){
+            options.putAll(convertFiltrationToOptions(filtration.value!!))
+        }
         options["text"] = request
         viewModelScope.launch {
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
@@ -144,6 +132,23 @@ class SearchViewModel(
         if (lastSearchQueryText == changedText) return
         this.lastSearchQueryText = changedText
         search(changedText, hashMapOf())
+    }
+
+    private fun convertFiltrationToOptions(filtrationParams: Filtration): HashMap<String, String> {
+        val options = hashMapOf<String, String>()
+        if (filtrationParams.area != null) {
+            options["area"] = filtrationParams.area.id
+        }
+        if (filtrationParams.industry != null) {
+            options["industry"] = filtrationParams.industry.id
+        }
+        if (!filtrationParams.salary.isNullOrEmpty()) {
+            options["salary"] = filtrationParams.salary
+        }
+        if (filtrationParams.onlyWithSalary) {
+            options["only_with_salary"] = "true"
+        }
+        return options
     }
 
     companion object {
