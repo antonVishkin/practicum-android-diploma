@@ -23,9 +23,11 @@ class VacancyDetailsRepositoryImpl(
         when (response.resultCode) {
             CLIENT_SUCCESS_RESULT_CODE -> {
                 val detailsResponse = response as VacancyDetailsResponse
-                if (detailsResponse.data != null) {
-                    val vacancyDetails = converter.map(detailsResponse.data)
+                if (detailsResponse.vacancy != null) {
+                    val vacancyDetails = converter.map(detailsResponse.vacancy)
                     emit(VacancyDetailStatus.Content(vacancyDetails))
+                } else {
+                    emit(VacancyDetailStatus.Error(response.resultCode, context.getString(R.string.details_vacancy_error)))
                 }
             }
 
