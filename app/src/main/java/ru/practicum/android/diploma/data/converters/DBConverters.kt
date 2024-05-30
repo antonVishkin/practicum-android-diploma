@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.data.converters
 
 import ru.practicum.android.diploma.data.db.CurrencyDictionaryEntity
+import ru.practicum.android.diploma.data.db.SalaryDetailsEntity
 import ru.practicum.android.diploma.data.db.SalaryEntity
 import ru.practicum.android.diploma.data.db.VacancyDetailsEntity
 import ru.practicum.android.diploma.data.db.VacancyEntity
@@ -67,7 +68,7 @@ class DBConverters {
             city = vacancy.city,
             employment = vacancy.employment,
             experience = vacancy.experience,
-            salary = SalaryEntity(
+            salary = SalaryDetailsEntity(
                 vacancy.salary?.currency,
                 vacancy.salary?.from,
                 vacancy.salary?.gross,

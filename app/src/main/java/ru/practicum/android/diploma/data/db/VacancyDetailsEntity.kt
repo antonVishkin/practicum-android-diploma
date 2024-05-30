@@ -19,13 +19,33 @@ data class VacancyDetailsEntity(
     val employment: String?,
     val experience: String?,
     @Embedded(prefix = "salary_")
-    val salary: SalaryEntity?,
+    val salary: SalaryDetailsEntity?,
     val description: String?,
     @ColumnInfo(name = "key_skills")
     val keySkills: List<String?>,
     @Embedded(prefix = "contacts_")
-    val contacts: ContactsEntity?,
+    val contacts: ContactsDetailsEntity?,
     val comment: String?,
     val schedule: String?,
     val address: String?
+)
+
+data class SalaryDetailsEntity(
+    val currency: String?,
+    val from: Int?,
+    val gross: Boolean?,
+    val to: Int?
+)
+
+data class ContactsDetailsEntity(
+    val email: String?,
+    val name: String?,
+    val phones: List<PhoneDetailsEntity?>?
+)
+
+data class PhoneDetailsEntity(
+    val city: String?,
+    val comment: String?,
+    val country: String?,
+    val number: String?
 )
