@@ -135,9 +135,6 @@ class VacancyDetailsFragment : Fragment() {
                     tvContactsPersonLabel.isVisible = true
                     tvContacts.text = vacancy.contacts?.name
                     tvContacts.isVisible = true
-                } else {
-                    tvContactsPersonLabel.isVisible = false
-                    tvContacts.isVisible = false
                 }
                 if (vacancy.contacts?.email != null) {
                     tvEmail.text = vacancy.contacts?.email
@@ -148,9 +145,6 @@ class VacancyDetailsFragment : Fragment() {
                         if (viewModel.clickDebounce() && vacancy?.contacts?.email != null)
                             viewModel.eMail(vacancy.contacts.email)
                     }
-                } else {
-                    tvEmailLabel.isVisible = false
-                    tvEmail.isVisible = false
                 }
                 if (vacancy.contacts?.phones != null) {
                     rvPhones.isVisible = true
@@ -158,15 +152,9 @@ class VacancyDetailsFragment : Fragment() {
                     if (viewModel.clickDebounce()) {
                         setPhonesAdapter(vacancy)
                     }
-                } else {
-                    tvTelephoneLable.isVisible = false
-                    rvPhones.isVisible = false
                 }
 
-                if (vacancy.comment!!.isEmpty()) {
-                    tvCommentLabel.isVisible = false
-                    tvComment.isVisible = false
-                } else {
+                if (vacancy.comment!!.isNotEmpty()) {
                     tvCommentLabel.isVisible = true
                     tvComment.text = vacancy.comment
                     tvComment.isVisible = true
