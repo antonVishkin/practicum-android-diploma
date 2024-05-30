@@ -23,8 +23,10 @@ class VacancyDetailsRepositoryImpl(
         when (response.resultCode) {
             CLIENT_SUCCESS_RESULT_CODE -> {
                 val detailsResponse = response as VacancyDetailsResponse
-                val vacancyDetails = converter.map(detailsResponse.data!!)
-                emit(VacancyDetailStatus.Content(vacancyDetails))
+                if (detailsResponse.data != null) {
+                    val vacancyDetails = converter.map(detailsResponse.data)
+                    emit(VacancyDetailStatus.Content(vacancyDetails))
+                }
             }
 
             NO_CONNECTION_HTTP_CODE -> {
