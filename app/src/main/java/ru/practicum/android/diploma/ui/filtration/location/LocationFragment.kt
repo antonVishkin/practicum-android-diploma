@@ -127,7 +127,7 @@ class LocationFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         private const val SELECTED_COUNTRY_ID_KEY = "selectedCountryId"
         private const val SELECTED_COUNTRY_KEY = "selectedCountry"
         private const val SELECTED_REGION_ID_KEY = "selectedRegionId"
