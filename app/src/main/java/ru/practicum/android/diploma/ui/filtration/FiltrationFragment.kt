@@ -65,7 +65,6 @@ class FiltrationFragment : Fragment() {
 
     private fun showSaveButton(show: Boolean) {
         binding.buttonSave.isVisible = show
-
     }
 
     private fun render(state: FiltrationState) {

@@ -165,7 +165,6 @@ class RegionFragment : Fragment(), RegionCountCallback {
         if (count == 0) {
             showNotFound()
         } else {
-
             binding.progressBar.isVisible = false
             binding.rvSearch.isVisible = true
             binding.ivPlaceholder.isVisible = false
