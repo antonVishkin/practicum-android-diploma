@@ -5,11 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Region
+import java.util.Locale
 
 class RegionAdapter(
     private var regions: List<Region>,
     private val onClick: (String, String) -> Unit
 ) : RecyclerView.Adapter<RegionViewHolder>() {
+
+    private var allRegions: List<Region> = regions
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,7 +28,19 @@ class RegionAdapter(
     override fun getItemCount(): Int = regions.size
 
     fun updateRegions(newRegions: List<Region>) {
+        allRegions = newRegions
         regions = newRegions
+        notifyDataSetChanged()
+    }
+
+    fun filterRegions(query: String) {
+        regions = if (query.isEmpty()) {
+            allRegions
+        } else {
+            allRegions.filter {
+                it.name.lowercase(Locale.getDefault()).contains(query.lowercase(Locale.getDefault()))
+            }
+        }
         notifyDataSetChanged()
     }
 }

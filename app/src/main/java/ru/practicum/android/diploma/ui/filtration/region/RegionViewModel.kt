@@ -33,7 +33,9 @@ class RegionViewModel(private val regionInteractor: RegionInteractor) : ViewMode
                         _error.value = "No Connection: ${result.message}"
                     }
 
-                    is SearchResultData.NotFound -> TODO()
+                    is SearchResultData.NotFound -> {
+                        _error.value = "Not found: ${result.message}"
+                    }
                 }
             }
         }

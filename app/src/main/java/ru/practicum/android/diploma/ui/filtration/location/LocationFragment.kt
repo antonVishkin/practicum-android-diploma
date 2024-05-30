@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.filtration.location
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -52,13 +53,12 @@ class LocationFragment : Fragment() {
         val selectedCountryId = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
         val selectedRegionId = arguments?.getString(SELECTED_REGION_ID_KEY)
 
-//        Log.d(SELECTED_COUNTRY_ID_KEY, selectedCountryId.toString())
-//        Log.d(SELECTED_COUNTRY_KEY, selectedCountry.toString())
-//        Log.d(SELECTED_REGION_ID_KEY, selectedRegionId.toString())
-//        Log.d(SELECTED_REGION_KEY, selectedRegion.toString())
+        Log.d("selectedRegionId", selectedRegionId.toString())
+        Log.d("selectedRegion", selectedRegion.toString())
 
+        // Обработка логики для setupRegionField
         setupCountryField()
-        setupRegionField(selectedCountry.toString(), selectedCountryId.toString())
+        setupRegionField(selectedCountryId, selectedCountry)
         setupSelectButton()
         setupClearButton()
     }
@@ -78,7 +78,6 @@ class LocationFragment : Fragment() {
                 false
             }
         }
-
     }
 
     private fun setupSelectButton() {
@@ -93,7 +92,7 @@ class LocationFragment : Fragment() {
         }
     }
 
-    private fun setupRegionField(country: String, countryId: String) {
+    private fun setupRegionField(countryId: String?, country: String?) {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
                 putString(SELECTED_COUNTRY_KEY, country)

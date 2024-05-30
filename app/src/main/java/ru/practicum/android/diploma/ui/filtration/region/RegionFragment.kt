@@ -1,6 +1,8 @@
 package ru.practicum.android.diploma.ui.filtration.region
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,30 +41,27 @@ class RegionFragment : Fragment() {
 
         viewModel.fetchRegions(selectedCountryId)
 
-//        _adapter = RegionAdapter(emptyList()) { region, regionId ->
-//            onRegionClick(selectedCountryId ?: "", selectedCountry?: "", regionId, region)
-//        }
+        _adapter = RegionAdapter(emptyList()) { region, regionId ->
+            onRegionClick(selectedCountryId, selectedCountry, regionId, region)
+        }
 
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
-            binding.rvSearch.adapter = RegionAdapter(regions) { region, regionId ->
-                onRegionClick(selectedCountryId ?: "", selectedCountry ?: "", regionId, region)
-            }
+            _adapter?.updateRegions(regions)
         }
 
-        binding.rvSearch.setOnClickListener {
-            val selectedRegion = "Москва"
-            val bundle = Bundle().apply {
-                putString("selectedRegion", selectedRegion)
+        binding.etRegionSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                _adapter?.filterRegions(s.toString())
             }
-            findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
-        }
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun onRegionClick(countryId: String, country: String, regionId: String, region: String) {
-        // Обработка нажатия на регион
         val bundle = Bundle().apply {
             putString("selectedCountryId", countryId)
             putString("selectedCountry", country)
