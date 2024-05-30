@@ -46,13 +46,26 @@ class FiltrationFragment : Fragment() {
         }
         if (industry != null) viewModel.setIndustry(industry)
         val area = arguments?.getString(AREA) ?: null
-        viewModel.setArea(area)
+        if (area != null) {
+            viewModel.setArea(area)
+        }
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
-        /*        binding.etSalary.doOnTextChanged { text, start, before, count ->
-                    viewModel.salaryDebounce(text.toString())
-                }*/
+        viewModel.isChanged.observe(viewLifecycleOwner) {
+            showSaveButton(it)
+        }
+        binding.buttonRemove.setOnClickListener {
+            viewModel.setEmpty()
+        }
+        binding.buttonSave.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun showSaveButton(show: Boolean) {
+        binding.buttonSave.isVisible = show
+
     }
 
     private fun render(state: FiltrationState) {
@@ -77,6 +90,7 @@ class FiltrationFragment : Fragment() {
                 etAreaOfWork.setText(area.name)
                 ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
                 ilAreaOfWork.setEndIconOnClickListener {
+                    viewModel.setArea(null)
                     areaEndIconListener()
                 }
             } else {
@@ -87,16 +101,17 @@ class FiltrationFragment : Fragment() {
                 etIndustry.setText(industry.name)
                 ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
                 ilIndustry.setEndIconOnClickListener {
+                    viewModel.setIndustry(null)
                     industryEndIconListener()
                 }
             } else {
+                etIndustry.setText("")
                 etIndustry.setOnClickListener { onIndustryClick.invoke() }
             }
             if (!salary.isNullOrEmpty()) {
                 etSalary.setText(salary)
             }
             checkBoxSalary.isChecked = salaryEmptyNotShowing
-            buttonSave.isVisible = true
             buttonRemove.isVisible = true
         }
     }
@@ -104,27 +119,31 @@ class FiltrationFragment : Fragment() {
     private fun industryEndIconListener() {
         binding.apply {
             etIndustry.setText("")
-            ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
             ilIndustry.clearOnEndIconChangedListeners()
+            ilIndustry.setEndIconDrawable(R.drawable.arrow_forward)
             etIndustry.setOnClickListener { onIndustryClick.invoke() }
+            ilIndustry.setEndIconOnClickListener { onIndustryClick.invoke() }
         }
     }
 
     private fun areaEndIconListener() {
         binding.apply {
             etAreaOfWork.setText("")
-            ilAreaOfWork.setEndIconDrawable(R.drawable.arrow_forward)
             ilAreaOfWork.clearOnEndIconChangedListeners()
+            ilAreaOfWork.setEndIconDrawable(R.drawable.arrow_forward)
             etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
+            ilAreaOfWork.setEndIconOnClickListener { onAreaClick.invoke() }
         }
     }
 
     private fun showEmpty() {
         binding.apply {
+            areaEndIconListener()
+            industryEndIconListener()
+            etSalary.setText("")
+            checkBoxSalary.isChecked = false
             buttonSave.isVisible = false
             buttonRemove.isVisible = false
-            etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
-            etIndustry.setOnClickListener { onIndustryClick.invoke() }
         }
     }
 
@@ -146,7 +165,6 @@ class FiltrationFragment : Fragment() {
     private fun toolbarSetup() {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
-            val args = Bundle().putString(AREA, "")
             findNavController().navigateUp()
         }
 

@@ -11,23 +11,23 @@ import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Filtration
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.ui.filtration.FiltrationState.Content
-import ru.practicum.android.diploma.util.debounce
 
 class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor) : ViewModel() {
     private val _state = MutableLiveData<FiltrationState>()
     val state: LiveData<FiltrationState> get() = _state
-    val salaryDebounce = debounce<String>(SALARY_DEBOUNCE, viewModelScope, true) {
-        setSalary(it)
-    }
+    private val _isChanged = MutableLiveData<Boolean>(false)
+    val isChanged: LiveData<Boolean> get() = _isChanged
 
     init {
         _state.value = FiltrationState.Empty
     }
 
     private fun saveStateToPrefs(state: FiltrationState) {
-        val filtration = (state as Content).filtration
-        viewModelScope.launch {
-            filtrationInteractor.saveFiltration(filtration)
+        if (state !is FiltrationState.Empty) {
+            val filtration = (state as Content).filtration
+            viewModelScope.launch {
+                filtrationInteractor.saveFiltration(filtration)
+            }
         }
     }
 
@@ -52,6 +52,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
 
     fun setCheckbox(onlyWithSalary: Boolean) {
         val filtration = getCurrFiltration()
+        _isChanged.value = true
         renderState(
             Content(
                 Filtration(
@@ -66,6 +67,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
 
     fun setSalary(salary: String) {
         val filtration = getCurrFiltration()
+        _isChanged.value = true
         renderState(
             Content(
                 Filtration(
@@ -80,6 +82,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
 
     fun setArea(area: String?) {
         val filtration = getCurrFiltration()
+        _isChanged.value = true
         renderState(
             Content(
                 Filtration(
@@ -94,6 +97,7 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
 
     fun setIndustry(industry: Industry?) {
         val filtration = getCurrFiltration()
+        _isChanged.value = true
         renderState(
             Content(
                 Filtration(
@@ -106,8 +110,21 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         )
     }
 
+    private fun isEmpty(filtration: Filtration): Boolean {
+        val checkFiltrationNull = filtration.industry == null && filtration.area == null
+        return checkFiltrationNull && filtration.salary.isNullOrEmpty() && !filtration.onlyWithSalary
+    }
+
     private fun renderState(state: FiltrationState) {
-        _state.value = state
+        if (state is Content) {
+            if (isEmpty(state.filtration)) {
+                _state.value = FiltrationState.Empty
+            } else {
+                _state.value = state
+            }
+        } else {
+            _state.value = state
+        }
         saveStateToPrefs(state)
     }
 
@@ -117,6 +134,10 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         } else {
             Filtration(null, null, null, false)
         }
+    }
+
+    fun setEmpty() {
+        renderState(FiltrationState.Empty)
     }
 
     companion object {
