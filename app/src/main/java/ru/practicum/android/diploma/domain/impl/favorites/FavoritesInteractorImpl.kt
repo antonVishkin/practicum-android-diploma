@@ -44,4 +44,8 @@ class FavoritesInteractorImpl(private val favoritesRepository: FavoritesReposito
     override suspend fun getVacancyById(vacancyId: String): Vacancy {
         return favoritesRepository.getVacancyById(vacancyId)
     }
+
+    override suspend fun addVacancy(vacancy: Vacancy) {
+        return favoritesRepository.addVacancy(vacancy)
+    }
 }

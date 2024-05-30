@@ -122,6 +122,26 @@ class DBConverters {
         )
     }
 
+    fun mapVacancyToDetailsVacancy(vacancy: Vacancy): VacancyDetails {
+        return VacancyDetails(
+            id = vacancy.id,
+            vacancyName = vacancy.vacancyName,
+            companyName = vacancy.companyName,
+            alternateUrl = vacancy.alternateUrl,
+            logoUrl = vacancy.logoUrl,
+            city = vacancy.city,
+            employment = vacancy.employment,
+            experience = vacancy.experience,
+            salary = Salary(vacancy.salary?.currency, vacancy.salary?.from, vacancy.salary?.gross, vacancy.salary?.to),
+            description = vacancy.description,
+            keySkills = vacancy.keySkills,
+            contacts = null, // ИСПРАВИТЬ
+            comment = vacancy.comment,
+            schedule = vacancy.schedule,
+            address = vacancy.address
+        )
+    }
+
     fun mapCurrencyToEntity(currency: Currency): CurrencyDictionaryEntity = CurrencyDictionaryEntity(
         code = currency.code,
         name = currency.name,

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
@@ -19,6 +20,7 @@ class VacancyDetailsViewModel(
     private var sharingInteractor: SharingInteractor
 ) : ViewModel() {
 
+    private var isClickAllowed = true
     private var currencySymbol: String? = null
 
     private val _stateLiveData = MutableLiveData<VacancyDetailsState>()
@@ -69,7 +71,7 @@ class VacancyDetailsViewModel(
                     )
                 )
             } else {
-                favoritesInteractor.addVacancyDetails(vacancy)
+                favoritesInteractor.addVacancy(vacancy)
                 favoritesInteractor.addVacancyToFavorites(vacancy)
                 renderState(
                     VacancyDetailsState.Content(
@@ -111,5 +113,20 @@ class VacancyDetailsViewModel(
 
     fun eMail(email: String) {
         sharingInteractor.eMail(email)
+    }
+
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            viewModelScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }

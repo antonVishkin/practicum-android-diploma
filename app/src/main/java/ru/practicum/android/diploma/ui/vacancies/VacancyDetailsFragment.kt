@@ -13,7 +13,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
-import ru.practicum.android.diploma.domain.models.VacancyDetails
+import ru.practicum.android.diploma.domain.models.Phone
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.ui.root.RootActivity
 import ru.practicum.android.diploma.util.SalaryFormat
 
@@ -22,6 +23,9 @@ class VacancyDetailsFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyDetailsViewModel>()
+    private var adapter: ContactsAdapter? = null
+    private var paramVacancyId: String? = null
+    lateinit var onItemClickDebounce: (Phone) -> Unit
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -32,39 +36,33 @@ class VacancyDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
         return _binding?.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val vacancyId = arguments?.getString("vacancy_model") ?: ""
+        paramVacancyId = arguments?.getString("vacancy_model") ?: ""
+
         viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
-        viewModel.fetchVacancyDetails(vacancyId)
 
-    }
-
-    override fun onStop() {
-        super.onStop()
-        toolbar.menu.findItem(R.id.share).isVisible = false
-        toolbar.menu.findItem(R.id.favorite).isVisible = false
-        toolbar.menu.findItem(R.id.filters).isVisible = false
+        if (paramVacancyId != null) {
+            paramVacancyId?.let { viewModel.fetchVacancyDetails(it) }
+        }
     }
 
     private fun render(state: VacancyDetailsState) {
         when (state) {
-            is VacancyDetailsState.Loading -> showLoading()
             is VacancyDetailsState.Error -> showError()
+            is VacancyDetailsState.Loading -> showLoading()
             is VacancyDetailsState.Content -> {
                 val vacancyDetails = state.vacancy
                 toolbarSetup(vacancyDetails)
                 showContent(state.vacancy, state.currencySymbol, state.isFavorite)
             }
-
         }
     }
 
-    private fun showContent(vacancyDetails: VacancyDetails, currencySymbol: String, isFavorite: Boolean) {
+    private fun showContent(vacancy: Vacancy, currencySymbol: String, isFavorite: Boolean) {
         toolbar.menu.findItem(R.id.share).isVisible = true
         toolbar.menu.findItem(R.id.favorite).isVisible = true
         toolbar.menu.findItem(R.id.filters).isVisible = false
@@ -74,30 +72,30 @@ class VacancyDetailsFragment : Fragment() {
             ivPlaceholder.isVisible = false
             tvPlaceholder.isVisible = false
             progressBar.isVisible = false
-            tvJobTitle.text = vacancyDetails.name
+            tvJobTitle.text = vacancy.vacancyName
             tvSalary.text = SalaryFormat.formatSalary(
                 context = requireContext(),
-                salaryFrom = vacancyDetails.salary?.from,
-                salaryTo = vacancyDetails.salary?.to,
+                salaryFrom = vacancy.salary?.from,
+                salaryTo = vacancy.salary?.to,
                 currencySymbol = currencySymbol
             )
-            tvCompanyName.text = vacancyDetails.employerName
-            tvLocation.text = vacancyDetails.areaName
-            tvExperience.text = vacancyDetails.experienceName
-            tvJobDescriptionValue.text = Html.fromHtml(vacancyDetails.description, Html.FROM_HTML_MODE_COMPACT)
-            if (vacancyDetails.keySkills.isEmpty()) {
+            tvCompanyName.text = vacancy.employment
+            tvLocation.text = vacancy.city
+            tvExperience.text = vacancy.experience
+            tvJobDescriptionValue.text = Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT)
+            if (vacancy.keySkills.isEmpty()) {
                 tvKeySkillsLabel.isVisible = false
                 tvKeySkills.isVisible = false
             } else {
-                tvKeySkills.text = vacancyDetails.keySkills.joinToString("\n• ", "• ", "")
+                tvKeySkills.text = vacancy.keySkills.joinToString("\n• ", "• ", "")
             }
             Glide.with(binding.root)
-                .load(vacancyDetails.logoUrl)
+                .load(vacancy.logoUrl)
                 .placeholder(R.drawable.vacancies_placeholder)
                 .centerCrop()
                 .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
                 .into(ivCompanyLogo)
-            contactsLogicShoving(vacancyDetails)
+            contactsLogicShoving(vacancy)
 
             if (isFavorite) {
                 toolbar.menu.findItem(R.id.favorite).setIcon(R.drawable.heart_on_icon)
@@ -107,7 +105,85 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    private fun toolbarSetup(vacancyDetails: VacancyDetails) {
+    private fun showError() {
+        binding.apply {
+            progressBar.isVisible = false
+            ivPlaceholder.isVisible = true
+            tvPlaceholder.isVisible = true
+            nsvDetailsContent.isVisible = false
+        }
+    }
+
+    private fun showLoading() {
+        binding.apply {
+            nsvDetailsContent.isVisible = false
+            ivPlaceholder.isVisible = false
+            tvPlaceholder.isVisible = false
+            progressBar.isVisible = true
+        }
+    }
+
+    private fun contactsLogicShoving(vacancy: Vacancy) {
+        binding.apply {
+            if (vacancy.contacts?.name?.isNotEmpty() == true ||
+                vacancy.contacts?.email?.isNotEmpty() == true ||
+                vacancy.contacts?.phones?.toString()?.isNotEmpty() == true) {
+                tvContactsLabel.isVisible = false
+            } else {
+                tvContactsLabel.isVisible = true
+                if (vacancy.contacts?.name != null) {
+                    tvContactsPersonLabel.isVisible = true
+                    tvContacts.text = vacancy.contacts?.name
+                    tvContacts.isVisible = true
+                } else {
+                    tvContactsPersonLabel.isVisible = false
+                    tvContacts.isVisible = false
+                }
+                if (vacancy.contacts?.email != null) {
+                    tvEmail.text = vacancy.contacts?.email
+                    tvEmail.isVisible = true
+                    tvEmailLabel.isVisible = true
+                    binding.tvEmail.setOnClickListener {
+                        val vacancy = viewModel.currentVacancy.value
+                        if (viewModel.clickDebounce() && vacancy?.contacts?.email != null)
+                            viewModel.eMail(vacancy.contacts.email)
+                    }
+                } else {
+                    tvEmailLabel.isVisible = false
+                    tvEmail.isVisible = false
+                }
+                if (vacancy.contacts?.phones != null) {
+                    rvPhones.isVisible = true
+                    tvTelephoneLable.isVisible = true
+                    if (viewModel.clickDebounce()) {
+                        setPhonesAdapter(vacancy)
+                    }
+                } else {
+                    tvTelephoneLable.isVisible = false
+                    rvPhones.isVisible = false
+                }
+
+                if (vacancy.comment!!.isEmpty()) {
+                    tvCommentLabel.isVisible = false
+                    tvComment.isVisible = false
+                } else {
+                    tvCommentLabel.isVisible = true
+                    tvComment.text = vacancy.comment
+                    tvComment.isVisible = true
+                }
+            }
+        }
+    }
+
+    private fun setPhonesAdapter(vacancy: Vacancy) {
+        adapter = vacancy.contacts?.phones?.let {
+            ContactsAdapter(it) { phone -> onItemClickDebounce(phone) }
+        }
+        onItemClickDebounce = { phone -> viewModel.phoneCall(phone) }
+        binding.rvPhones.adapter = adapter
+    }
+
+    private fun toolbarSetup(vacancy: Vacancy) {
         toolbar.setNavigationIcon(R.drawable.arrow_back)
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -119,69 +195,21 @@ class VacancyDetailsFragment : Fragment() {
         toolbar.menu.findItem(R.id.filters).isVisible = false
 
         toolbar.menu.findItem(R.id.favorite).setOnMenuItemClickListener {
-            viewModel.addToFavorite()
+            viewModel.addToFavorite(vacancy)
             true
         }
 
         toolbar.menu.findItem(R.id.share).setOnMenuItemClickListener {
-            viewModel.shareApp(vacancyDetails)
+            viewModel.shareApp(vacancy.alternateUrl!!)
             true
         }
     }
 
-    private fun showError() {
-        binding.progressBar.isVisible = false
-        binding.ivPlaceholder.isVisible = true
-        binding.tvPlaceholder.isVisible = true
-        binding.nsvDetailsContent.isVisible = false
-    }
-
-    private fun showLoading() {
-        binding.nsvDetailsContent.isVisible = false
-        binding.ivPlaceholder.isVisible = false
-        binding.tvPlaceholder.isVisible = false
-        binding.progressBar.isVisible = true
-    }
-
-    private fun contactsLogicShoving(vacancyDetails: VacancyDetails) {
-        binding.apply {
-            if (vacancyDetails.contactPerson == null &&
-                vacancyDetails.email == null &&
-                vacancyDetails.phones.isNullOrEmpty()
-            ) {
-                tvContactsLabel.isVisible = false
-            }
-            if (vacancyDetails.contactPerson != null) {
-                tvContacts.text = vacancyDetails.contactPerson
-            } else {
-                tvContactsPersonLabel.isVisible = false
-                tvContacts.isVisible = false
-            }
-
-            if (vacancyDetails.email != null) {
-                tvEmail.text = vacancyDetails.email
-                tvEmail.isVisible = true
-                tvEmailLabel.isVisible = true
-                tvEmail.setOnClickListener {
-                    viewModel.eMail(vacancyDetails.email)
-                }
-            } else {
-                tvEmailLabel.isVisible = false
-                tvEmail.isVisible = false
-            }
-
-            if (!vacancyDetails.phones.isNullOrEmpty()) {
-                tvTelephone.text = vacancyDetails.phones.joinToString(", ")
-                tvTelephone.isVisible = true
-                tvTelephoneLable.isVisible = true
-                tvTelephone.setOnClickListener {
-                    viewModel.phoneCall(vacancyDetails.phones[0])
-                }
-            } else {
-                tvTelephoneLable.isVisible = false
-                tvTelephone.isVisible = false
-            }
-        }
+    override fun onStop() {
+        super.onStop()
+        toolbar.menu.findItem(R.id.share).isVisible = false
+        toolbar.menu.findItem(R.id.favorite).isVisible = false
+        toolbar.menu.findItem(R.id.filters).isVisible = false
     }
 
     override fun onDestroyView() {

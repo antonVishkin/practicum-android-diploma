@@ -52,4 +52,9 @@ class FavoritesRepositoryImpl(
     override suspend fun getVacancyById(vacancyId: String): Vacancy {
         return dBConverters.mapDetailsToVacancy(appDatabase.favoritesDAO().getVacancyDetails(vacancyId))
     }
+
+    override suspend fun addVacancy(vacancy: Vacancy) {
+        val vacancyDetails = dBConverters.mapVacancyToDetailsVacancy(vacancy)
+        return appDatabase.favoritesDAO().addVacancyDetails(dBConverters.map(vacancyDetails))
+    }
 }
