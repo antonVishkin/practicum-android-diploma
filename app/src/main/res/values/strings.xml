@@ -86,4 +86,5 @@
     <string name="filtration_remove_button">Сбросить</string>
     <string name="filtration_save_button">Применить</string>
     <string name="moscow_region">Московская область</string>
+    <string name="empty_region">Такого региона нет</string>
 </resources>
