@@ -42,9 +42,9 @@ class SearchViewModel(
             if (filtrationValue?.industry != null){
                 options["industry"] = filtrationValue.industry.id
             }
-/*            if (filtrationValue?.salary != null){
-                options["salary"] = filtrationValue.salary
-            }*/
+            if (!filtrationValue?.salary.isNullOrEmpty()){
+                options["salary"] = filtrationValue?.salary!!
+            }
             if (filtrationValue?.onlyWithSalary == true){
                 options["only_with_salary"] = "true"
             }
