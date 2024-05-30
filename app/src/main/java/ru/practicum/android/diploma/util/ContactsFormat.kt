@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.util
 
+import android.content.Context
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Phone
 
 private const val DROP_2 = 2
@@ -8,9 +10,10 @@ private const val DROP_4 = 4
 private const val DROP_5 = 5
 
 object ContactsFormat {
-    fun numberFormat(phone: Phone): String {
+    fun numberFormat(context: Context, phone: Phone): String {
+        val text = context.getString(R.string.phone_format)
         return String.format(
-            "+%s (%s) %s-%s-%s",
+            text,
             phone.country,
             phone.city,
             phone.number?.dropLast(DROP_4),

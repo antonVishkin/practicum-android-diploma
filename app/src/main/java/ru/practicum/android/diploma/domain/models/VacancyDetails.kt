@@ -4,7 +4,7 @@ data class VacancyDetails(
     val id: String,
     val vacancyName: String,
     val companyName: String,
-    val alternateUrl:String?,
+    val alternateUrl: String?,
     val logoUrl: String?,
     val city: String?,
     val employment: String?,
@@ -14,6 +14,6 @@ data class VacancyDetails(
     val keySkills: List<String?>,
     val contacts: Contacts?,
     val comment: String?,
-    val schedule:String?,
-    val address:String?
+    val schedule: String?,
+    val address: String?
 )

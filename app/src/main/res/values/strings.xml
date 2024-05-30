@@ -65,6 +65,7 @@
     <string name="pick_job_location">Выбор места работы</string>
     <string name="pick_country">Выбор страны</string>
     <string name="russia">Россия</string>
+    <string name="phone_format">+%s (%s) %s-%s-%s</string>
 
     <!-- DETAILS VACANCY FRAGMENT-->
     <string name="details_vacancy_error">Не удалось получить сведения о вакансии</string>

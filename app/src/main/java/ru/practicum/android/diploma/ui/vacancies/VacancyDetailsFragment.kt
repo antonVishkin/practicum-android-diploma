@@ -25,7 +25,7 @@ class VacancyDetailsFragment : Fragment() {
     private val viewModel by viewModel<VacancyDetailsViewModel>()
     private var adapter: ContactsAdapter? = null
     private var paramVacancyId: String? = null
-    lateinit var onItemClickDebounce: (Phone) -> Unit
+    private var onItemClickDebounce: ((Phone) -> Unit)? = null
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -133,7 +133,9 @@ class VacancyDetailsFragment : Fragment() {
                 showContactsEmail(vacancy)
                 showContactsPhone(vacancy)
                 showContactsComment(vacancy)
-            } else tvContactsLabel.isVisible = false
+            } else {
+                tvContactsLabel.isVisible = false
+            }
         }
     }
 
@@ -145,8 +147,9 @@ class VacancyDetailsFragment : Fragment() {
                 tvEmailLabel.isVisible = true
                 binding.tvEmail.setOnClickListener {
                     val v = viewModel.currentVacancy.value
-                    if (viewModel.clickDebounce() && v?.contacts?.email != null)
+                    if (viewModel.clickDebounce() && v?.contacts?.email != null) {
                         viewModel.eMail(v.contacts.email)
+                    }
                 }
             } else {
                 tvEmail.isVisible = false
@@ -198,7 +201,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun setPhonesAdapter(vacancy: Vacancy) {
         adapter = vacancy.contacts?.phones?.let {
-            ContactsAdapter(it) { phone -> onItemClickDebounce(phone) }
+            ContactsAdapter(it) { phone -> onItemClickDebounce?.invoke(phone) }
         }
         onItemClickDebounce = { phone -> viewModel.phoneCall(phone) }
         binding.rvPhones.adapter = adapter
