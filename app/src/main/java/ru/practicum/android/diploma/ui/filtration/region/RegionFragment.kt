@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.ui.filtration.region
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,10 @@ class RegionFragment : Fragment() {
 
         val selectedCountry = arguments?.getString("selectedCountry") ?: ""
         val selectedCountryId = arguments?.getString("selectedCountryId") ?: ""
+        val selectedregion = arguments?.getString("selectedregion") ?: ""
+        val selectedregionId = arguments?.getString("selectedregionId") ?: ""
+
+        Log.d("selectedCountryId-REGION", selectedCountryId)
 
         viewModel.fetchRegions(selectedCountryId)
 
@@ -49,6 +54,7 @@ class RegionFragment : Fragment() {
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
+            Log.d("RegionFragment", "Received regions: $regions")
             _adapter?.updateRegions(regions)
         }
 
@@ -63,6 +69,10 @@ class RegionFragment : Fragment() {
 
     private fun onRegionClick(countryId: String, country: String, regionId: String, region: String) {
         val bundle = Bundle().apply {
+
+            Log.d("selectedCountryId-REGION", countryId)
+            Log.d("selectedRegionId-REGION", regionId)
+
             putString("selectedCountryId", countryId)
             putString("selectedCountry", country)
             putString("selectedRegionId", regionId)

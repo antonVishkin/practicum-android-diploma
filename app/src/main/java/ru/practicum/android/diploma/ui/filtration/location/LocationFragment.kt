@@ -37,7 +37,6 @@ class LocationFragment : Fragment() {
         val selectedCountry = arguments?.getString(SELECTED_COUNTRY_KEY)
         if (!selectedCountry.isNullOrEmpty()) {
             binding.etCountry.setText(selectedCountry)
-            binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
 
@@ -45,39 +44,49 @@ class LocationFragment : Fragment() {
         val selectedRegion = arguments?.getString(SELECTED_REGION_KEY)
         if (!selectedRegion.isNullOrEmpty()) {
             binding.etRegion.setText(selectedRegion)
-            binding.etRegion.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
 
-        // Получить выбранные ID страны и региона
         val selectedCountryId = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
         val selectedRegionId = arguments?.getString(SELECTED_REGION_ID_KEY)
 
-        Log.d("selectedRegionId", selectedRegionId.toString())
-        Log.d("selectedRegion", selectedRegion.toString())
+//        Log.d(SELECTED_COUNTRY_ID_KEY, selectedCountryId.toString())
+//        Log.d(SELECTED_REGION_ID_KEY, selectedRegionId.toString())
 
         // Обработка логики для setupRegionField
         setupCountryField()
-        setupRegionField(selectedCountryId, selectedCountry)
+        setupRegionField(selectedCountryId, selectedCountry, selectedRegionId, selectedRegion)
         setupSelectButton()
         setupClearButton()
+
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupClearButton() { // Слушатель для кнопки очистки
-        binding.etCountry.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP &&
-                event.rawX >= binding.etCountry.right - binding.etCountry.compoundDrawables[2].bounds.width()
-            ) {
-                binding.etCountry.setText("")
-                binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_forward, 0)
-                binding.btnSelectionContainer.visibility =
-                    if (binding.etRegion.text!!.isEmpty()) View.GONE else View.VISIBLE
-                true
-            } else {
-                false
-            }
+    private fun setupClearButton() {
+        // Слушатель для кнопки очистки в поле etCountry
+        binding.countryIcon.setOnClickListener {
+            binding.etCountry.setText("")
+            updateClearButtonVisibility()
         }
+
+        // Слушатель для кнопки очистки в поле etRegion
+        binding.regionIcon.setOnClickListener {
+            binding.etRegion.setText("")
+            updateClearButtonVisibility()
+        }
+
+        // Обновление видимости кнопки очистки
+        updateClearButtonVisibility()
+    }
+
+    private fun updateClearButtonVisibility() {
+        val isCountryEmpty = binding.etCountry.text.isNullOrEmpty()
+        val isRegionEmpty = binding.etRegion.text.isNullOrEmpty()
+
+        binding.countryIcon.setImageResource(if (isCountryEmpty) R.drawable.arrow_forward else R.drawable.clean_icon)
+        binding.regionIcon.setImageResource(if (isRegionEmpty) R.drawable.arrow_forward else R.drawable.clean_icon)
+        binding.btnSelectionContainer.visibility = if (isCountryEmpty && isRegionEmpty) View.GONE else View.VISIBLE
     }
 
     private fun setupSelectButton() {
@@ -92,11 +101,13 @@ class LocationFragment : Fragment() {
         }
     }
 
-    private fun setupRegionField(countryId: String?, country: String?) {
+    private fun setupRegionField(countryId: String?, country: String?, regionId: String?, region: String?) {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
-                putString(SELECTED_COUNTRY_KEY, country)
                 putString(SELECTED_COUNTRY_ID_KEY, countryId)
+                putString(SELECTED_COUNTRY_KEY, country)
+                putString(SELECTED_REGION_ID_KEY, regionId)
+                putString(SELECTED_REGION_KEY, region)
             }
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment, bundle)
         }
