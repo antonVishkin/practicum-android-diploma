@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.domain.models.Region
 
 class RegionAdapter(
     private var regions: List<Region>,
-    private val onClick: (String) -> Unit
+    private val onClick: (String, String) -> Unit
 ) : RecyclerView.Adapter<RegionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionViewHolder {
@@ -19,7 +19,7 @@ class RegionAdapter(
 
     override fun onBindViewHolder(holder: RegionViewHolder, position: Int) {
         val region = regions[position]
-        holder.bind(region.name)
+        holder.bind(region.name, region.id)
     }
 
     override fun getItemCount(): Int = regions.size

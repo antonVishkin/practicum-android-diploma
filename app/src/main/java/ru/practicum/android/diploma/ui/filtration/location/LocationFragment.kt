@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.filtration.location
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -30,10 +31,6 @@ class LocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupCountryField()
-        setupRegionField()
-        setupSelectButton()
-        setupClearButton()
         toolbarSetup()
 
         // Получить выбранную страну из аргументов, если она есть
@@ -43,6 +40,7 @@ class LocationFragment : Fragment() {
             binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
+
         // Получить выбранный регион из аргументов, если он есть
         val selectedRegion = arguments?.getString("selectedRegion")
         if (!selectedRegion.isNullOrEmpty()) {
@@ -50,6 +48,20 @@ class LocationFragment : Fragment() {
             binding.etRegion.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
+
+        // Получить выбранные ID страны и региона
+        val selectedCountryId = arguments?.getString("selectedCountryId")
+        val selectedRegionId = arguments?.getString("selectedRegionId")
+
+        Log.d("selectedCountryId", selectedCountryId.toString())
+        Log.d("selectedCountry", selectedCountry.toString())
+        Log.d("selectedRegionId", selectedRegionId.toString())
+        Log.d("selectedRegion", selectedRegion.toString())
+
+        setupCountryField()
+        setupRegionField(selectedCountry.toString(), selectedCountryId.toString())
+        setupSelectButton()
+        setupClearButton()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -82,9 +94,13 @@ class LocationFragment : Fragment() {
         }
     }
 
-    private fun setupRegionField() {
+    private fun setupRegionField(country: String, countryId: String) {
         binding.etRegion.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_regionFragment)
+            val bundle = Bundle().apply {
+                putString("selectedCountry", country)
+                putString("selectedCountryId", countryId)
+            }
+            findNavController().navigate(R.id.action_locationFragment_to_regionFragment, bundle)
         }
     }
 

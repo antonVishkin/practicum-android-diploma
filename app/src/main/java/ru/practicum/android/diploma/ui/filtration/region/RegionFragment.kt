@@ -34,20 +34,22 @@ class RegionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         toolbarSetup()
-        val selectedCountry = arguments?.getString("selectedCountry") ?: ""
-        Log.d("RegionFragment", "Selected country: $selectedCountry")
-        viewModel.fetchRegions(selectedCountry)
 
-        _adapter = RegionAdapter(emptyList()) { region ->
-            onRegionClick(region)
-        }
+        val selectedCountry = arguments?.getString("selectedCountry") ?: ""
+        val selectedCountryId = arguments?.getString("selectedCountryId") ?: ""
+
+        viewModel.fetchRegions(selectedCountryId)
+
+//        _adapter = RegionAdapter(emptyList()) { region, regionId ->
+//            onRegionClick(selectedCountryId ?: "", selectedCountry?: "", regionId, region)
+//        }
 
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
-            binding.rvSearch.adapter = RegionAdapter(regions) { region ->
-                onRegionClick(region)
+            binding.rvSearch.adapter = RegionAdapter(regions) { region, regionId ->
+                onRegionClick(selectedCountryId ?: "", selectedCountry?: "", regionId, region)
             }
         }
 
@@ -58,12 +60,14 @@ class RegionFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
         }
-
     }
 
-    private fun onRegionClick(region: String) {
+    private fun onRegionClick(countryId: String, country: String, regionId: String, region: String) {
         // Обработка нажатия на регион
         val bundle = Bundle().apply {
+            putString("selectedCountryId", countryId)
+            putString("selectedCountry", country)
+            putString("selectedRegionId", regionId)
             putString("selectedRegion", region)
         }
         findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
