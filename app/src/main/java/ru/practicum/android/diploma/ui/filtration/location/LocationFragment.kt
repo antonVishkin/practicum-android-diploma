@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.ui.filtration.location
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -34,7 +33,7 @@ class LocationFragment : Fragment() {
         toolbarSetup()
 
         // Получить выбранную страну из аргументов, если она есть
-        val selectedCountry = arguments?.getString("selectedCountry")
+        val selectedCountry = arguments?.getString(SELECTED_COUNTRY_KEY)
         if (!selectedCountry.isNullOrEmpty()) {
             binding.etCountry.setText(selectedCountry)
             binding.etCountry.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
@@ -42,7 +41,7 @@ class LocationFragment : Fragment() {
         }
 
         // Получить выбранный регион из аргументов, если он есть
-        val selectedRegion = arguments?.getString("selectedRegion")
+        val selectedRegion = arguments?.getString(SELECTED_REGION_KEY)
         if (!selectedRegion.isNullOrEmpty()) {
             binding.etRegion.setText(selectedRegion)
             binding.etRegion.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.clean_icon, 0)
@@ -50,13 +49,13 @@ class LocationFragment : Fragment() {
         }
 
         // Получить выбранные ID страны и региона
-        val selectedCountryId = arguments?.getString("selectedCountryId")
-        val selectedRegionId = arguments?.getString("selectedRegionId")
+        val selectedCountryId = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
+        val selectedRegionId = arguments?.getString(SELECTED_REGION_ID_KEY)
 
-        Log.d("selectedCountryId", selectedCountryId.toString())
-        Log.d("selectedCountry", selectedCountry.toString())
-        Log.d("selectedRegionId", selectedRegionId.toString())
-        Log.d("selectedRegion", selectedRegion.toString())
+//        Log.d(SELECTED_COUNTRY_ID_KEY, selectedCountryId.toString())
+//        Log.d(SELECTED_COUNTRY_KEY, selectedCountry.toString())
+//        Log.d(SELECTED_REGION_ID_KEY, selectedRegionId.toString())
+//        Log.d(SELECTED_REGION_KEY, selectedRegion.toString())
 
         setupCountryField()
         setupRegionField(selectedCountry.toString(), selectedCountryId.toString())
@@ -97,8 +96,8 @@ class LocationFragment : Fragment() {
     private fun setupRegionField(country: String, countryId: String) {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("selectedCountry", country)
-                putString("selectedCountryId", countryId)
+                putString(SELECTED_COUNTRY_KEY, country)
+                putString(SELECTED_COUNTRY_ID_KEY, countryId)
             }
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment, bundle)
         }
@@ -126,5 +125,12 @@ class LocationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object{
+        private const val SELECTED_COUNTRY_ID_KEY = "selectedCountryId"
+        private const val SELECTED_COUNTRY_KEY = "selectedCountry"
+        private const val SELECTED_REGION_ID_KEY = "selectedRegionId"
+        private const val SELECTED_REGION_KEY = "selectedRegion"
     }
 }
