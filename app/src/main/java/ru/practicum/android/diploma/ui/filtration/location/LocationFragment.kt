@@ -2,9 +2,7 @@ package ru.practicum.android.diploma.ui.filtration.location
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -105,18 +103,18 @@ class LocationFragment : Fragment() {
     private fun setupRegionField(countryId: String?, country: String?, regionId: String?, region: String?) {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
-                if(binding.etCountry.text.toString() == "") {
+                if (binding.etCountry.text.toString() == "") {
                     putString(SELECTED_COUNTRY_ID_KEY, "")
                     putString(SELECTED_COUNTRY_KEY, "")
-                }else{
+                } else {
                     putString(SELECTED_COUNTRY_ID_KEY, countryId)
                     putString(SELECTED_COUNTRY_KEY, country)
                 }
 
-                if(binding.etRegion.text.toString() == "") {
+                if (binding.etRegion.text.toString() == "") {
                     putString(SELECTED_REGION_ID_KEY, "")
                     putString(SELECTED_REGION_KEY, "")
-                }else{
+                } else {
                     putString(SELECTED_REGION_ID_KEY, regionId)
                     putString(SELECTED_REGION_KEY, region)
                 }
