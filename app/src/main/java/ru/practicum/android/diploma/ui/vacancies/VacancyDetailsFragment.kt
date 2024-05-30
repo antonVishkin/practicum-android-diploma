@@ -128,7 +128,8 @@ class VacancyDetailsFragment : Fragment() {
         binding.apply {
             if (vacancy.contacts?.name?.isNotEmpty() == true ||
                 vacancy.contacts?.email?.isNotEmpty() == true ||
-                vacancy.contacts?.phones?.toString()?.isNotEmpty() == true) {
+                vacancy.contacts?.phones?.toString()?.isNotEmpty() == true
+            ) {
                 tvContactsLabel.isVisible = true
                 showContactsName(vacancy)
                 showContactsEmail(vacancy)

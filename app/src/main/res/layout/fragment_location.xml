@@ -35,7 +35,7 @@
         android:src="@drawable/arrow_forward"
         app:layout_constraintBottom_toBottomOf="@+id/tilCountry"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/etCountry"
+        app:layout_constraintStart_toEndOf="@id/tilCountry"
         app:layout_constraintTop_toTopOf="@+id/tilCountry"
         android:layout_marginRight="16dp"/>
 
@@ -74,7 +74,7 @@
         android:src="@drawable/arrow_forward"
         app:layout_constraintBottom_toBottomOf="@+id/tilRegion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/etCountry"
+        app:layout_constraintStart_toEndOf="@id/tilRegion"
         app:layout_constraintTop_toTopOf="@+id/tilRegion" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
