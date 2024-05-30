@@ -48,7 +48,7 @@ class RegionFragment : Fragment() {
 
         viewModel.regions.observe(viewLifecycleOwner) { regions ->
             binding.rvSearch.adapter = RegionAdapter(regions) { region, regionId ->
-                onRegionClick(selectedCountryId ?: "", selectedCountry?: "", regionId, region)
+                onRegionClick(selectedCountryId ?: "", selectedCountry ?: "", regionId, region)
             }
         }
 
