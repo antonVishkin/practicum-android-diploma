@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
@@ -19,6 +20,8 @@ import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 class RetrofitNetworkClient(
     private val headHunterApi: HeadHunterApi,
@@ -121,6 +124,22 @@ class RetrofitNetworkClient(
         }
     }
 
+    override suspend fun getCountries(): Result<List<AreaDTO>> {
+        if (!isConnected()) {
+            return Result.failure(ConnectException())
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val countries = headHunterApi.getCountries()
+                Result.success(countries)
+            } catch (e: HttpException) {
+                Result.failure(e)
+            } catch (e: SocketTimeoutException) {
+                Result.failure(e)
+            }
+        }
+    }
+
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -138,7 +157,7 @@ class RetrofitNetworkClient(
             name = "",
             salary = null,
             employer = null,
-            area = AreaDTO("", "", ""),
+            area = AreaDTO("", "", "", listOf()),
             experience = ExperienceDTO(""),
             description = "",
             keySkills = listOf(),
@@ -148,6 +167,7 @@ class RetrofitNetworkClient(
     }
 
     companion object {
+        private const val BASE_URL = "https://api.hh.ru/"
         const val CLIENT_ERROR_RESULT_CODE = 400
         const val CLIENT_SUCCESS_RESULT_CODE = 200
         const val NO_INTERNET_RESULT_CODE = -1

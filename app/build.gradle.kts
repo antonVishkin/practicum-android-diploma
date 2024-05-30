@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
     // endregion
-
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("androidx.constraintlayout:constraintlayout-core:1.0.4")
     implementation("com.android.volley:volley:1.2.1")
     testImplementation("junit:junit:4.13.2")

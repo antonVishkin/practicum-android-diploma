@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
+import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class RegionFragment : Fragment() {
-    private var _binding: FragmentFiltrationBinding? = null
+    private var _binding: FragmentRegionBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModel<RegionViewModel>()
+    private var _adapter: RegionAdapter? = null
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -21,7 +25,7 @@ class RegionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
+        _binding = FragmentRegionBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -29,6 +33,43 @@ class RegionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         toolbarSetup()
+
+        val selectedCountry = arguments?.getString("selectedCountry") ?: ""
+        val selectedCountryId = arguments?.getString("selectedCountryId") ?: ""
+
+        viewModel.fetchRegions(selectedCountryId)
+
+//        _adapter = RegionAdapter(emptyList()) { region, regionId ->
+//            onRegionClick(selectedCountryId ?: "", selectedCountry?: "", regionId, region)
+//        }
+
+        binding.rvSearch.adapter = _adapter
+        binding.rvSearch.layoutManager = LinearLayoutManager(context)
+
+        viewModel.regions.observe(viewLifecycleOwner) { regions ->
+            binding.rvSearch.adapter = RegionAdapter(regions) { region, regionId ->
+                onRegionClick(selectedCountryId ?: "", selectedCountry ?: "", regionId, region)
+            }
+        }
+
+        binding.rvSearch.setOnClickListener {
+            val selectedRegion = "Москва"
+            val bundle = Bundle().apply {
+                putString("selectedRegion", selectedRegion)
+            }
+            findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
+        }
+    }
+
+    private fun onRegionClick(countryId: String, country: String, regionId: String, region: String) {
+        // Обработка нажатия на регион
+        val bundle = Bundle().apply {
+            putString("selectedCountryId", countryId)
+            putString("selectedCountry", country)
+            putString("selectedRegionId", regionId)
+            putString("selectedRegion", region)
+        }
+        findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
     }
 
     override fun onStop() {
@@ -44,7 +85,7 @@ class RegionFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        toolbar.title = getString(R.string.title_filtration)
+        toolbar.title = getString(R.string.pick_regions)
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
