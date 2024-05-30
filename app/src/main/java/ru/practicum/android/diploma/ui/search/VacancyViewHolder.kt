@@ -13,7 +13,7 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
         with(binding) {
             tvVacancyName.text = buildString {
                 append(vacancy.name)
-                vacancy.city?.takeIf { it.isNotEmpty() }?.let {
+                vacancy.area?.takeIf { it.isNotEmpty() }?.let {
                     append(", $it")
                 }
             }

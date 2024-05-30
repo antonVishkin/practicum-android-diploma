@@ -4,7 +4,7 @@ import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.data.dto.VacancyDetailConverter
+import ru.practicum.android.diploma.data.converters.VacancyDtoConverter
 import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.ui.vacancies.VacancyDetailStatus
 
 class VacancyDetailsRepositoryImpl(
     private val client: NetworkClient,
-    private val converter: VacancyDetailConverter,
+    private val converter: VacancyDtoConverter,
     private val context: Context
 ) : VacancyDetailsRepository {
 

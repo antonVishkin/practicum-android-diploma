@@ -63,7 +63,6 @@ class VacancyDetailsViewModel(
             val state = isVacancyFavorite(vacancy.id)
             if (state) {
                 favoritesInteractor.removeVacancyFromFavorites(vacancy)
-                favoritesInteractor.removeVacancyDetails(vacancy.id)
                 renderState(
                     VacancyDetailsState.Content(
                         vacancy = vacancy,
@@ -72,7 +71,6 @@ class VacancyDetailsViewModel(
                     )
                 )
             } else {
-                favoritesInteractor.addVacancy(vacancy)
                 favoritesInteractor.addVacancyToFavorites(vacancy)
                 renderState(
                     VacancyDetailsState.Content(

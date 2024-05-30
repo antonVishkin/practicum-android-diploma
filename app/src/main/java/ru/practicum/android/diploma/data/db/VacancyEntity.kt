@@ -15,7 +15,7 @@ data class VacancyEntity(
     val alternateUrl: String?,
     @ColumnInfo(name = "logo_url")
     val logoUrl: String?,
-    val city: String?,
+    val area: String?,
     val employment: String?,
     val experience: String?,
     @Embedded(prefix = "salary_")

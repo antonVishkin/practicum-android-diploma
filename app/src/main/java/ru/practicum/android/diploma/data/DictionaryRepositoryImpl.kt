@@ -3,17 +3,17 @@ package ru.practicum.android.diploma.data
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.practicum.android.diploma.data.converters.DBConverters
+import ru.practicum.android.diploma.data.converters.CurrencyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryRepository
 import ru.practicum.android.diploma.domain.models.Currency
 import java.io.IOException
 
-class DictionaryRepositoryImpl(private val appDatabase: AppDatabase, private val dbConverters: DBConverters) :
+class DictionaryRepositoryImpl(private val appDatabase: AppDatabase, private val currencyConverter: CurrencyConverter) :
     DictionaryRepository {
     override suspend fun getCurrency(code: String): Currency? {
         return try {
-            dbConverters.mapCurrencyToEntity(appDatabase.dictionaryDAO().getCurrencyByCode(code))
+            currencyConverter.mapCurrencyToEntity(appDatabase.dictionaryDAO().getCurrencyByCode(code))
         } catch (e: IOException) {
             Log.e("DATABASE EMPTY", e.toString())
             null
@@ -21,10 +21,10 @@ class DictionaryRepositoryImpl(private val appDatabase: AppDatabase, private val
     }
 
     override fun getCurrencyDictionary(): Flow<List<Currency>> = flow {
-        emit(appDatabase.dictionaryDAO().getCurrencyDictionary().map { dbConverters.mapCurrencyToEntity(it) })
+        emit(appDatabase.dictionaryDAO().getCurrencyDictionary().map { currencyConverter.mapCurrencyToEntity(it) })
     }
 
     override suspend fun addCurrencies(currencies: List<Currency>) {
-        appDatabase.dictionaryDAO().addCurrencies(currencies.map { dbConverters.mapCurrencyToEntity(it) })
+        appDatabase.dictionaryDAO().addCurrencies(currencies.map { currencyConverter.mapCurrencyToEntity(it) })
     }
 }

@@ -1,11 +1,16 @@
-package ru.practicum.android.diploma.data.dto
+package ru.practicum.android.diploma.data.converters
 
+import ru.practicum.android.diploma.data.dto.ContactsDto
+import ru.practicum.android.diploma.data.dto.KeySkillDto
+import ru.practicum.android.diploma.data.dto.PhoneDto
+import ru.practicum.android.diploma.data.dto.SalaryDto
+import ru.practicum.android.diploma.data.dto.VacancyDto
 import ru.practicum.android.diploma.domain.models.Contacts
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.Vacancy
 
-class VacancyDetailConverter {
+class VacancyDtoConverter {
     fun map(vacancyDto: VacancyDto): Vacancy {
         return with(vacancyDto) {
             Vacancy(
@@ -14,7 +19,7 @@ class VacancyDetailConverter {
                 companyName = employer.name,
                 alternateUrl = alternateUrl,
                 logoUrl = employer.logo?.big,
-                city = area.name,
+                area = area.name,
                 employment = employment?.name,
                 experience = experience?.name,
                 salary = createSalary(salary),

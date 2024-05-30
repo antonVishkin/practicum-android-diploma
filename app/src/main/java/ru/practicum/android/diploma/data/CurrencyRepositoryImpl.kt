@@ -2,17 +2,19 @@ package ru.practicum.android.diploma.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.practicum.android.diploma.data.converters.CurrencyConverter
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
-import ru.practicum.android.diploma.data.dto.VacancyDetailConverter
+import ru.practicum.android.diploma.data.converters.VacancyDtoConverter
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.domain.api.dictionary.CurrencyRepository
 import ru.practicum.android.diploma.domain.models.Currency
 
 class CurrencyRepositoryImpl(
     private val client: NetworkClient,
-    private val vacancyDetailConverter: VacancyDetailConverter
+    private val converter: CurrencyConverter
 ) : CurrencyRepository {
+
     override fun getCurrencyDictionary(): Flow<List<Currency>> = flow {
         val response = client.doRequest(CurrencyRequest())
         when (response.resultCode) {
@@ -21,7 +23,7 @@ class CurrencyRepositoryImpl(
                 if (list == null) {
                     emit(listOf())
                 } else {
-                    emit(list.map { vacancyDetailConverter.map(it) })
+                    emit(list.map { converter.map(it) })
                 }
             }
 

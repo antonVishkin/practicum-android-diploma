@@ -6,7 +6,7 @@ data class Vacancy(
     val companyName: String,
     val alternateUrl: String?,
     val logoUrl: String?,
-    val city: String?,
+    val area: String?,
     val employment: String?,
     val experience: String?,
     val salary: Salary?,

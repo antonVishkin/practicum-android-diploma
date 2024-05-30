@@ -80,7 +80,7 @@ class VacancyDetailsFragment : Fragment() {
                 currencySymbol = currencySymbol
             )
             tvCompanyName.text = vacancy.employment
-            tvLocation.text = vacancy.city
+            tvLocation.text = vacancy.area
             tvExperience.text = vacancy.experience
             tvJobDescriptionValue.text = Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT)
             if (vacancy.keySkills.isEmpty()) {

@@ -10,9 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.App
 import ru.practicum.android.diploma.data.CurrencyRepositoryImpl
 import ru.practicum.android.diploma.data.DictionaryRepositoryImpl
-import ru.practicum.android.diploma.data.converters.DBConverters
+import ru.practicum.android.diploma.data.converters.CurrencyConverter
 import ru.practicum.android.diploma.data.db.AppDatabase
-import ru.practicum.android.diploma.data.dto.VacancyDetailConverter
+import ru.practicum.android.diploma.data.converters.VacancyDtoConverter
 import ru.practicum.android.diploma.data.network.HeadHunterApi
 import ru.practicum.android.diploma.data.preferences.PreferencesProvider
 import ru.practicum.android.diploma.data.preferences.PreferencesProviderImpl
@@ -35,8 +35,8 @@ val dataModule = module {
     single<DictionaryInteractor> { DictionaryInteractorImpl(get(), get()) }
     single<CurrencyRepository> { CurrencyRepositoryImpl(get(), get()) }
     single<DictionaryRepository> { DictionaryRepositoryImpl(get(), get()) }
-    factory { VacancyDetailConverter() }
-    factory { DBConverters() }
+    factory { VacancyDtoConverter() }
+    factory { CurrencyConverter() }
     single<PreferencesProvider> { PreferencesProviderImpl(get(), get()) }
     factory { Gson() }
     single { androidContext().getSharedPreferences(App.PREFERENCE_NAME, Context.MODE_PRIVATE) }
