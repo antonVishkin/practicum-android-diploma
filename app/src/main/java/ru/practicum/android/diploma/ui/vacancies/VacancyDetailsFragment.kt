@@ -128,37 +128,70 @@ class VacancyDetailsFragment : Fragment() {
             if (vacancy.contacts?.name?.isNotEmpty() == true ||
                 vacancy.contacts?.email?.isNotEmpty() == true ||
                 vacancy.contacts?.phones?.toString()?.isNotEmpty() == true) {
-                tvContactsLabel.isVisible = false
-            } else {
                 tvContactsLabel.isVisible = true
-                if (vacancy.contacts?.name != null) {
-                    tvContactsPersonLabel.isVisible = true
-                    tvContacts.text = vacancy.contacts?.name
-                    tvContacts.isVisible = true
-                }
-                if (vacancy.contacts?.email != null) {
-                    tvEmail.text = vacancy.contacts?.email
-                    tvEmail.isVisible = true
-                    tvEmailLabel.isVisible = true
-                    binding.tvEmail.setOnClickListener {
-                        val vacancy = viewModel.currentVacancy.value
-                        if (viewModel.clickDebounce() && vacancy?.contacts?.email != null)
-                            viewModel.eMail(vacancy.contacts.email)
-                    }
-                }
-                if (vacancy.contacts?.phones != null) {
-                    rvPhones.isVisible = true
-                    tvTelephoneLable.isVisible = true
-                    if (viewModel.clickDebounce()) {
-                        setPhonesAdapter(vacancy)
-                    }
-                }
+                showContactsName(vacancy)
+                showContactsEmail(vacancy)
+                showContactsPhone(vacancy)
+                showContactsComment(vacancy)
+            } else tvContactsLabel.isVisible = false
+        }
+    }
 
-                if (vacancy.comment!!.isNotEmpty()) {
-                    tvCommentLabel.isVisible = true
-                    tvComment.text = vacancy.comment
-                    tvComment.isVisible = true
+    private fun showContactsEmail(vacancy: Vacancy) {
+        binding.apply {
+            if (vacancy.contacts?.email?.isNotEmpty() == true) {
+                tvEmail.text = vacancy.contacts.email
+                tvEmail.isVisible = true
+                tvEmailLabel.isVisible = true
+                binding.tvEmail.setOnClickListener {
+                    val v = viewModel.currentVacancy.value
+                    if (viewModel.clickDebounce() && v?.contacts?.email != null)
+                        viewModel.eMail(v.contacts.email)
                 }
+            } else {
+                tvEmail.isVisible = false
+                tvEmailLabel.isVisible = false
+            }
+        }
+    }
+
+    private fun showContactsName(vacancy: Vacancy) {
+        binding.apply {
+            if (vacancy.contacts?.name?.isNotEmpty() == true) {
+                tvContactsPersonLabel.isVisible = true
+                tvContacts.text = vacancy.contacts.name
+                tvContacts.isVisible = true
+            } else {
+                tvContactsPersonLabel.isVisible = false
+                tvContacts.isVisible = false
+            }
+        }
+    }
+
+    private fun showContactsPhone(vacancy: Vacancy) {
+        binding.apply {
+            if (vacancy.contacts?.phones?.isNotEmpty() == true) {
+                rvPhones.isVisible = true
+                tvTelephoneLable.isVisible = true
+                if (viewModel.clickDebounce()) {
+                    setPhonesAdapter(vacancy)
+                }
+            } else {
+                rvPhones.isVisible = false
+                tvTelephoneLable.isVisible = false
+            }
+        }
+    }
+
+    private fun showContactsComment(vacancy: Vacancy) {
+        binding.apply {
+            if (vacancy.comment?.isNotEmpty() == true) {
+                tvCommentLabel.isVisible = true
+                tvComment.text = vacancy.comment
+                tvComment.isVisible = true
+            } else {
+                tvCommentLabel.isVisible = false
+                tvComment.isVisible = false
             }
         }
     }
