@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ContactsViewBinding
 import ru.practicum.android.diploma.domain.models.Phone
 
-class ContactsAdapter (
+class ContactsAdapter(
     private val phones: List<Phone?>,
     private val onClickListener: (Phone) -> Unit
 ) : RecyclerView.Adapter<ContactsViewHolder>() {

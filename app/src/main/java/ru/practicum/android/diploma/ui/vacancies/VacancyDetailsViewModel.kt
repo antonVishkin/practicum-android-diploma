@@ -47,8 +47,9 @@ class VacancyDetailsViewModel(
                     is VacancyDetailStatus.NoConnection -> {
                         if (isVacancyFavorite(vacancyId)) {
                             getVacancyFromDb(vacancyId, currencySymbol!!)
-                        } else
+                        } else {
                             renderState(VacancyDetailsState.Error)
+                        }
                     }
 
                     else -> renderState(VacancyDetailsState.Error)
@@ -91,7 +92,8 @@ class VacancyDetailsViewModel(
             renderState(VacancyDetailsState.Content(
                 vacancy = vacancyFromDb,
                 currencySymbol = symbol,
-                isFavorite = true))
+                isFavorite = true)
+            )
         }
     }
 
