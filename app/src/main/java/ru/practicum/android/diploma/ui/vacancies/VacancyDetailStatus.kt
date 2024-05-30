@@ -7,5 +7,6 @@ sealed class VacancyDetailStatus<out T>(val code: Int = DEFAULT_NETWORK_RESPONSE
     class NoConnection : VacancyDetailStatus<Nothing>()
     class Error(newResponseCode: Int = DEFAULT_NETWORK_RESPONSE, message: String = "Error") :
         VacancyDetailStatus<Nothing>(code = newResponseCode)
+
     class Content<T>(networkData: T) : VacancyDetailStatus<T>(data = networkData)
 }

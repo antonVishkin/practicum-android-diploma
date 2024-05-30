@@ -139,7 +139,6 @@ class RetrofitNetworkClient(
     }
 
     companion object {
-        private const val BASE_URL = "https://api.hh.ru/"
         const val CLIENT_ERROR_RESULT_CODE = 400
         const val CLIENT_SUCCESS_RESULT_CODE = 200
         const val NO_INTERNET_RESULT_CODE = -1

@@ -89,9 +89,9 @@ class VacancyDetailsViewModel(
             _currentVacancy.value = vacancyFromDb
             renderState(
                 VacancyDetailsState.Content(
-                vacancy = vacancyFromDb,
-                currencySymbol = symbol,
-                isFavorite = true
+                    vacancy = vacancyFromDb,
+                    currencySymbol = symbol,
+                    isFavorite = true
                 )
             )
         }

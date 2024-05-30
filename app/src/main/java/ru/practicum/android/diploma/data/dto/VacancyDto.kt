@@ -9,7 +9,7 @@ data class VacancyDto(
     @SerializedName("alternate_url")
     val alternateUrl: String?,
     val employer: EmployerDto,
-    val area: AreaDto,
+    val area: AreaDTO,
     val employment: EmploymentDto?,
     val experience: ExperienceDto?,
     val salary: SalaryDto?,
@@ -35,10 +35,6 @@ data class LogoDto(
     val big: String?,
     @SerializedName("original")
     val original: String?
-)
-
-data class AreaDto(
-    val name: String?
 )
 
 data class EmploymentDto(

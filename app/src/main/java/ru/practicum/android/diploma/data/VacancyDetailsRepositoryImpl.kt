@@ -27,7 +27,12 @@ class VacancyDetailsRepositoryImpl(
                     val vacancyDetails = converter.map(detailsResponse.vacancy)
                     emit(VacancyDetailStatus.Content(vacancyDetails))
                 } else {
-                    emit(VacancyDetailStatus.Error(response.resultCode, context.getString(R.string.details_vacancy_error)))
+                    emit(
+                        VacancyDetailStatus.Error(
+                            response.resultCode,
+                            context.getString(R.string.details_vacancy_error)
+                        )
+                    )
                 }
             }
 
