@@ -148,7 +148,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private val onAreaClick: () -> Unit = {
-        // findNavController().navigate()
+        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment)
     }
 
     private val onIndustryClick: () -> Unit = {
