@@ -15,7 +15,7 @@ val searchModule = module {
     single<NetworkClient> { RetrofitNetworkClient(get(), androidContext()) }
 
     viewModel {
-        SearchViewModel(get(), get())
+        SearchViewModel(get(), get(), get())
     }
 
     single<SearchInteractor> { SearchInteractorImpl(get()) }

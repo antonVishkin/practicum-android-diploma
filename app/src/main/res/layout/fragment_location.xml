@@ -6,23 +6,21 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilCountry"
         style="@style/TextInputLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         android:hint="@string/country"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/countryIcon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.9">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etCountry"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_forward"
             android:focusable="false"
             android:gravity="center_vertical"
             android:inputType="none"
@@ -30,34 +28,54 @@
             android:paddingBottom="8dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ImageView
+        android:id="@+id/countryIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@+id/tilCountry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etCountry"
+        app:layout_constraintTop_toTopOf="@+id/tilCountry"
+        android:layout_marginRight="16dp"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilRegion"
         style="@style/TextInputLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:clickable="true"
         android:focusable="true"
         android:hint="@string/region"
         app:boxStrokeWidth="1dp"
         app:boxStrokeWidthFocused="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/regionIcon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilCountry"
-        app:layout_constraintWidth_percent="0.9">
+        app:layout_constraintTop_toBottomOf="@+id/tilCountry">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etRegion"
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_forward"
             android:focusable="false"
             android:gravity="center_vertical"
             android:inputType="none"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            android:paddingBottom="8dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/regionIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/arrow_forward"
+        app:layout_constraintBottom_toBottomOf="@+id/tilRegion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etCountry"
+        app:layout_constraintTop_toTopOf="@+id/tilRegion" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnSelectionContainer"
