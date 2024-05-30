@@ -89,10 +89,12 @@ class VacancyDetailsViewModel(
         viewModelScope.launch {
             val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
             _currentVacancy.value = vacancyFromDb
-            renderState(VacancyDetailsState.Content(
+            renderState(
+                VacancyDetailsState.Content(
                 vacancy = vacancyFromDb,
                 currencySymbol = symbol,
-                isFavorite = true)
+                isFavorite = true
+                )
             )
         }
     }
