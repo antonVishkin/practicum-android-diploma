@@ -17,11 +17,11 @@ import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.ui.root.RootActivity
 import ru.practicum.android.diploma.util.SalaryFormat
 
-class VacancyFragment : Fragment() {
+class VacancyDetailsFragment : Fragment() {
 
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModel<VacancyViewModel>()
+    private val viewModel by viewModel<VacancyDetailsViewModel>()
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -51,14 +51,14 @@ class VacancyFragment : Fragment() {
         toolbar.menu.findItem(R.id.filters).isVisible = false
     }
 
-    private fun render(state: VacancyState) {
+    private fun render(state: VacancyDetailsState) {
         when (state) {
-            is VacancyState.Loading -> showLoading()
-            is VacancyState.Error -> showError()
-            is VacancyState.Content -> {
-                val vacancyDetails = state.vacancyDetails
+            is VacancyDetailsState.Loading -> showLoading()
+            is VacancyDetailsState.Error -> showError()
+            is VacancyDetailsState.Content -> {
+                val vacancyDetails = state.vacancy
                 toolbarSetup(vacancyDetails)
-                showContent(state.vacancyDetails, state.currencySymbol, state.isFavorite)
+                showContent(state.vacancy, state.currencySymbol, state.isFavorite)
             }
 
         }

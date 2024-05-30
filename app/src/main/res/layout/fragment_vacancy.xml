@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.vacancies.VacancyFragment">
+    tools:context=".ui.vacancies.VacancyDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvDetailsContent"

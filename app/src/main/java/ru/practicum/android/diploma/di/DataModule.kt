@@ -12,7 +12,7 @@ import ru.practicum.android.diploma.data.CurrencyRepositoryImpl
 import ru.practicum.android.diploma.data.DictionaryRepositoryImpl
 import ru.practicum.android.diploma.data.converters.DBConverters
 import ru.practicum.android.diploma.data.db.AppDatabase
-import ru.practicum.android.diploma.data.dto.DTOConverters
+import ru.practicum.android.diploma.data.dto.VacancyDetailConverter
 import ru.practicum.android.diploma.data.network.HeadHunterApi
 import ru.practicum.android.diploma.data.preferences.PreferencesProvider
 import ru.practicum.android.diploma.data.preferences.PreferencesProviderImpl
@@ -35,7 +35,7 @@ val dataModule = module {
     single<DictionaryInteractor> { DictionaryInteractorImpl(get(), get()) }
     single<CurrencyRepository> { CurrencyRepositoryImpl(get(), get()) }
     single<DictionaryRepository> { DictionaryRepositoryImpl(get(), get()) }
-    factory { DTOConverters() }
+    factory { VacancyDetailConverter() }
     factory { DBConverters() }
     single<PreferencesProvider> { PreferencesProviderImpl(get(), get()) }
     factory { Gson() }
