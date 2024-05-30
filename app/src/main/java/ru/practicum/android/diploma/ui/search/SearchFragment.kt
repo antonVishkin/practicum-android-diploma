@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.search
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -162,7 +161,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderSearchEmpty() {
-        Log.v("SEARCH", "render empty")
         with(binding) {
             tvButtonSearchResult.isVisible = false
             rvSearch.isVisible = false
