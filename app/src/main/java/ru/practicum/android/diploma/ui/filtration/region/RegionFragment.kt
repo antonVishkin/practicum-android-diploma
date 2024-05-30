@@ -85,6 +85,7 @@ class RegionFragment : Fragment() {
     }
 
     private fun showContent(regions: List<Region>) {
+        Log.d("RegionFragment", "Number of regions: ${regions.size}")
         if (regions.isEmpty()) {
             showNotFound()
         } else {
