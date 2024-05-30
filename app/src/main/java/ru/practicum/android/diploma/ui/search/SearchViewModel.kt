@@ -82,6 +82,9 @@ class SearchViewModel(
     fun getFiltration(){
         viewModelScope.launch {
             _filtration.value = filtrationInteractor.getFiltration()
+            if (stateSearch.value !is SearchState.Default){
+                search(lastSearchQueryText?:"", hashMapOf())
+            }
         }
     }
     private fun searchVacancies(request: String, options: HashMap<String, String>) {
