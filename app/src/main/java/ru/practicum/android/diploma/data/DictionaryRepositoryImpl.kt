@@ -13,7 +13,7 @@ class DictionaryRepositoryImpl(private val appDatabase: AppDatabase, private val
     DictionaryRepository {
     override suspend fun getCurrency(code: String): Currency? {
         return try {
-            currencyConverter.mapCurrencyToEntity(appDatabase.dictionaryDAO().getCurrencyByCode(code))
+            currencyConverter.map(appDatabase.dictionaryDAO().getCurrencyByCode(code))
         } catch (e: IOException) {
             Log.e("DATABASE EMPTY", e.toString())
             null
@@ -21,10 +21,10 @@ class DictionaryRepositoryImpl(private val appDatabase: AppDatabase, private val
     }
 
     override fun getCurrencyDictionary(): Flow<List<Currency>> = flow {
-        emit(appDatabase.dictionaryDAO().getCurrencyDictionary().map { currencyConverter.mapCurrencyToEntity(it) })
+        emit(appDatabase.dictionaryDAO().getCurrencyDictionary().map { currencyConverter.map(it) })
     }
 
     override suspend fun addCurrencies(currencies: List<Currency>) {
-        appDatabase.dictionaryDAO().addCurrencies(currencies.map { currencyConverter.mapCurrencyToEntity(it) })
+        appDatabase.dictionaryDAO().addCurrencies(currencies.map { currencyConverter.map(it) })
     }
 }
