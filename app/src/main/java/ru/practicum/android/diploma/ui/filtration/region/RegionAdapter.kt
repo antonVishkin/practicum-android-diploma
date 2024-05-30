@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Region
+import ru.practicum.android.diploma.ui.filtration.region.callbacks.RegionCountCallback
 import java.util.Locale
 
 class RegionAdapter(
     private var regions: List<Region>,
-    private val onClick: (String, String) -> Unit
+    private val onClick: (String, String) -> Unit,
+    private val callback: RegionCountCallback
 ) : RecyclerView.Adapter<RegionViewHolder>() {
 
     private var allRegions: List<Region> = regions
@@ -31,6 +33,7 @@ class RegionAdapter(
         allRegions = newRegions
         regions = newRegions
         notifyDataSetChanged()
+        callback.onRegionCountChanged(regions.size)
     }
 
     fun filterRegions(query: String) {
@@ -42,5 +45,6 @@ class RegionAdapter(
             }
         }
         notifyDataSetChanged()
+        callback.onRegionCountChanged(regions.size)
     }
 }

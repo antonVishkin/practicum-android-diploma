@@ -15,9 +15,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.domain.models.Region
+import ru.practicum.android.diploma.ui.filtration.region.callbacks.RegionCountCallback
 import ru.practicum.android.diploma.ui.root.RootActivity
 
-class RegionFragment : Fragment() {
+class RegionFragment : Fragment(), RegionCountCallback {
     private var _binding: FragmentRegionBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<RegionViewModel>()
@@ -47,9 +48,9 @@ class RegionFragment : Fragment() {
 
         viewModel.fetchRegions(selectedCountryId)
 
-        _adapter = RegionAdapter(emptyList()) { region, regionId ->
+        _adapter = RegionAdapter(emptyList(), { region, regionId ->
             onRegionClick(selectedCountryId, selectedCountry, regionId, region)
-        }
+        }, this)
 
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
@@ -68,9 +69,11 @@ class RegionFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // empty block
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 _adapter?.filterRegions(s.toString())
             }
+
             override fun afterTextChanged(s: Editable?) {
                 // empty block
             }
@@ -85,7 +88,6 @@ class RegionFragment : Fragment() {
     }
 
     private fun showContent(regions: List<Region>) {
-        Log.d("RegionFragment", "Number of regions: ${regions.size}")
         if (regions.isEmpty()) {
             showNotFound()
         } else {
@@ -100,8 +102,8 @@ class RegionFragment : Fragment() {
     private fun showNotFound() {
         binding.progressBar.isVisible = false
         binding.rvSearch.isVisible = false
-        binding.ivPlaceholder.setImageResource(R.drawable.cant_find_list)
-        binding.tvPlaceholder.setText(R.string.cant_find_list)
+        binding.ivPlaceholder.setImageResource(R.drawable.nothing_found_cat)
+        binding.tvPlaceholder.setText(R.string.empty_region)
         binding.ivPlaceholder.isVisible = true
         binding.tvPlaceholder.isVisible = true
     }
@@ -156,5 +158,18 @@ class RegionFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onRegionCountChanged(count: Int) {
+        Log.d("RegionFragment", "Number of filtered regions: $count")
+        if (count == 0) {
+            showNotFound()
+        } else {
+
+            binding.progressBar.isVisible = false
+            binding.rvSearch.isVisible = true
+            binding.ivPlaceholder.isVisible = false
+            binding.tvPlaceholder.isVisible = false
+        }
     }
 }
