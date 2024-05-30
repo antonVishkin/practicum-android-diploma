@@ -18,6 +18,9 @@ class LocationFragment : Fragment() {
     private val binding get() = _binding!!
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
+    private var selectedCountryId: String? = null
+    private var selectedCountry: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,8 +61,6 @@ class LocationFragment : Fragment() {
         setupRegionField(selectedCountryId, selectedCountry, selectedRegionId, selectedRegion)
         setupSelectButton()
         setupClearButton()
-
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -104,10 +105,21 @@ class LocationFragment : Fragment() {
     private fun setupRegionField(countryId: String?, country: String?, regionId: String?, region: String?) {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
-                putString(SELECTED_COUNTRY_ID_KEY, countryId)
-                putString(SELECTED_COUNTRY_KEY, country)
-                putString(SELECTED_REGION_ID_KEY, regionId)
-                putString(SELECTED_REGION_KEY, region)
+                if(binding.etCountry.text.toString() == "") {
+                    putString(SELECTED_COUNTRY_ID_KEY, "")
+                    putString(SELECTED_COUNTRY_KEY, "")
+                }else{
+                    putString(SELECTED_COUNTRY_ID_KEY, countryId)
+                    putString(SELECTED_COUNTRY_KEY, country)
+                }
+
+                if(binding.etRegion.text.toString() == "") {
+                    putString(SELECTED_REGION_ID_KEY, "")
+                    putString(SELECTED_REGION_KEY, "")
+                }else{
+                    putString(SELECTED_REGION_ID_KEY, regionId)
+                    putString(SELECTED_REGION_KEY, region)
+                }
             }
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment, bundle)
         }

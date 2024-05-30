@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
+import ru.practicum.android.diploma.ui.filtration.location.LocationFragment
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class RegionFragment : Fragment() {
@@ -22,6 +23,8 @@ class RegionFragment : Fragment() {
     private var _adapter: RegionAdapter? = null
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
+
+    private val clearFlag: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +45,13 @@ class RegionFragment : Fragment() {
         val selectedregion = arguments?.getString("selectedregion") ?: ""
         val selectedregionId = arguments?.getString("selectedregionId") ?: ""
 
+        Log.d("selectedCountry-REGION", selectedCountry)
         Log.d("selectedCountryId-REGION", selectedCountryId)
 
         viewModel.fetchRegions(selectedCountryId)
 
         _adapter = RegionAdapter(emptyList()) { region, regionId ->
-            onRegionClick(selectedCountryId, selectedCountry, regionId, region)
+            onRegionClick(selectedCountryId, selectedCountry, regionId, region, clearFlag)
         }
 
         binding.rvSearch.adapter = _adapter
@@ -67,12 +71,12 @@ class RegionFragment : Fragment() {
         })
     }
 
-    private fun onRegionClick(countryId: String, country: String, regionId: String, region: String) {
+    private fun onRegionClick(countryId: String, country: String, regionId: String, region: String,clearFlag: Boolean) {
         val bundle = Bundle().apply {
-
-            Log.d("selectedCountryId-REGION", countryId)
-            Log.d("selectedRegionId-REGION", regionId)
-
+            if(clearFlag){
+                putString("selectedCountryId", null)
+                putString("selectedCountry", null)
+            }
             putString("selectedCountryId", countryId)
             putString("selectedCountry", country)
             putString("selectedRegionId", regionId)
