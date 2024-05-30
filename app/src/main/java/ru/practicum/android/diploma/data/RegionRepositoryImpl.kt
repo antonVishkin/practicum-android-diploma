@@ -34,4 +34,3 @@ class RegionRepositoryImpl(private val networkClient: NetworkClient) : RegionRep
         }
     }
 }
-
