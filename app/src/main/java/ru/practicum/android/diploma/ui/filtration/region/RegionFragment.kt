@@ -66,13 +66,13 @@ class RegionFragment : Fragment() {
 
         binding.etRegionSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //empty block
+                // empty block
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 _adapter?.filterRegions(s.toString())
             }
             override fun afterTextChanged(s: Editable?) {
-                //empty block
+                // empty block
             }
         })
     }

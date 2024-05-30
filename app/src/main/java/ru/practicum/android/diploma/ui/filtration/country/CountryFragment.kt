@@ -12,10 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentCountryBinding
 import ru.practicum.android.diploma.domain.models.Country
-import ru.practicum.android.diploma.domain.models.Region
-import ru.practicum.android.diploma.ui.filtration.region.RegionState
 import ru.practicum.android.diploma.ui.root.RootActivity
-import ru.practicum.android.diploma.ui.search.VacancyAdapter
 
 class CountryFragment : Fragment() {
     private var _binding: FragmentCountryBinding? = null
