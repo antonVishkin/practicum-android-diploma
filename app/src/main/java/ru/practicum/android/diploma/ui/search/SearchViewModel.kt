@@ -74,7 +74,7 @@ class SearchViewModel(
     }
 
     private fun searchVacancies(request: String, options: HashMap<String, String>) {
-        if (filtration.value != null){
+        if (filtration.value != null) {
             options.putAll(convertFiltrationToOptions(filtration.value!!))
         }
         options["text"] = request
