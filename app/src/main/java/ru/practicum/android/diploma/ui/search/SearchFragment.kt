@@ -75,16 +75,27 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-
         binding.etButtonSearch.doOnTextChanged { text, _, _, _ ->
             hideIconEditText(text)
             if (binding.etButtonSearch.hasFocus()) {
                 viewModel.searchDebounce(text.toString())
             }
         }
+        viewModel.filtration.observe(viewLifecycleOwner){
+            setFiltrationIcon(it != null)
+        }
         toolbar.menu.findItem(R.id.filters).setOnMenuItemClickListener {
             findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
             true
+        }
+        viewModel.getFiltration()
+    }
+
+    private fun setFiltrationIcon(hasFiltration: Boolean) {
+        if (hasFiltration){
+            toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_on)
+        } else {
+            toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_off)
         }
     }
 

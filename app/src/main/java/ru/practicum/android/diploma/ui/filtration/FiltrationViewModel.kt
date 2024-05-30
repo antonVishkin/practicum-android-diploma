@@ -23,10 +23,12 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
     }
 
     private fun saveStateToPrefs(state: FiltrationState) {
-        if (state !is FiltrationState.Empty) {
-            val filtration = (state as Content).filtration
-            viewModelScope.launch {
+        viewModelScope.launch {
+            if (state !is FiltrationState.Empty) {
+                val filtration = (state as Content).filtration
                 filtrationInteractor.saveFiltration(filtration)
+            } else {
+                filtrationInteractor.saveFiltration(null)
             }
         }
     }
