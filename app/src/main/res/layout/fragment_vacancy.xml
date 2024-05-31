@@ -123,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/responsibilities" />
+
             <TextView
                 android:id="@+id/tvRequirementsLabel"
                 style="@style/experience_text"
@@ -165,7 +166,7 @@
                 style="@style/vacancy_salary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/key_skills_label" />
 
             <TextView
@@ -229,7 +230,7 @@
                 style="@style/phone_and_mail_text"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="2"
+                tools:itemCount="1"
                 tools:listitem="@layout/contacts_view"
                 tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/tvTelephoneLable"
@@ -246,7 +247,7 @@
 
             <TextView
                 android:id="@+id/tvComment"
-                style="@style/phone_and_mail_text"
+                style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/comments" />
