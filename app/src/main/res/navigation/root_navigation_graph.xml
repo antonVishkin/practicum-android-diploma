@@ -44,6 +44,8 @@
         app:destination="@id/regionFragment" />
     <action
         android:id="@+id/action_locationFragment_to_filtrationFragment"
+        app:popUpTo="@id/filtrationFragment"
+        app:popUpToInclusive="true"
         app:destination="@id/filtrationFragment" />
     <fragment
         android:id="@+id/regionFragment"
@@ -52,6 +54,8 @@
         tools:layout="@layout/fragment_region" />
     <action
         android:id="@+id/action_regionFragment_to_locationFragment"
+        app:popUpTo="@id/locationFragment"
+        app:popUpToInclusive="true"
         app:destination="@id/locationFragment"/>
     <fragment
         android:id="@+id/countryFragment"
@@ -60,6 +64,8 @@
         tools:layout="@layout/fragment_country" />
     <action
         android:id="@+id/action_countryFragment_to_locationFragment"
+        app:popUpTo="@id/locationFragment"
+        app:popUpToInclusive="true"
         app:destination="@id/locationFragment"/>
     <action
         android:id="@+id/action_countryFragment_to_regionFragment"

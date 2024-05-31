@@ -22,6 +22,7 @@ class DTOConverters {
     fun mapToRegion(areaDTO: AreaDTO): Region = Region(
         id = areaDTO.id,
         name = areaDTO.name,
+        parentId = areaDTO.parentId,
         cities = areaDTO.areas.map { mapToCity(it) }
     )
 
@@ -36,7 +37,7 @@ class DTOConverters {
 
     fun mapToListRegions(areaDTOs: List<AreaDTO>, countryId: String): List<Region> {
         return if (countryId.isEmpty()) {
-            convertTreeToList(areaDTOs).map { mapToRegion(it) }
+            convertTreeToList(areaDTOs).filter { it.parentId!=null }.map { mapToRegion(it) }
         } else {
             val country = areaDTOs.find { it.id == countryId }
             if (country != null) {
