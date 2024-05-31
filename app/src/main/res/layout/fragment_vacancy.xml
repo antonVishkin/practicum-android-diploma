@@ -116,12 +116,12 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/responsibilities_label" />
 
-
             <TextView
                 android:id="@+id/tvJobDescriptionValue"
                 style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
                 android:paddingStart="12dp"
                 android:text="@string/responsibilities" />
 

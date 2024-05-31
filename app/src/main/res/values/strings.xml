@@ -39,14 +39,14 @@
     <string name="experience">Требуемый опыт</string>
     <string name="years_of_experience">От 1 года до 3 лет\nПолная занятость. Удаленная работа.</string>
     <string name="responsibilities_label">Обязанности</string>
-    <string name="responsibilities">• \t\tРазрабатывать новую функциональность приложения\n•\t\t Помогать с интеграцией нашего SDK в другие приложения\n•\t\t Проектировать большие новые модули\n•\t\t Писать UI- и unit-тесты\n• \t\tСледить за работоспособностью сервиса и устранять технический долг</string>
+    <string name="responsibilities">• \t\tРазрабатывать новую функциональность приложения\n• \t\t Помогать с интеграцией нашего SDK в другие приложения\n• \t\t Проектировать большие новые модули\n• \t\t Писать UI- и unit-тесты\n• \t\tСледить за работоспособностью сервиса и устранять технический долг</string>
     <string name="job_description_label">Описание вакансии</string>
     <string name="job_description">Требования</string>
     <string name="requirements">• \t\t100% Kotlin\n• \t\tWebRTC\n• \t\tCI по модели Trunk Based Development</string>
     <string name="conditions_label">Условия</string>
-    <string name="conditions">• \t\tсильная команда, с которой можно расти\n•\t\t возможность влиять на процесс и результат\n•\t\t расширенная программа ДМС: стоматология, обследования, вызов врача на дом и многое другое</string>
+    <string name="conditions">• \t\tсильная команда, с которой можно расти\n• \t\t возможность влиять на процесс и результат\n• \t\t расширенная программа ДМС: стоматология, обследования, вызов врача на дом и многое другое</string>
     <string name="key_skills_label">Ключевые навыки</string>
-    <string name="key_skills">• \t\tЗнание классических алгоритмов и структуры данных\n•\t\t Программирование для Android больше одного года\n•\t\t Знание WebRTC</string>
+    <string name="key_skills">• \t\tЗнание классических алгоритмов и структуры данных\n• \t\t Программирование для Android больше одного года\n• \t\t Знание WebRTC</string>
     <string name="contacts_label">Контакты</string>
     <string name="contacts_person_label">Контактное лицо</string>
     <string name="contacts">Ирина</string>
