@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.practicum.android.diploma.data.dto.DTOConverters
+import ru.practicum.android.diploma.data.converters.VacancyDtoConverter
 import ru.practicum.android.diploma.data.dto.SearchRequest
 import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.network.NetworkClient
@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.domain.models.VacancyPage
 
 class SearchRepositoryImpl(
     private val client: NetworkClient,
-    private val dTOConverters: DTOConverters
+    private val dTOConverters: VacancyDtoConverter
 ) : SearchRepository {
     override fun searchRequest(options: Map<String, String>): Flow<Result<VacancyPage>> = flow {
         val response = client.doRequest(SearchRequest(options))

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp"
-    tools:context=".ui.vacancies.VacancyFragment">
+    tools:context=".ui.vacancies.VacancyDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvDetailsContent"
@@ -176,12 +176,34 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/telephone" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPhones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/phone_and_mail_text"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/contacts_view"
+                tools:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/tvTelephoneLable"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <TextView
-                android:id="@+id/tvTelephone"
+                android:id="@+id/tvCommentLabel"
+                style="@style/experience_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/comment_label" />
+
+            <TextView
+                android:id="@+id/tvComment"
                 style="@style/phone_and_mail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/telephone_number" />
+                android:text="@string/comments" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

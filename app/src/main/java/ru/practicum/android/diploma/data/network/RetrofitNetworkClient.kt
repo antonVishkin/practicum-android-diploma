@@ -11,7 +11,6 @@ import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
-import ru.practicum.android.diploma.data.dto.ExperienceDTO
 import ru.practicum.android.diploma.data.dto.IndustryRequest
 import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.dto.Response
@@ -65,23 +64,11 @@ class RetrofitNetworkClient(
         try {
             val response =
                 headHunterApi.getVacancyDetails(BEARER_TOKEN, vacancyId)
-            return VacancyDetailsResponse(
-                response.id,
-                response.name,
-                response.salary,
-                response.employer,
-                response.area,
-                response.experience,
-                response.description,
-                response.keySkills,
-                response.contacts,
-                response.alternateUrl,
-            ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
+            return VacancyDetailsResponse(response).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
         } catch (e: IOException) {
             Log.e(NETWORK_ERROR, e.toString())
-            return createEmptyVacancyDetails().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+            return VacancyDetailsResponse(null).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
-
     }
 
     private suspend fun doCurrencyRequest(): Response {
@@ -151,23 +138,7 @@ class RetrofitNetworkClient(
             )
     }
 
-    private fun createEmptyVacancyDetails(): VacancyDetailsResponse {
-        return VacancyDetailsResponse(
-            id = "",
-            name = "",
-            salary = null,
-            employer = null,
-            area = AreaDTO("", "", "", listOf()),
-            experience = ExperienceDTO(""),
-            description = "",
-            keySkills = listOf(),
-            contacts = null,
-            alternateUrl = "",
-        )
-    }
-
     companion object {
-        private const val BASE_URL = "https://api.hh.ru/"
         const val CLIENT_ERROR_RESULT_CODE = 400
         const val CLIENT_SUCCESS_RESULT_CODE = 200
         const val NO_INTERNET_RESULT_CODE = -1

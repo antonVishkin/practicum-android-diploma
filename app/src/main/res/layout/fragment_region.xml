@@ -40,7 +40,7 @@
         android:layout_height="14dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/clean_icon"
-        android:tint="@color/blackUniversal"
+        app:tint="@color/blackUniversal"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/etRegionSearch"
         app:layout_constraintTop_toTopOf="@id/etRegionSearch"
