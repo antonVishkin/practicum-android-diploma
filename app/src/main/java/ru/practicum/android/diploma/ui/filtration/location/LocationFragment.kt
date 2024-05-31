@@ -108,7 +108,7 @@ class LocationFragment : Fragment() {
                 }
             }
 
-            findNavController().navigate(R.id.action_locationFragment_to_filtrationFragment,bundle)
+            findNavController().navigate(R.id.action_locationFragment_to_filtrationFragment, bundle)
         }
     }
 

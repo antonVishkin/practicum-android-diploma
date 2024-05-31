@@ -54,8 +54,9 @@ class FiltrationFragment : Fragment() {
         val areaRegion = receiveAreaRegion()
         if (areaCountry != null) {
             val regions = mutableListOf<Region>()
-            if (areaRegion != null)
+            if (areaRegion != null) {
                 regions.add(Region(areaRegion.id, areaRegion.name, listOf()))
+            }
             val country = Country(areaCountry.id, areaCountry.name, regions)
             viewModel.setArea(country)
         }
@@ -79,7 +80,6 @@ class FiltrationFragment : Fragment() {
         var area: Area? = null
         val id = arguments?.getString(SELECTED_REGION_ID_KEY)
         val name = arguments?.getString(SELECTED_REGION_KEY)
-        Log.v("FILTRATION","received region id $id name $name")
         if (id != null && name != null) {
             area = Area(id, name)
         }
@@ -90,7 +90,6 @@ class FiltrationFragment : Fragment() {
         var area: Area? = null
         val id = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
         val name = arguments?.getString(SELECTED_COUNTRY_KEY)
-        Log.v("FILTRATION","received country id $id name $name")
         if (id != null && name != null) {
             area = Area(id, name)
         }
@@ -135,8 +134,9 @@ class FiltrationFragment : Fragment() {
         binding.apply {
             if (area != null) {
                 var text = area.name
-                if (area.regions.isNotEmpty())
+                if (area.regions.isNotEmpty()) {
                     text = text + ", " + area.regions[0].name
+                }
                 etAreaOfWork.setText(text)
                 ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
                 ilAreaOfWork.setEndIconOnClickListener {
