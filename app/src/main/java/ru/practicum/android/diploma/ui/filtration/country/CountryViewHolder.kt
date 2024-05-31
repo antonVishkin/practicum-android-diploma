@@ -4,17 +4,18 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.models.Country
 
 class CountryViewHolder(
     itemView: View,
-    private val onClick: (String, String) -> Unit,
+    private val onClick: (Country) -> Unit,
 ) : RecyclerView.ViewHolder(itemView) {
     private val countryName: TextView = itemView.findViewById(R.id.tvCountryName)
 
-    fun bind(country: String, countryId: String) {
-        countryName.text = country
+    fun bind(country: Country) {
+        countryName.text = country.name
         itemView.setOnClickListener {
-            onClick(country, countryId)
+            onClick(country)
         }
     }
 }

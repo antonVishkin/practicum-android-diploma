@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.filtration
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,9 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
-import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.domain.models.Region
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class FiltrationFragment : Fragment() {
@@ -36,21 +36,22 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         toolbarSetup()
         viewModel.state.observe(viewLifecycleOwner) {
             render(it)
         }
         viewModel.getFiltrationFromPrefs()
-        val industry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(INDUSTRY, Industry::class.java)
-        } else {
-            arguments?.getParcelable(INDUSTRY)
-        }
+        val industry = getIndustry()
         if (industry != null) viewModel.setIndustry(industry)
-        val area = arguments?.getString(AREA) ?: null
-        if (area != null) {
-            viewModel.setArea(area)
+        val country = getCountry()
+        val region = getRegion()
+        if (country != null) {
+            val resultCountry = if (region != null) {
+                Country(country.id, country.name, listOf(region))
+            } else {
+                country
+            }
+            viewModel.setArea(resultCountry)
         }
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
@@ -65,6 +66,27 @@ class FiltrationFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.etSalary.setOnKeyListener(onKeyListener())
+        binding.etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
+        binding.etIndustry.setOnClickListener { onIndustryClick.invoke() }
+
+    }
+
+    private fun getRegion(): Region? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(SELECTED_REGION_KEY, Region::class.java)
+    } else {
+        arguments?.getParcelable(SELECTED_REGION_KEY)
+    }
+
+    private fun getCountry(): Country? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(SELECTED_COUNTRY_KEY, Country::class.java)
+    } else {
+        arguments?.getParcelable(SELECTED_COUNTRY_KEY)
+    }
+
+    private fun getIndustry(): Industry? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(INDUSTRY, Industry::class.java)
+    } else {
+        arguments?.getParcelable(INDUSTRY)
     }
 
     private fun onKeyListener(): View.OnKeyListener? {
@@ -89,7 +111,6 @@ class FiltrationFragment : Fragment() {
         when (state) {
             is FiltrationState.Empty -> showEmpty()
             is FiltrationState.Content -> {
-                Log.v("FILTRATION", "render fragment ${state.filtration.industry}")
                 showContent(
                     state.filtration.area,
                     state.filtration.industry,
@@ -101,19 +122,20 @@ class FiltrationFragment : Fragment() {
         }
     }
 
-    private fun showContent(area: Area?, industry: Industry?, salary: String?, salaryEmptyNotShowing: Boolean) {
+    private fun showContent(area: Country?, industry: Industry?, salary: String?, salaryEmptyNotShowing: Boolean) {
         binding.apply {
-            if (area != null) {
-                etAreaOfWork.setText(area.name)
-                ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
-                ilAreaOfWork.setEndIconOnClickListener {
-                    viewModel.setArea(null)
-                    areaEndIconListener()
-                }
-            } else {
-                etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
+            showArea(area)
+            showIndustry(industry)
+            if (!salary.isNullOrEmpty()) {
+                etSalary.setText(salary)
             }
-            Log.v("FILTRATION", "industry $industry")
+            checkBoxSalary.isChecked = salaryEmptyNotShowing
+            buttonRemove.isVisible = true
+        }
+    }
+
+    private fun showIndustry(industry: Industry?) {
+        binding.apply {
             if (industry != null) {
                 etIndustry.setText(industry.name)
                 ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
@@ -121,15 +143,25 @@ class FiltrationFragment : Fragment() {
                     viewModel.setIndustry(null)
                     industryEndIconListener()
                 }
-            } else {
-                etIndustry.setText("")
-                etIndustry.setOnClickListener { onIndustryClick.invoke() }
             }
-            if (!salary.isNullOrEmpty()) {
-                etSalary.setText(salary)
+        }
+    }
+
+    private fun showArea(area: Country?) {
+        binding.apply {
+            if (area != null) {
+                var text = if (area.regions != null && area.regions.isNotEmpty()) {
+                    area.name + ", " + area.regions[0].name
+                } else {
+                    area.name
+                }
+                etAreaOfWork.setText(text)
+                ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
+                ilAreaOfWork.setEndIconOnClickListener {
+                    viewModel.setArea(null)
+                    areaEndIconListener()
+                }
             }
-            checkBoxSalary.isChecked = salaryEmptyNotShowing
-            buttonRemove.isVisible = true
         }
     }
 
@@ -165,9 +197,18 @@ class FiltrationFragment : Fragment() {
     }
 
     private val onAreaClick: () -> Unit = {
-        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment)
+        val country = viewModel.getCountry()
+        val args = Bundle()
+        args.apply {
+            if (country != null) {
+                args.putParcelable(SELECTED_COUNTRY_KEY, country)
+                if (country.regions.isNotEmpty()) {
+                    args.putParcelable(SELECTED_REGION_KEY, country.regions[0])
+                }
+            }
+        }
+        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment, args)
     }
-
     private val onIndustryClick: () -> Unit = {
         findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
     }
@@ -184,7 +225,6 @@ class FiltrationFragment : Fragment() {
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
         toolbar.title = getString(R.string.title_filtration)
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
@@ -203,6 +243,7 @@ class FiltrationFragment : Fragment() {
 
     companion object {
         const val INDUSTRY = "industry"
-        const val AREA = "area"
+        private const val SELECTED_COUNTRY_KEY = "selectedCountry"
+        private const val SELECTED_REGION_KEY = "selectedRegion"
     }
 }

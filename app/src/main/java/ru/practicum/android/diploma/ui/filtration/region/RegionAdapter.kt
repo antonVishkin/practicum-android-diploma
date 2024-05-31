@@ -10,7 +10,7 @@ import java.util.Locale
 
 class RegionAdapter(
     private var regions: List<Region>,
-    private val onClick: (String, String) -> Unit,
+    private val onClick: (Region) -> Unit,
     private val callback: RegionCountCallback
 ) : RecyclerView.Adapter<RegionViewHolder>() {
 
@@ -24,7 +24,7 @@ class RegionAdapter(
 
     override fun onBindViewHolder(holder: RegionViewHolder, position: Int) {
         val region = regions[position]
-        holder.bind(region.name, region.id)
+        holder.bind(region)
     }
 
     override fun getItemCount(): Int = regions.size
