@@ -142,6 +142,14 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         renderState(FiltrationState.Empty)
     }
 
+    fun getCountry():Country?{
+        if (_state.value is Content){
+            val content = _state.value as Content
+            return content.filtration.area
+        }
+        return null
+    }
+
     companion object {
         private const val SALARY_DEBOUNCE = 2000L
     }

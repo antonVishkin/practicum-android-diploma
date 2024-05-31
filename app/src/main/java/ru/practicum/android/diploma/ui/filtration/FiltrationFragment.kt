@@ -74,6 +74,7 @@ class FiltrationFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.etSalary.setOnKeyListener(onKeyListener())
+        binding.etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
     }
 
     private fun receiveAreaRegion(): Area? {
@@ -143,8 +144,6 @@ class FiltrationFragment : Fragment() {
                     viewModel.setArea(null)
                     areaEndIconListener()
                 }
-            } else {
-                etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
             }
             Log.v("FILTRATION", "industry $industry")
             if (industry != null) {
@@ -198,7 +197,19 @@ class FiltrationFragment : Fragment() {
     }
 
     private val onAreaClick: () -> Unit = {
-        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment)
+        val country = viewModel.getCountry()
+        val args = Bundle()
+        args.apply {
+            if (country != null){
+                args.putString(SELECTED_COUNTRY_ID_KEY,country.id)
+                args.putString(SELECTED_COUNTRY_KEY,country.name)
+                if (country.regions.isNotEmpty()){
+                    args.putString(SELECTED_REGION_ID_KEY,country.regions[0].id)
+                    args.putString(SELECTED_REGION_KEY,country.regions[0].name)
+                }
+            }
+        }
+        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment,args)
     }
 
     private val onIndustryClick: () -> Unit = {
