@@ -167,8 +167,6 @@
                 android:paddingStart="12dp"
                 android:text="@string/conditions" />
 
-
-
             <!-- Key Skills -->
             <TextView
                 android:id="@+id/tvKeySkillsLabel"

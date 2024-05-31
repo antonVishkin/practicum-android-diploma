@@ -64,6 +64,8 @@ class VacancyDetailsFragment : Fragment() {
                     toolbarSetup(vacancyDetails)
                     showToolbarForDetailsVacancy(state.isFavorite)
                     showContent(state.vacancy, state.currencySymbol)
+                    binding.progressBar.isVisible = false
+                    binding.nsvDetailsContent.isVisible = true
                 }
             }
         }
@@ -120,7 +122,6 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun keySkillsVacancy(vacancy: Vacancy) {
         if (vacancy.keySkills.isNotEmpty()) {
-            binding.tvKeySkillsLabel.text = getString(R.string.key_skills)
             binding.tvKeySkills.text = vacancy.keySkills.joinToString("\n• ", "• ", "")
         } else {
             binding.tvKeySkillsLabel.isVisible = false
@@ -137,21 +138,21 @@ class VacancyDetailsFragment : Fragment() {
             showContactDetails(vacancy)
             } else {
             binding.clContactsContainer.isVisible = false
-            }
         }
+    }
 
     private fun showContactDetails(vacancy: Vacancy) {
         binding.tvContacts.text = vacancy.contacts?.name ?: ""
 
         binding.tvEmail.text = vacancy.contacts?.email ?: ""
-        binding.tvEmailLabel.isVisible = !vacancy.contacts?.email.isNullOrEmpty()
+        binding.tvEmailLabel.isVisible = vacancy.contacts?.email?.isNotEmpty() == true
 
         binding.tvPhones.isVisible = vacancy.contacts?.phones?.isNotEmpty() == true
         if (vacancy.contacts?.phones?.isNotEmpty() == true) {
             binding.tvPhones.text = vacancy.contacts.phones[0].toString()
         }
         binding.tvComment.text = vacancy.comment
-        binding.tvCommentLabel.isVisible = !vacancy.comment.isNullOrEmpty()
+        binding.tvCommentLabel.isVisible = vacancy.comment?.isNotEmpty() == true
 
         setOnClickListenersForContacts()
     }
