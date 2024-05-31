@@ -43,8 +43,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/etRegionSearch"
         app:layout_constraintTop_toTopOf="@id/etRegionSearch"
-        app:layout_constraintBottom_toBottomOf="@id/etRegionSearch"
-        />
+        app:layout_constraintBottom_toBottomOf="@id/etRegionSearch" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearch"
