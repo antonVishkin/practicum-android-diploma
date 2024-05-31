@@ -36,16 +36,14 @@
 
     <ImageView
         android:id="@+id/ivClean"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/clean_icon"
-        app:tint="@color/blackUniversal"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/clean_icon_black"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/etRegionSearch"
         app:layout_constraintTop_toTopOf="@id/etRegionSearch"
-        app:layout_constraintBottom_toBottomOf="@id/etRegionSearch"
-        />
+        app:layout_constraintBottom_toBottomOf="@id/etRegionSearch" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearch"

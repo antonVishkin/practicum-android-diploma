@@ -46,7 +46,9 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/ic_edit_text_background"
-                android:padding="16dp">
+                android:paddingStart="16dp"
+                android:paddingTop="16dp">
+
 
                 <!-- Company Logo -->
                 <ImageView
@@ -107,11 +109,58 @@
                 android:text="@string/job_description_label" />
 
             <TextView
+                android:id="@+id/tvJobResponsibility"
+                style="@style/experience_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/responsibilities_label" />
+
+            <TextView
                 android:id="@+id/tvJobDescriptionValue"
                 style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:paddingStart="12dp"
                 android:text="@string/responsibilities" />
+
+            <TextView
+                android:id="@+id/tvRequirementsLabel"
+                style="@style/experience_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/tvRequirementsLabel" />
+
+            <TextView
+                android:id="@+id/tvRequirements"
+                style="@style/vacancy_view_regular_text"
+                android:paddingStart="12dp"
+                android:lineSpacingExtra="0sp"
+                android:translationY="-0.12sp"
+                android:gravity="top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/requirements" />
+
+            <TextView
+                android:id="@+id/tvConditionsLabel"
+                style="@style/experience_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/tvConditionsLabel" />
+
+            <TextView
+                android:id="@+id/tvConditions"
+                style="@style/vacancy_view_regular_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:text="@string/conditions" />
+
+
 
             <!-- Key Skills -->
             <TextView
@@ -119,7 +168,7 @@
                 style="@style/vacancy_salary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/key_skills_label" />
 
             <TextView
@@ -127,6 +176,7 @@
                 style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="12dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/key_skills" />
 
@@ -183,7 +233,7 @@
                 style="@style/phone_and_mail_text"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="2"
+                tools:itemCount="1"
                 tools:listitem="@layout/contacts_view"
                 tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/tvTelephoneLable"
@@ -200,7 +250,7 @@
 
             <TextView
                 android:id="@+id/tvComment"
-                style="@style/phone_and_mail_text"
+                style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/comments" />

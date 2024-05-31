@@ -65,6 +65,13 @@ class RegionFragment : Fragment(), RegionCountCallback {
             }
         }
 
+        binding.ivClear.setOnClickListener {
+            with(binding) {
+                etRegionSearch.setText("")
+                ivClear.setImageResource(R.drawable.search_icon)
+            }
+        }
+
         binding.etRegionSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // empty block
@@ -72,6 +79,13 @@ class RegionFragment : Fragment(), RegionCountCallback {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 _adapter?.filterRegions(s.toString())
+                if (!binding.etRegionSearch.text.toString().isNullOrEmpty()) {
+                    binding.ivClear.setImageResource(R.drawable.clean_icon_black)
+
+                } else {
+                    binding.ivClear.setImageResource(R.drawable.search_icon)
+                    viewModel.fetchRegions(selectedCountryId)
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
