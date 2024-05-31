@@ -225,14 +225,14 @@
                 android:text="@string/telephone" />
 
             <TextView
-                android:id="@+id/tvTelephone"
+                android:id="@+id/rvPhones"
                 style="@style/phone_and_mail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telephone_number" />
 
             <TextView
-                android:id="@+id/tvCommentsLabel"
+                android:id="@+id/tvCommentLabel"
                 style="@style/experience_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -240,7 +240,7 @@
                 android:text="@string/detailes_comments_label" />
 
             <TextView
-                android:id="@+id/tvComments"
+                android:id="@+id/tvComment"
                 style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
