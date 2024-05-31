@@ -66,7 +66,6 @@ class VacancyDetailsFragment : Fragment() {
         toolbar.menu.findItem(R.id.share).isVisible = true
         toolbar.menu.findItem(R.id.favorite).isVisible = true
         toolbar.menu.findItem(R.id.filters).isVisible = false
-
         binding.apply {
             nsvDetailsContent.isVisible = true
             ivPlaceholder.isVisible = false

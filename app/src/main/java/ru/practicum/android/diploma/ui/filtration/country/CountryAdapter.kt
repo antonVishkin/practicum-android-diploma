@@ -8,7 +8,7 @@ import ru.practicum.android.diploma.domain.models.Country
 
 class CountryAdapter(
     private var countries: List<Country>,
-    private val onClick: (String, String) -> Unit
+    private val onClick: (Country) -> Unit
 ) : RecyclerView.Adapter<CountryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
@@ -19,7 +19,7 @@ class CountryAdapter(
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         val country = countries[position]
-        holder.bind(country.name, country.id)
+        holder.bind(country)
     }
 
     override fun getItemCount(): Int = countries.size
