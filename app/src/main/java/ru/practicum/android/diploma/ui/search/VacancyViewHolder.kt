@@ -12,12 +12,12 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
     fun bind(vacancy: Vacancy, onClickListener: VacancyAdapter.OnClickListener, currencySymbol: String) {
         with(binding) {
             tvVacancyName.text = buildString {
-                append(vacancy.name)
-                vacancy.city?.takeIf { it.isNotEmpty() }?.let {
+                append(vacancy.vacancyName)
+                vacancy.area?.takeIf { it.isNotEmpty() }?.let {
                     append(", $it")
                 }
             }
-            tvVacancyCompany.text = vacancy.employerName
+            tvVacancyCompany.text = vacancy.employment
             tvVacancySalary.text = SalaryFormat.formatSalary(
                 itemView.context,
                 vacancy.salary?.from,
@@ -25,7 +25,7 @@ class VacancyViewHolder(private val binding: VacancyViewBinding) : RecyclerView.
                 currencySymbol
             )
             Glide.with(itemView)
-                .load(vacancy.urlImage)
+                .load(vacancy.logoUrl)
                 .placeholder(R.drawable.vacancies_placeholder)
                 .centerCrop()
                 .transform(RoundedCorners(R.dimen.radius_vacancy_icon))

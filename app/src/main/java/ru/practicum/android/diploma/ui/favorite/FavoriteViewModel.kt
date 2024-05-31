@@ -14,6 +14,7 @@ class FavoriteViewModel(
     private val favoritesInteractor: FavoritesInteractor,
     private val dictionaryInteractor: DictionaryInteractor
 ) : ViewModel() {
+
     private val _stateFavorite = MutableLiveData<FavoriteState>(FavoriteState.Empty)
     val stateFavorite: LiveData<FavoriteState> get() = _stateFavorite
 

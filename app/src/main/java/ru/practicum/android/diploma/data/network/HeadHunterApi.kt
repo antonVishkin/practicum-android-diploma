@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
 import ru.practicum.android.diploma.data.dto.IndustryDto
 import ru.practicum.android.diploma.data.dto.SearchResponse
-import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
+import ru.practicum.android.diploma.data.dto.VacancyDto
 
 interface HeadHunterApi {
     @Headers("HH-User-Agent: praktikum HH API v.9.3 (punkant@gmail.com)")
@@ -31,7 +31,7 @@ interface HeadHunterApi {
     suspend fun getVacancyDetails(
         @Header("Authorization") accessToken: String,
         @Path("vacancy_id") vacancyId: String
-    ): VacancyDetailsResponse
+    ): VacancyDto
 
     @GET("industries")
     suspend fun getIndustries(): Response<List<IndustryDto>>
