@@ -120,6 +120,7 @@ class VacancyDetailsViewModel(
     fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
+            isClickAllowed = false
             viewModelScope.launch {
                 delay(CLICK_DEBOUNCE_DELAY_MILLIS)
                 isClickAllowed = true

@@ -5,39 +5,34 @@ import android.content.Intent
 import android.net.Uri
 import ru.practicum.android.diploma.domain.sharing.ExternalNavigator
 
-class ExternalNavigatorImpl(
-    private val context: Context,
-) : ExternalNavigator {
+class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
 
     override fun shareApp(url: String) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
+        Intent().apply {
+            action = Intent.ACTION_SEND
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             putExtra(Intent.EXTRA_TEXT, url)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            type = "text/plain"
+            context.startActivity(this)
         }
-        val shareIntent = Intent.createChooser(intent, null).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        context.startActivity(shareIntent)
     }
 
     override fun makeCall(phoneNumber: String) {
-        val intent = Intent(Intent.ACTION_DIAL).apply {
-            data = Uri.parse("tel:$phoneNumber")
+        Intent().apply {
+            action = Intent.ACTION_DIAL
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
+            data = Uri.parse("tel:$phoneNumber")
+            context.startActivity(this)
         }
     }
 
     override fun openEmail(email: String) {
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:$email")
+        Intent().apply {
+            action = Intent.ACTION_SENDTO
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+            context.startActivity(this)
         }
     }
 }

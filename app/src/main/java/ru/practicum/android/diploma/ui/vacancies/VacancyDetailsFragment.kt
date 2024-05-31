@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyBinding
@@ -23,9 +27,9 @@ class VacancyDetailsFragment : Fragment() {
     private var _binding: FragmentVacancyBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyDetailsViewModel>()
-    private var adapter: ContactsAdapter? = null
+    private var adapter: PhoneAdapter? = null
     private var paramVacancyId: String? = null
-    private var onItemClickDebounce: ((Phone) -> Unit)? = null
+    private lateinit var onItemClickDebounce: (Phone) -> Unit
 
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
 
@@ -41,12 +45,25 @@ class VacancyDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paramVacancyId = arguments?.getString("vacancy_model") ?: ""
+        arguments?.let {
+            paramVacancyId = it.getString("vacancy_model").toString()
+        }
 
-        viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateLiveData.observe(viewLifecycleOwner) { render(it) }
+            }
+        }
 
         if (paramVacancyId != null) {
             paramVacancyId?.let { viewModel.fetchVacancyDetails(it) }
+        }
+
+        binding.tvEmail.setOnClickListener {
+            val vacancy = viewModel.currentVacancy.value
+            if (viewModel.clickDebounce() && vacancy?.contacts?.email != null) {
+                viewModel.eMail(vacancy.contacts.email)
+            }
         }
     }
 
@@ -81,8 +98,13 @@ class VacancyDetailsFragment : Fragment() {
             )
             tvCompanyName.text = vacancy.employment
             tvLocation.text = if (vacancy.address.isNullOrEmpty()) vacancy.area else vacancy.address
-            tvExperience.text = StringBuilder().append(vacancy.experience).append("/n")
-                .append(vacancy.employment).append(", ").append(vacancy.schedule).toString()
+            if(vacancy.employment != null) {
+                tvExperience.text = StringBuilder().append(vacancy.experience)
+                    .appendLine(vacancy.employment).append(", ").append(vacancy.schedule).toString()
+            } else {
+                tvExperience.text = StringBuilder().append(vacancy.experience)
+                    .appendLine(vacancy.schedule).toString()
+            }
             tvJobDescriptionValue.text = Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT)
             if (vacancy.keySkills.isEmpty()) {
                 tvKeySkillsLabel.isVisible = false
@@ -147,15 +169,6 @@ class VacancyDetailsFragment : Fragment() {
                 tvEmail.text = vacancy.contacts.email
                 tvEmail.isVisible = true
                 tvEmailLabel.isVisible = true
-                binding.tvEmail.setOnClickListener {
-                    val v = viewModel.currentVacancy.value
-                    if (viewModel.clickDebounce() && v?.contacts?.email != null) {
-                        viewModel.eMail(v.contacts.email)
-                    }
-                }
-            } else {
-                tvEmail.isVisible = false
-                tvEmailLabel.isVisible = false
             }
         }
     }
@@ -166,9 +179,6 @@ class VacancyDetailsFragment : Fragment() {
                 tvContactsPersonLabel.isVisible = true
                 tvContacts.text = vacancy.contacts.name
                 tvContacts.isVisible = true
-            } else {
-                tvContactsPersonLabel.isVisible = false
-                tvContacts.isVisible = false
             }
         }
     }
@@ -181,9 +191,6 @@ class VacancyDetailsFragment : Fragment() {
                 if (viewModel.clickDebounce()) {
                     setPhonesAdapter(vacancy)
                 }
-            } else {
-                rvPhones.isVisible = false
-                tvTelephoneLable.isVisible = false
             }
         }
     }
@@ -194,16 +201,13 @@ class VacancyDetailsFragment : Fragment() {
                 tvCommentLabel.isVisible = true
                 tvComment.text = vacancy.comment
                 tvComment.isVisible = true
-            } else {
-                tvCommentLabel.isVisible = false
-                tvComment.isVisible = false
             }
         }
     }
 
     private fun setPhonesAdapter(vacancy: Vacancy) {
         adapter = vacancy.contacts?.phones?.let {
-            ContactsAdapter(it) { phone -> onItemClickDebounce?.invoke(phone) }
+            PhoneAdapter(it) { phone -> onItemClickDebounce.invoke(phone) }
         }
         onItemClickDebounce = { phone -> viewModel.phoneCall(phone) }
         binding.rvPhones.adapter = adapter
