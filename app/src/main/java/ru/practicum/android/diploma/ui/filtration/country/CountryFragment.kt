@@ -20,7 +20,6 @@ class CountryFragment : Fragment() {
     private var _adapter: CountryAdapter? = null
     private val viewModel by viewModel<CountryViewModel>()
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
-    private var selectedCountry: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,22 +40,11 @@ class CountryFragment : Fragment() {
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
 
         viewModel.countries.observe(viewLifecycleOwner) { countries ->
-            binding.rvSearch.adapter = CountryAdapter(countries) { country, countryId ->
-                onCountryClick(country, countryId)
+            binding.rvSearch.adapter = CountryAdapter(countries) { country ->
+                onCountryClick(country)
             }
         }
 
-        // Пример: Слушатель для нажатия на страну
-        binding.rvSearch.setOnClickListener {
-            // Здесь должен быть выбранный вариант страны
-            val selectedCountry = "Россия-TEST"
-            val selectedCountryId = "113-TEST"
-            val bundle = Bundle().apply {
-                putString("selectedCountry", selectedCountry)
-                putString("selectedCountryId", selectedCountryId)
-            }
-            findNavController().navigate(R.id.action_countryFragment_to_regionFragment, bundle)
-        }
 
         viewModel.countryState.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -111,12 +99,9 @@ class CountryFragment : Fragment() {
         binding.tvPlaceholder.isVisible = true
     }
 
-    private fun onCountryClick(country: String, countryId: String) {
-        // Обработка нажатия на страну
-        selectedCountry = country
+    private fun onCountryClick(country:Country) {
         val bundle = Bundle().apply {
-            putString("selectedCountry", country)
-            putString("selectedCountryId", countryId)
+            putParcelable(SELECTED_COUNTRY_LABEL, country)
         }
         findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
     }
@@ -143,5 +128,8 @@ class CountryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    companion object{
+        private const val SELECTED_COUNTRY_LABEL = "selectedCountry"
     }
 }

@@ -200,16 +200,16 @@ class FiltrationFragment : Fragment() {
         val country = viewModel.getCountry()
         val args = Bundle()
         args.apply {
-            if (country != null){
-                args.putString(SELECTED_COUNTRY_ID_KEY,country.id)
-                args.putString(SELECTED_COUNTRY_KEY,country.name)
-                if (country.regions.isNotEmpty()){
-                    args.putString(SELECTED_REGION_ID_KEY,country.regions[0].id)
-                    args.putString(SELECTED_REGION_KEY,country.regions[0].name)
+            if (country != null) {
+                args.putString(SELECTED_COUNTRY_ID_KEY, country.id)
+                args.putString(SELECTED_COUNTRY_KEY, country.name)
+                if (country.regions.isNotEmpty()) {
+                    args.putString(SELECTED_REGION_ID_KEY, country.regions[0].id)
+                    args.putString(SELECTED_REGION_KEY, country.regions[0].name)
                 }
             }
         }
-        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment,args)
+        findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment, args)
     }
 
     private val onIndustryClick: () -> Unit = {

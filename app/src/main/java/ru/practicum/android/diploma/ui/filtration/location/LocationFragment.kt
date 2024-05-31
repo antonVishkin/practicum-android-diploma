@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.ui.filtration.location
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
+import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
     private val binding get() = _binding!!
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
-
-    private var selectedCountryId: String? = null
-    private var selectedCountry: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +34,13 @@ class LocationFragment : Fragment() {
         toolbarSetup()
 
         // Получить выбранную страну из аргументов, если она есть
-        val selectedCountry = arguments?.getString(SELECTED_COUNTRY_KEY)
-        if (!selectedCountry.isNullOrEmpty()) {
-            binding.etCountry.setText(selectedCountry)
+        val selectedCountry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            arguments?.getParcelable(SELECTED_COUNTRY_KEY,Country::class.java)
+        } else{
+            arguments?.getParcelable(SELECTED_COUNTRY_KEY)
+        }
+        if (selectedCountry != null) {
+            binding.etCountry.setText(selectedCountry.name)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
 
@@ -48,16 +51,13 @@ class LocationFragment : Fragment() {
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
 
-        val selectedCountryId = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
         val selectedRegionId = arguments?.getString(SELECTED_REGION_ID_KEY)
 
-//        Log.d(SELECTED_COUNTRY_ID_KEY, selectedCountryId.toString())
-//        Log.d(SELECTED_REGION_ID_KEY, selectedRegionId.toString())
 
         // Обработка логики для setupRegionField
         setupCountryField()
-        setupRegionField(selectedCountryId, selectedCountry, selectedRegionId, selectedRegion)
-        setupSelectButton(selectedCountryId, selectedCountry, selectedRegionId, selectedRegion)
+        setupRegionField(selectedCountry, selectedRegionId, selectedRegion)
+        setupSelectButton(selectedCountry, selectedRegionId, selectedRegion)
         setupClearButton()
     }
 
@@ -88,17 +88,12 @@ class LocationFragment : Fragment() {
         binding.btnSelectionContainer.visibility = if (isCountryEmpty && isRegionEmpty) View.GONE else View.VISIBLE
     }
 
-    private fun setupSelectButton(countryId: String?, country: String?, regionId: String?, region: String?) {
+    private fun setupSelectButton(country: Country?, regionId: String?, region: String?) {
         binding.btnSelectionContainer.setOnClickListener {
             val bundle = Bundle().apply {
-                if (binding.etCountry.text.toString() == "") {
-                    putString(SELECTED_COUNTRY_ID_KEY, "")
-                    putString(SELECTED_COUNTRY_KEY, "")
-                } else {
-                    putString(SELECTED_COUNTRY_ID_KEY, countryId)
-                    putString(SELECTED_COUNTRY_KEY, country)
+                if (country != null){
+                    putParcelable(SELECTED_COUNTRY_KEY,country)
                 }
-
                 if (binding.etRegion.text.toString() == "") {
                     putString(SELECTED_REGION_ID_KEY, "")
                     putString(SELECTED_REGION_KEY, "")
@@ -118,17 +113,12 @@ class LocationFragment : Fragment() {
         }
     }
 
-    private fun setupRegionField(countryId: String?, country: String?, regionId: String?, region: String?) {
+    private fun setupRegionField(country: Country?, regionId: String?, region: String?) {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
-                if (binding.etCountry.text.toString() == "") {
-                    putString(SELECTED_COUNTRY_ID_KEY, "")
-                    putString(SELECTED_COUNTRY_KEY, "")
-                } else {
-                    putString(SELECTED_COUNTRY_ID_KEY, countryId)
-                    putString(SELECTED_COUNTRY_KEY, country)
+                if (country != null){
+                    putParcelable(SELECTED_COUNTRY_KEY,country)
                 }
-
                 if (binding.etRegion.text.toString() == "") {
                     putString(SELECTED_REGION_ID_KEY, "")
                     putString(SELECTED_REGION_KEY, "")
@@ -166,7 +156,6 @@ class LocationFragment : Fragment() {
     }
 
     companion object {
-        private const val SELECTED_COUNTRY_ID_KEY = "selectedCountryId"
         private const val SELECTED_COUNTRY_KEY = "selectedCountry"
         private const val SELECTED_REGION_ID_KEY = "selectedRegionId"
         private const val SELECTED_REGION_KEY = "selectedRegion"
