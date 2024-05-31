@@ -17,11 +17,11 @@ class ExternalNavigatorImpl(private val context: Context) : ExternalNavigator {
         }
     }
 
-    override fun makeCall(phoneNumber: String) {
+    override fun makeCall(phone: String) {
         Intent().apply {
             action = Intent.ACTION_DIAL
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            data = Uri.parse("tel:$phoneNumber")
+            data = Uri.parse("tel:$phone")
             context.startActivity(this)
         }
     }
