@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class City(
     val id: String,
     val name: String,
-):Parcelable
+) : Parcelable
 /*data class Region(
     val id: String,
     val name: String,

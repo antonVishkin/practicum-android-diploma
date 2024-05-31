@@ -44,8 +44,6 @@ class CountryFragment : Fragment() {
                 onCountryClick(country)
             }
         }
-
-
         viewModel.countryState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is CountryState.Loading -> showLoading()
@@ -99,7 +97,7 @@ class CountryFragment : Fragment() {
         binding.tvPlaceholder.isVisible = true
     }
 
-    private fun onCountryClick(country:Country) {
+    private fun onCountryClick(country: Country) {
         val bundle = Bundle().apply {
             putParcelable(SELECTED_COUNTRY_LABEL, country)
         }
@@ -129,7 +127,8 @@ class CountryFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    companion object{
+
+    companion object {
         private const val SELECTED_COUNTRY_LABEL = "selectedCountry"
     }
 }

@@ -8,7 +8,7 @@ data class Region(
     val id: String,
     val name: String,
     val cities: List<City>
-):Parcelable
+) : Parcelable
 /*data class Region(
     val id: String,
     val name: String,

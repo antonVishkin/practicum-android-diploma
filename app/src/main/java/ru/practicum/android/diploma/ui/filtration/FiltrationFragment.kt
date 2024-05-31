@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
-import ru.practicum.android.diploma.domain.models.Area
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.domain.models.Region
@@ -38,29 +37,23 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         toolbarSetup()
         viewModel.state.observe(viewLifecycleOwner) {
             render(it)
         }
         viewModel.getFiltrationFromPrefs()
-        val industry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getParcelable(INDUSTRY, Industry::class.java)
-        } else {
-            arguments?.getParcelable(INDUSTRY)
-        }
+        val industry = getIndustry()
         if (industry != null) viewModel.setIndustry(industry)
-        val areaCountry = receiveAreaCountry()
-        val areaRegion = receiveAreaRegion()
-        if (areaCountry != null) {
-            val regions = mutableListOf<Region>()
-            if (areaRegion != null) {
-                regions.add(Region(areaRegion.id, areaRegion.name, listOf()))
+        val country = getCountry()
+        val region = getRegion()
+        if (country != null) {
+            val resultCountry = if (region != null) {
+                Country(country.id, country.name, listOf(region))
+            } else {
+                country
             }
-            val country = Country(areaCountry.id, areaCountry.name, regions)
-            viewModel.setArea(country)
+            viewModel.setArea(resultCountry)
         }
-
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
@@ -77,24 +70,22 @@ class FiltrationFragment : Fragment() {
         binding.etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
     }
 
-    private fun receiveAreaRegion(): Area? {
-        var area: Area? = null
-        val id = arguments?.getString(SELECTED_REGION_ID_KEY)
-        val name = arguments?.getString(SELECTED_REGION_KEY)
-        if (id != null && name != null) {
-            area = Area(id, name)
-        }
-        return area
+    private fun getRegion(): Region? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(SELECTED_REGION_KEY, Region::class.java)
+    } else {
+        arguments?.getParcelable(SELECTED_REGION_KEY)
     }
 
-    private fun receiveAreaCountry(): Area? {
-        var area: Area? = null
-        val id = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
-        val name = arguments?.getString(SELECTED_COUNTRY_KEY)
-        if (id != null && name != null) {
-            area = Area(id, name)
-        }
-        return area
+    private fun getCountry(): Country? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(SELECTED_COUNTRY_KEY, Country::class.java)
+    } else {
+        arguments?.getParcelable(SELECTED_COUNTRY_KEY)
+    }
+
+    private fun getIndustry(): Industry? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(INDUSTRY, Industry::class.java)
+    } else {
+        arguments?.getParcelable(INDUSTRY)
     }
 
     private fun onKeyListener(): View.OnKeyListener? {
@@ -201,11 +192,9 @@ class FiltrationFragment : Fragment() {
         val args = Bundle()
         args.apply {
             if (country != null) {
-                args.putString(SELECTED_COUNTRY_ID_KEY, country.id)
-                args.putString(SELECTED_COUNTRY_KEY, country.name)
+                args.putParcelable(SELECTED_COUNTRY_KEY, country)
                 if (country.regions.isNotEmpty()) {
-                    args.putString(SELECTED_REGION_ID_KEY, country.regions[0].id)
-                    args.putString(SELECTED_REGION_KEY, country.regions[0].name)
+                    args.putParcelable(SELECTED_REGION_KEY, country.regions[0])
                 }
             }
         }
@@ -247,9 +236,7 @@ class FiltrationFragment : Fragment() {
 
     companion object {
         const val INDUSTRY = "industry"
-        private const val SELECTED_COUNTRY_ID_KEY = "selectedCountryId"
         private const val SELECTED_COUNTRY_KEY = "selectedCountry"
-        private const val SELECTED_REGION_ID_KEY = "selectedRegionId"
         private const val SELECTED_REGION_KEY = "selectedRegion"
     }
 }

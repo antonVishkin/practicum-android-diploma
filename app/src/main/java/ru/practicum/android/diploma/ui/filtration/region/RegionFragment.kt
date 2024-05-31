@@ -17,7 +17,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentRegionBinding
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Region
-import ru.practicum.android.diploma.ui.filtration.location.LocationFragment
 import ru.practicum.android.diploma.ui.filtration.region.callbacks.RegionCountCallback
 import ru.practicum.android.diploma.ui.root.RootActivity
 
@@ -45,15 +44,15 @@ class RegionFragment : Fragment(), RegionCountCallback {
 
         val selectedCountry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(SELECTED_COUNTRY_KEY, Country::class.java)
-        } else{
+        } else {
             arguments?.getParcelable(SELECTED_COUNTRY_KEY)
         }
         Log.d("selectedCountry-REGION", selectedCountry.toString())
 
-        viewModel.fetchRegions(selectedCountry?.id?:"")
+        viewModel.fetchRegions(selectedCountry?.id ?: "")
 
         _adapter = RegionAdapter(emptyList(), { region ->
-            onRegionClick( selectedCountry,  region)
+            onRegionClick(selectedCountry, region)
         }, this)
 
         binding.rvSearch.adapter = _adapter
@@ -88,7 +87,7 @@ class RegionFragment : Fragment(), RegionCountCallback {
 
                 } else {
                     binding.ivClear.setImageResource(R.drawable.search_icon)
-                    viewModel.fetchRegions(selectedCountryId)
+                    viewModel.fetchRegions(selectedCountry?.id ?: "")
                 }
             }
 
@@ -144,10 +143,12 @@ class RegionFragment : Fragment(), RegionCountCallback {
         binding.tvPlaceholder.isVisible = true
     }
 
-    private fun onRegionClick(country: Country, region: Region) {
+    private fun onRegionClick(country: Country?, region: Region) {
         val bundle = Bundle().apply {
-            putParcelable(SELECTED_COUNTRY_KEY, country)
-            putParcelable(SELECTED_REGION_KEY,region)
+            if (country != null) {
+                putParcelable(SELECTED_COUNTRY_KEY, country)
+            }
+            putParcelable(SELECTED_REGION_KEY, region)
         }
         findNavController().navigate(R.id.action_regionFragment_to_locationFragment, bundle)
     }
@@ -187,6 +188,7 @@ class RegionFragment : Fragment(), RegionCountCallback {
             binding.tvPlaceholder.isVisible = false
         }
     }
+
     companion object {
         private const val SELECTED_COUNTRY_KEY = "selectedCountry"
         private const val SELECTED_REGION_KEY = "selectedRegion"

@@ -8,4 +8,4 @@ data class Country(
     val id: String,
     val name: String,
     val regions: List<Region>
-):Parcelable
+) : Parcelable
