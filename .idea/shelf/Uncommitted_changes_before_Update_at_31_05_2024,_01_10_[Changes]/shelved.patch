@@ -1,0 +1,30 @@
+Index: app/src/main/java/ru/practicum/android/diploma/data/dto/VacancyDto.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.practicum.android.diploma.data.dto\n\nimport com.google.gson.annotations.SerializedName\n\ndata class VacancyDto(\n    val id: String,\n    @SerializedName(\"name\")\n    val vacancyName: String,\n    @SerializedName(\"alternate_url\")\n    val alternateUrl: String?,\n    val employer: EmployerDto,\n    val area: AreaDto,\n    val employment: EmploymentDto?,\n    val experience: ExperienceDto?,\n    val salary: SalaryDto?,\n    val description: String?,\n    @SerializedName(\"key_skills\")\n    val keySkills: List<KeySkillDto>?,\n    val contacts: ContactsDto?,\n    val comment: String?,\n    val schedule: ScheduleDto?,\n    val address: AddressDto?\n)\n\ndata class EmployerDto(\n    val name: String,\n    @SerializedName(\"logo_urls\")\n    val logo: LogoDto?\n)\n\ndata class LogoDto(\n    @SerializedName(\"90\")\n    val small: String?,\n    @SerializedName(\"240\")\n    val big: String?,\n    @SerializedName(\"original\")\n    val original: String?\n)\n\ndata class AreaDto(\n    val name: String?\n)\n\ndata class EmploymentDto(\n    val name: String?\n)\n\ndata class ExperienceDto(\n    val name: String?\n)\n\ndata class SalaryDto(\n    val currency: String?,\n    val from: Int?,\n    val gross: Boolean?,\n    val to: Int?\n)\n\ndata class KeySkillDto(\n    val name: String?\n)\n\ndata class ContactsDto(\n    val email: String?,\n    val name: String?,\n    val phones: List<PhoneDto?>?\n)\n\ndata class PhoneDto(\n    val city: String?,\n    val comment: String?,\n    val country: String?,\n    val number: String?\n)\n\ndata class ScheduleDto(\n    val name: String?\n)\n\ndata class AddressDto(\n    @SerializedName(\"raw\")\n    val fullAddress: String?\n)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/ru/practicum/android/diploma/data/dto/VacancyDto.kt b/app/src/main/java/ru/practicum/android/diploma/data/dto/VacancyDto.kt
+--- a/app/src/main/java/ru/practicum/android/diploma/data/dto/VacancyDto.kt	(revision c7814a17c85edd3165f33b76023786d5052f2d23)
++++ b/app/src/main/java/ru/practicum/android/diploma/data/dto/VacancyDto.kt	(date 1717106992469)
+@@ -9,7 +9,7 @@
+     @SerializedName("alternate_url")
+     val alternateUrl: String?,
+     val employer: EmployerDto,
+-    val area: AreaDto,
++    val area: AreaDTO,
+     val employment: EmploymentDto?,
+     val experience: ExperienceDto?,
+     val salary: SalaryDto?,
+@@ -37,10 +37,6 @@
+     val original: String?
+ )
+ 
+-data class AreaDto(
+-    val name: String?
+-)
+-
+ data class EmploymentDto(
+     val name: String?
+ )
