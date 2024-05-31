@@ -130,28 +130,39 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun showContacts(vacancy: Vacancy) {
-        if (vacancy.contacts?.name?.isNotEmpty() == true ||
-            vacancy.contacts?.email?.isNotEmpty() == true ||
-            vacancy.contacts?.phones?.toString()?.isNotEmpty() == true
+        if (!vacancy.contacts?.name.isNullOrEmpty() ||
+            !vacancy.contacts?.email.isNullOrEmpty() ||
+            vacancy.contacts?.phones?.size != 0 ||
+            !vacancy.comment.isNullOrEmpty()
         ) {
             binding.clContactsContainer.isVisible = true
             showContactDetails(vacancy)
             } else {
             binding.clContactsContainer.isVisible = false
+            binding.tvContactsLabel.isVisible = false
+
+            binding.tvContacts.text = vacancy.contacts.name ?: ""
+            binding.tvEmail.text = vacancy.contacts.email ?: ""
+            binding.tvPhones.text = vacancy.contacts.phones[0]?.toString() ?: ""
+            binding.tvComment.text = vacancy.comment ?: ""
         }
     }
 
     private fun showContactDetails(vacancy: Vacancy) {
         binding.tvContacts.text = vacancy.contacts?.name ?: ""
+        binding.tvContactsPersonLabel.isVisible = vacancy.contacts?.name?.isNotEmpty() == true
 
         binding.tvEmail.text = vacancy.contacts?.email ?: ""
         binding.tvEmailLabel.isVisible = vacancy.contacts?.email?.isNotEmpty() == true
 
-        binding.tvPhones.isVisible = vacancy.contacts?.phones?.isNotEmpty() == true
         if (vacancy.contacts?.phones?.isNotEmpty() == true) {
             binding.tvPhones.text = vacancy.contacts.phones[0].toString()
+        } else {
+            binding.tvPhones.text = ""
         }
-        binding.tvComment.text = vacancy.comment
+        binding.tvTelephoneLable.isVisible = vacancy.contacts?.phones?.isNotEmpty() == true
+
+        binding.tvComment.text = vacancy.comment ?: ""
         binding.tvCommentLabel.isVisible = vacancy.comment?.isNotEmpty() == true
 
         setOnClickListenersForContacts()
