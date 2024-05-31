@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.filtration
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +67,8 @@ class FiltrationFragment : Fragment() {
         }
         binding.etSalary.setOnKeyListener(onKeyListener())
         binding.etAreaOfWork.setOnClickListener { onAreaClick.invoke() }
+        binding.etIndustry.setOnClickListener { onIndustryClick.invoke() }
+
     }
 
     private fun getRegion(): Region? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -110,7 +111,6 @@ class FiltrationFragment : Fragment() {
         when (state) {
             is FiltrationState.Empty -> showEmpty()
             is FiltrationState.Content -> {
-                Log.v("FILTRATION", "render fragment ${state.filtration.industry}")
                 showContent(
                     state.filtration.area,
                     state.filtration.industry,
@@ -124,10 +124,36 @@ class FiltrationFragment : Fragment() {
 
     private fun showContent(area: Country?, industry: Industry?, salary: String?, salaryEmptyNotShowing: Boolean) {
         binding.apply {
+            showArea(area)
+            showIndustry(industry)
+            if (!salary.isNullOrEmpty()) {
+                etSalary.setText(salary)
+            }
+            checkBoxSalary.isChecked = salaryEmptyNotShowing
+            buttonRemove.isVisible = true
+        }
+    }
+
+    private fun showIndustry(industry: Industry?) {
+        binding.apply {
+            if (industry != null) {
+                etIndustry.setText(industry.name)
+                ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
+                ilIndustry.setEndIconOnClickListener {
+                    viewModel.setIndustry(null)
+                    industryEndIconListener()
+                }
+            }
+        }
+    }
+
+    private fun showArea(area: Country?) {
+        binding.apply {
             if (area != null) {
-                var text = area.name
-                if (area.regions.isNotEmpty()) {
-                    text = text + ", " + area.regions[0].name
+                var text = if (area.regions != null && area.regions.isNotEmpty()) {
+                    area.name + ", " + area.regions[0].name
+                } else {
+                    area.name
                 }
                 etAreaOfWork.setText(text)
                 ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
@@ -136,23 +162,6 @@ class FiltrationFragment : Fragment() {
                     areaEndIconListener()
                 }
             }
-            Log.v("FILTRATION", "industry $industry")
-            if (industry != null) {
-                etIndustry.setText(industry.name)
-                ilIndustry.setEndIconDrawable(R.drawable.clean_icon)
-                ilIndustry.setEndIconOnClickListener {
-                    viewModel.setIndustry(null)
-                    industryEndIconListener()
-                }
-            } else {
-                etIndustry.setText("")
-                etIndustry.setOnClickListener { onIndustryClick.invoke() }
-            }
-            if (!salary.isNullOrEmpty()) {
-                etSalary.setText(salary)
-            }
-            checkBoxSalary.isChecked = salaryEmptyNotShowing
-            buttonRemove.isVisible = true
         }
     }
 
@@ -200,7 +209,6 @@ class FiltrationFragment : Fragment() {
         }
         findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment, args)
     }
-
     private val onIndustryClick: () -> Unit = {
         findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
     }
@@ -217,7 +225,6 @@ class FiltrationFragment : Fragment() {
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
         toolbar.title = getString(R.string.title_filtration)
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
