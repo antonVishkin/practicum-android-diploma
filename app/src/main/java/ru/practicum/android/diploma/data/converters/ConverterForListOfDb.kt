@@ -18,7 +18,6 @@ class ConverterForListOfDb {
         return gson.toJson(list)
     }
 
-
     @TypeConverter
     fun fromPhoneList(phones: List<PhoneEntity?>?): String? {
         if (phones == null) return null

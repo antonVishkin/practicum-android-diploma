@@ -28,7 +28,6 @@ class VacancyEntityConverter {
                 comment = comment,
                 schedule = schedule,
                 address = address
-
             )
         }
     }
@@ -64,7 +63,6 @@ class VacancyEntityConverter {
             )
         }
     }
-
 
     fun map(vacancy: Vacancy): VacancyEntity {
         return with(vacancy) {
