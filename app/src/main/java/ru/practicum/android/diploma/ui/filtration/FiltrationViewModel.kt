@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.filtration.FiltrationInteractor
 import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Filtration
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.domain.models.Region
 import ru.practicum.android.diploma.ui.filtration.FiltrationState.Content
 
 class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor) : ViewModel() {
@@ -82,13 +84,13 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         )
     }
 
-    fun setArea(area: String?) {
+    fun setArea(area: Country?) {
         val filtration = getCurrFiltration()
         _isChanged.value = true
         renderState(
             Content(
                 Filtration(
-                    area = if (area == null) null else Area(id = area, ""),
+                    area = area,
                     industry = filtration.industry,
                     salary = filtration.salary,
                     onlyWithSalary = filtration.onlyWithSalary

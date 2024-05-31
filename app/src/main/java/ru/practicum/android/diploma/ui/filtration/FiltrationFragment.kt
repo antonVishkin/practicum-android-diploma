@@ -16,7 +16,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.domain.models.Area
+import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.domain.models.Region
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class FiltrationFragment : Fragment() {
@@ -48,10 +50,16 @@ class FiltrationFragment : Fragment() {
             arguments?.getParcelable(INDUSTRY)
         }
         if (industry != null) viewModel.setIndustry(industry)
-        val area = arguments?.getString(AREA) ?: null
-        if (area != null) {
-            viewModel.setArea(area)
+        val areaCountry = receiveAreaCountry()
+        val areaRegion = receiveAreaRegion()
+        if (areaCountry != null) {
+            val regions = mutableListOf<Region>()
+            if (areaRegion != null)
+                regions.add(Region(areaRegion.id, areaRegion.name, listOf()))
+            val country = Country(areaCountry.id, areaCountry.name, regions)
+            viewModel.setArea(country)
         }
+
         binding.checkBoxSalary.setOnClickListener {
             viewModel.setCheckbox(binding.checkBoxSalary.isChecked)
         }
@@ -65,6 +73,28 @@ class FiltrationFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.etSalary.setOnKeyListener(onKeyListener())
+    }
+
+    private fun receiveAreaRegion(): Area? {
+        var area: Area? = null
+        val id = arguments?.getString(SELECTED_REGION_ID_KEY)
+        val name = arguments?.getString(SELECTED_REGION_KEY)
+        Log.v("FILTRATION","received region id $id name $name")
+        if (id != null && name != null) {
+            area = Area(id, name)
+        }
+        return area
+    }
+
+    private fun receiveAreaCountry(): Area? {
+        var area: Area? = null
+        val id = arguments?.getString(SELECTED_COUNTRY_ID_KEY)
+        val name = arguments?.getString(SELECTED_COUNTRY_KEY)
+        Log.v("FILTRATION","received country id $id name $name")
+        if (id != null && name != null) {
+            area = Area(id, name)
+        }
+        return area
     }
 
     private fun onKeyListener(): View.OnKeyListener? {
@@ -101,10 +131,13 @@ class FiltrationFragment : Fragment() {
         }
     }
 
-    private fun showContent(area: Area?, industry: Industry?, salary: String?, salaryEmptyNotShowing: Boolean) {
+    private fun showContent(area: Country?, industry: Industry?, salary: String?, salaryEmptyNotShowing: Boolean) {
         binding.apply {
             if (area != null) {
-                etAreaOfWork.setText(area.name)
+                var text = area.name
+                if (area.regions.isNotEmpty())
+                    text = text + ", " + area.regions[0].name
+                etAreaOfWork.setText(text)
                 ilAreaOfWork.setEndIconDrawable(R.drawable.clean_icon)
                 ilAreaOfWork.setEndIconOnClickListener {
                     viewModel.setArea(null)
@@ -203,6 +236,9 @@ class FiltrationFragment : Fragment() {
 
     companion object {
         const val INDUSTRY = "industry"
-        const val AREA = "area"
+        private const val SELECTED_COUNTRY_ID_KEY = "selectedCountryId"
+        private const val SELECTED_COUNTRY_KEY = "selectedCountry"
+        private const val SELECTED_REGION_ID_KEY = "selectedRegionId"
+        private const val SELECTED_REGION_KEY = "selectedRegion"
     }
 }

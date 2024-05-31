@@ -57,7 +57,7 @@ class LocationFragment : Fragment() {
         // Обработка логики для setupRegionField
         setupCountryField()
         setupRegionField(selectedCountryId, selectedCountry, selectedRegionId, selectedRegion)
-        setupSelectButton()
+        setupSelectButton(selectedCountryId, selectedCountry, selectedRegionId, selectedRegion)
         setupClearButton()
     }
 
@@ -88,9 +88,27 @@ class LocationFragment : Fragment() {
         binding.btnSelectionContainer.visibility = if (isCountryEmpty && isRegionEmpty) View.GONE else View.VISIBLE
     }
 
-    private fun setupSelectButton() {
+    private fun setupSelectButton(countryId: String?, country: String?, regionId: String?, region: String?) {
         binding.btnSelectionContainer.setOnClickListener {
-            findNavController().navigate(R.id.action_locationFragment_to_filtrationFragment)
+            val bundle = Bundle().apply {
+                if (binding.etCountry.text.toString() == "") {
+                    putString(SELECTED_COUNTRY_ID_KEY, "")
+                    putString(SELECTED_COUNTRY_KEY, "")
+                } else {
+                    putString(SELECTED_COUNTRY_ID_KEY, countryId)
+                    putString(SELECTED_COUNTRY_KEY, country)
+                }
+
+                if (binding.etRegion.text.toString() == "") {
+                    putString(SELECTED_REGION_ID_KEY, "")
+                    putString(SELECTED_REGION_KEY, "")
+                } else {
+                    putString(SELECTED_REGION_ID_KEY, regionId)
+                    putString(SELECTED_REGION_KEY, region)
+                }
+            }
+
+            findNavController().navigate(R.id.action_locationFragment_to_filtrationFragment,bundle)
         }
     }
 
