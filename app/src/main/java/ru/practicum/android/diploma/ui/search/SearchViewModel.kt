@@ -138,6 +138,9 @@ class SearchViewModel(
         val options = hashMapOf<String, String>()
         if (filtrationParams.area != null) {
             options["area"] = filtrationParams.area.id
+            if (filtrationParams.area.regions.isNotEmpty()) {
+                options["area"] = filtrationParams.area.regions[0].id
+            }
         }
         if (filtrationParams.industry != null) {
             options["industry"] = filtrationParams.industry.id
