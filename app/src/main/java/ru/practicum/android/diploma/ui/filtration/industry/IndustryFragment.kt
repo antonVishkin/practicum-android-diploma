@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
 import ru.practicum.android.diploma.domain.models.Industry
-import ru.practicum.android.diploma.ui.filtration.FiltrationFragment
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class IndustryFragment : Fragment() {
@@ -58,14 +57,14 @@ class IndustryFragment : Fragment() {
         viewModel.searchIndustries()
 
         val industry = getIndustry()
-        Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли при загрузке ${industry.toString()}")
+        Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли при загрузке ${industry}")
 
         binding.etSelectIndustry.addTextChangedListener(textWatcherListener())
 
         binding.buttonSelectIndustry.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelable(SELECTED_INDUSTRY_KEY, selectedIndustry)
-                Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли ${selectedIndustry.toString()}")
+                Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли ${selectedIndustry}")
             }
             findNavController().navigate(R.id.action_industryFragment_to_filtrationFragment, bundle)
         }
@@ -120,7 +119,6 @@ class IndustryFragment : Fragment() {
         adapter.notifyDataSetChanged()
         adapter.logIndustriesState()
     }
-
 
     private fun renderLoading() {
         with(binding) {

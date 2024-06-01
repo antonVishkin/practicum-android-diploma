@@ -217,7 +217,7 @@ class FiltrationFragment : Fragment() {
         val bundle = Bundle().apply {
             val selectedIndustry = viewModel.getIndustry()
             putParcelable(IndustryFragment.SELECTED_INDUSTRY_KEY, selectedIndustry)
-            Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент отрасли ${selectedIndustry}")
+            Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент отрасли $selectedIndustry")
         }
         findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment, bundle)
     }

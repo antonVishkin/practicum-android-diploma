@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.filtration.location
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Region
-import ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment
-import ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment.Companion.SELECTED_INDUSTRY_KEY
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class LocationFragment : Fragment() {
