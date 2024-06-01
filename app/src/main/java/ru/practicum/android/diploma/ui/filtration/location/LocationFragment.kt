@@ -54,6 +54,7 @@ class LocationFragment : Fragment() {
             binding.etRegion.setText(selectedRegion.name)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
+
         // Обработка логики для setupRegionField
         setupCountryField()
         setupRegionField(selectedCountry, selectedRegion)

@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.ui.filtration.industry
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,15 +56,17 @@ class IndustryFragment : Fragment() {
 
         viewModel.searchIndustries()
 
+        val industry = getIndustry()
+        Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли при загрузке $industry")
+
         binding.etSelectIndustry.addTextChangedListener(textWatcherListener())
 
         binding.buttonSelectIndustry.setOnClickListener {
-            val args = Bundle()
-            args.putParcelable(INDUSTRY, selectedIndustry)
-            findNavController().navigate(
-                R.id.action_industryFragment_to_filtrationFragment,
-                args
-            )
+            val bundle = Bundle().apply {
+                putParcelable(SELECTED_INDUSTRY_KEY, selectedIndustry)
+                Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли $selectedIndustry")
+            }
+            findNavController().navigate(R.id.action_industryFragment_to_filtrationFragment, bundle)
         }
 
         binding.ivClear.setOnClickListener {
@@ -76,6 +80,23 @@ class IndustryFragment : Fragment() {
         }
     }
 
+    private fun getIndustry(): Industry? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arguments?.getParcelable(SELECTED_INDUSTRY_KEY, Industry::class.java)
+    } else {
+        arguments?.getParcelable(SELECTED_INDUSTRY_KEY)
+    }
+
+    private fun selectIndustry(industry: Industry?) {
+        if (industry != null) {
+            industriesList?.forEach {
+                it.isSelected = it.id == industry.id
+            }
+            adapter.selectedIndustry = industry
+            adapter.notifyDataSetChanged()
+            adapter.logIndustriesState()
+        }
+    }
+
     private fun render(state: IndustryState) {
         when (state) {
             is IndustryState.Loading -> renderLoading()
@@ -86,11 +107,17 @@ class IndustryFragment : Fragment() {
             is IndustryState.Content -> {
                 renderContent(state)
                 industriesList = state.industries
-                adapter.industries.clear()
-                adapter.industries = state.industries.toMutableList()
-                adapter.notifyDataSetChanged()
+                updateAdapterData(state.industries)
+                selectIndustry(getIndustry())
             }
         }
+    }
+
+    private fun updateAdapterData(industries: List<Industry>) {
+        adapter.industries.clear()
+        adapter.industries = industries.toMutableList()
+        adapter.notifyDataSetChanged()
+        adapter.logIndustriesState()
     }
 
     private fun renderLoading() {
@@ -202,5 +229,6 @@ class IndustryFragment : Fragment() {
     companion object {
         const val INDUSTRY = "industry"
         const val AREA = "area"
+        const val SELECTED_INDUSTRY_KEY = "selectedIndustry"
     }
 }

@@ -150,6 +150,14 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         return null
     }
 
+    fun getIndustry(): Industry? {
+        if (_state.value is Content) {
+            val content = _state.value as Content
+            return content.filtration.industry
+        }
+        return null
+    }
+
     companion object {
         private const val SALARY_DEBOUNCE = 2000L
     }

@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.ui.filtration
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Industry
 import ru.practicum.android.diploma.domain.models.Region
+import ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class FiltrationFragment : Fragment() {
@@ -41,7 +43,8 @@ class FiltrationFragment : Fragment() {
             render(it)
         }
         viewModel.getFiltrationFromPrefs()
-        val industry = getIndustry()
+        var industry = getIndustry()
+        Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент фильтрации $industry")
         if (industry != null) viewModel.setIndustry(industry)
         val country = getCountry()
         val region = getRegion()
@@ -84,9 +87,9 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun getIndustry(): Industry? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        arguments?.getParcelable(INDUSTRY, Industry::class.java)
+        arguments?.getParcelable(SELECTED_INDUSTRY_KEY, Industry::class.java)
     } else {
-        arguments?.getParcelable(INDUSTRY)
+        arguments?.getParcelable(SELECTED_INDUSTRY_KEY)
     }
 
     private fun onKeyListener(): View.OnKeyListener? {
@@ -209,8 +212,14 @@ class FiltrationFragment : Fragment() {
         }
         findNavController().navigate(R.id.action_filtrationFragment_to_locationFragment, args)
     }
+
     private val onIndustryClick: () -> Unit = {
-        findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+        val bundle = Bundle().apply {
+            val selectedIndustry = viewModel.getIndustry()
+            putParcelable(IndustryFragment.SELECTED_INDUSTRY_KEY, selectedIndustry)
+            Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент отрасли $selectedIndustry")
+        }
+        findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment, bundle)
     }
 
     override fun onStop() {
@@ -245,5 +254,6 @@ class FiltrationFragment : Fragment() {
         const val INDUSTRY = "industry"
         private const val SELECTED_COUNTRY_KEY = "selectedCountry"
         private const val SELECTED_REGION_KEY = "selectedRegion"
+        private const val SELECTED_INDUSTRY_KEY = "selectedIndustry"
     }
 }
