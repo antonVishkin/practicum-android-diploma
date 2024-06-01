@@ -134,20 +134,20 @@ class VacancyDetailsFragment : Fragment() {
             binding.tvComment.text = vacancy.comment
             binding.tvComment.isVisible = true
             binding.tvCommentLabel.isVisible = true
+        } else {
+            binding.tvComment.isVisible = false
+            binding.tvCommentLabel.isVisible = false
         }
         if (!vacancy.contacts?.name.isNullOrEmpty() ||
             !vacancy.contacts?.email.isNullOrEmpty() ||
-            vacancy.contacts?.phones?.size != 0
+            vacancy.contacts?.phones?.isNotEmpty() == true
         ) {
             binding.clContactsContainer.isVisible = true
+            binding.tvContactsLabel.isVisible = true
             showContactDetails(vacancy)
-            } else {
+        } else {
             binding.clContactsContainer.isVisible = false
             binding.tvContactsLabel.isVisible = false
-
-            binding.tvContacts.text = vacancy.contacts.name ?: ""
-            binding.tvEmail.text = vacancy.contacts.email ?: ""
-            binding.tvPhones.text = vacancy.contacts.phones[0]?.toString() ?: ""
         }
     }
 
