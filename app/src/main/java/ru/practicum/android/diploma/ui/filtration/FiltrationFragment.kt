@@ -215,7 +215,7 @@ class FiltrationFragment : Fragment() {
 
     private val onIndustryClick: () -> Unit = {
         val bundle = Bundle().apply {
-            val selectedIndustry = getIndustry()
+            val selectedIndustry = viewModel.getIndustry()
             putParcelable(IndustryFragment.SELECTED_INDUSTRY_KEY, selectedIndustry)
             Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент отрасли ${selectedIndustry}")
         }

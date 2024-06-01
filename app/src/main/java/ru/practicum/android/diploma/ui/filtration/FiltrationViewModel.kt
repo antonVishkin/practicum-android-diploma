@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -146,6 +147,14 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
         if (_state.value is Content) {
             val content = _state.value as Content
             return content.filtration.area
+        }
+        return null
+    }
+
+    fun getIndustry(): Industry? {
+        if (_state.value is Content) {
+            val content = _state.value as Content
+            return content.filtration.industry
         }
         return null
     }
