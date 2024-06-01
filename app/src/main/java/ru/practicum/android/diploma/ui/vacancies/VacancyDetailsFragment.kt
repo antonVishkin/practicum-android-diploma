@@ -107,7 +107,7 @@ class VacancyDetailsFragment : Fragment() {
                 .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
             .centerCrop()
             .into(binding.ivCompanyLogo)
-        binding.tvCompanyName.text = vacancy.employment
+        binding.tvCompanyName.text = vacancy.companyName
         binding.tvLocation.text = if (vacancy.address.isNullOrEmpty()) vacancy.area else vacancy.address
     }
 
