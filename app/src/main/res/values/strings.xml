@@ -72,9 +72,9 @@
     <string name="key_skills">
         \t\t• \t\t Знание классических алгоритмов и структуры \n
         \t\t\t\t данных\n
-        \t\t•\t\t Программирование для Android больше одного\n
+        \t\t• \t\t Программирование для Android больше одного\n
         \t\t\t\t года\n
-        \t\t•\t\t Знание WebRTC</string>
+        \t\t• \t\t Знание WebRTC</string>
     <string name="contacts_label">Контакты</string>
     <string name="contacts_person_label">Контактное лицо</string>
     <string name="contacts">Ирина</string>

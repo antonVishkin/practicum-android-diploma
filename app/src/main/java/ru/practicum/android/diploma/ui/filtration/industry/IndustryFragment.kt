@@ -26,7 +26,6 @@ class IndustryFragment : Fragment() {
     private val viewModel by viewModel<IndustryViewModel>()
     private var industriesList: List<Industry>? = null
     private var selectedIndustry: Industry? = null
-
     private val adapter = IndustryAdapter { industry ->
         selectedIndustry = industry
         hideKeyboard()
