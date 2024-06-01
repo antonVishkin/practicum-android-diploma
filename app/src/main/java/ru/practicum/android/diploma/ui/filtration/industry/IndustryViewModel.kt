@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.api.industry.IndustryInteractor
 import ru.practicum.android.diploma.domain.models.Industry
+import ru.practicum.android.diploma.ui.filtration.FiltrationState
 import ru.practicum.android.diploma.util.SearchResultData
 
 class IndustryViewModel(private val interactor: IndustryInteractor) : ViewModel() {
