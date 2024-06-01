@@ -44,7 +44,7 @@ class FiltrationFragment : Fragment() {
         }
         viewModel.getFiltrationFromPrefs()
         var industry = getIndustry()
-        Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент фильтрации ${industry.toString()}")
+        Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент фильтрации ${industry}")
         if (industry != null) viewModel.setIndustry(industry)
         val country = getCountry()
         val region = getRegion()

@@ -28,7 +28,7 @@ class IndustryAdapter(private val onClickListener: (Industry) -> Unit) : Recycle
             selectedIndustry = industries[position]
             industries.forEach {
                 it.isSelected = it == industries[position]
-                Log.d("Adapter","${it.name} ${it.isSelected}")
+                Log.d("Adapter", "${it.name} ${it.isSelected}")
             }
             onClickListener(industries[position])
             notifyDataSetChanged()
@@ -44,8 +44,8 @@ class IndustryAdapter(private val onClickListener: (Industry) -> Unit) : Recycle
 
     fun logIndustriesState() {
         industries.forEach {
-            if (it.isSelected){
-                Log.v("IndustrySelectedState","SELECTED INDUSTRY")
+            if (it.isSelected) {
+                Log.v("IndustrySelectedState", "SELECTED INDUSTRY")
             }
             Log.d("IndustryState", "Industry: ${it.name}, isSelected: ${it.isSelected}")
         }

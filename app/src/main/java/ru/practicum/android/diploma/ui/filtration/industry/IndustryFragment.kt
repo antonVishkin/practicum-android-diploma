@@ -57,14 +57,14 @@ class IndustryFragment : Fragment() {
         viewModel.searchIndustries()
 
         val industry = getIndustry()
-        Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли при загрузке ${industry}")
+        Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли при загрузке $industry")
 
         binding.etSelectIndustry.addTextChangedListener(textWatcherListener())
 
         binding.buttonSelectIndustry.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelable(SELECTED_INDUSTRY_KEY, selectedIndustry)
-                Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли ${selectedIndustry}")
+                Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли $selectedIndustry")
             }
             findNavController().navigate(R.id.action_industryFragment_to_filtrationFragment, bundle)
         }
