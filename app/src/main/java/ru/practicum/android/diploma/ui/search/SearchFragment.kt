@@ -247,7 +247,7 @@ class SearchFragment : Fragment() {
             binding.etButtonSearch.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.clean_icon,
+                R.drawable.clean_icon_black,
                 0
             )
             val iconClear = editText.compoundDrawables[2]

@@ -183,7 +183,7 @@ class IndustryFragment : Fragment() {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (!binding.etSelectIndustry.text.toString().isNullOrEmpty()) {
-                binding.ivClear.setImageResource(R.drawable.clean_icon)
+                binding.ivClear.setImageResource(R.drawable.clean_icon_black)
                 viewModel.searchDebounce(s.toString())
             } else {
                 binding.ivClear.setImageResource(R.drawable.search_icon)
