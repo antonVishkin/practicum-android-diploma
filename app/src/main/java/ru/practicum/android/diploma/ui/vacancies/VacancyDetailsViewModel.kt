@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
-import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.sharing.SharingInteractor
 
@@ -20,14 +18,10 @@ class VacancyDetailsViewModel(
     private var sharingInteractor: SharingInteractor
 ) : ViewModel() {
 
-    private var isClickAllowed = true
     private var currencySymbol: String? = null
 
     private val _stateLiveData = MutableLiveData<VacancyDetailsState>()
     val stateLiveData: LiveData<VacancyDetailsState> get() = _stateLiveData
-
-    private val _currentVacancy = MutableLiveData<Vacancy?>(null)
-    val currentVacancy = _currentVacancy as LiveData<Vacancy?>
 
     fun fetchVacancyDetails(vacancyId: String) {
         renderState(VacancyDetailsState.Loading)
@@ -38,7 +32,6 @@ class VacancyDetailsViewModel(
                     is VacancyDetailStatus.Loading -> renderState(VacancyDetailsState.Loading)
 
                     is VacancyDetailStatus.Content -> {
-                        _currentVacancy.value = result.data
                         currencySymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
                         val isFavorite = isVacancyFavorite(vacancyId)
                         renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
@@ -86,7 +79,6 @@ class VacancyDetailsViewModel(
     private fun getVacancyFromDb(vacancyId: String, symbol: String) {
         viewModelScope.launch {
             val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
-            _currentVacancy.value = vacancyFromDb
             renderState(
                 VacancyDetailsState.Content(
                     vacancy = vacancyFromDb,
@@ -97,7 +89,7 @@ class VacancyDetailsViewModel(
         }
     }
 
-    private suspend fun isVacancyFavorite(vacancyId: String): Boolean {
+    suspend fun isVacancyFavorite(vacancyId: String): Boolean {
         return favoritesInteractor.isVacancyFavorite(vacancyId)
     }
 
@@ -106,29 +98,20 @@ class VacancyDetailsViewModel(
     }
 
     fun shareApp(vacancyUrl: String) {
-        sharingInteractor.shareApp(vacancyUrl)
+        viewModelScope.launch {
+            sharingInteractor.shareApp(vacancyUrl)
+        }
     }
 
-    fun phoneCall(phone: Phone) {
-        sharingInteractor.phoneCall(phone)
+    fun phoneCall(phone: String) {
+        viewModelScope.launch {
+            sharingInteractor.phoneCall(phone)
+        }
     }
 
     fun eMail(email: String) {
-        sharingInteractor.eMail(email)
-    }
-
-    fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            viewModelScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
-                isClickAllowed = true
-            }
+        viewModelScope.launch {
+            sharingInteractor.eMail(email)
         }
-        return current
-    }
-
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }
