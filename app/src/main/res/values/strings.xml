@@ -13,7 +13,7 @@
     <!-- SEARCH FRAGMENT-->
     <string name="search_hint">Введите запрос</string>
     <string name="search_vacancy_not_found">Таких вакансий нет</string>
-    <string name="search_vacancy_list_not_found">Не удалось получить \n список вакансий</string>
+    <string name="search_vacancy_list_not_found">Не удалось получить\n список вакансий</string>
     <string name="search_no_connection">Нет интернета</string>
     <string name="search_server_error">Ошибка сервера</string>
     <string name="found_vacancies_count">Найдено %1$d вакансий</string>
@@ -93,5 +93,8 @@
     <string name="tvRequirementsLabel">Требования</string>
     <string name="tvConditionsLabel">Условия</string>
     <string name="tvJobResponsibilityLabel">Обязанности</string>
+    <string name="item_view_vacancy_name_text">Java-разработчик, Омск</string>
+    <string name="item_view_vacancy_company_name">Маркет</string>
+    <string name="item_view_vacancy_salary_text">Зарплата не указана</string>
 
 </resources>

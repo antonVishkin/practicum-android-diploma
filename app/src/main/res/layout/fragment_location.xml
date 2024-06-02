@@ -6,9 +6,9 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilCountry"
         style="@style/TextInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/null_height"
+        android:layout_height="@dimen/fragment_location_til_country_height"
+        android:layout_marginTop="@dimen/size_16dp"
         android:clickable="true"
         android:focusable="true"
         android:hint="@string/country"
@@ -24,31 +24,31 @@
             android:focusable="false"
             android:gravity="center_vertical"
             android:inputType="none"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            android:paddingTop="@dimen/size_8dp"
+            android:paddingBottom="@dimen/size_8dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/countryIcon"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/null_height"
         android:src="@drawable/arrow_forward"
         app:layout_constraintBottom_toBottomOf="@+id/tilCountry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tilCountry"
         app:layout_constraintTop_toTopOf="@+id/tilCountry"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="@dimen/size_16dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilRegion"
         style="@style/TextInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/null_height"
+        android:layout_height="@dimen/fragment_location_til_region_height"
         android:clickable="true"
         android:focusable="true"
         android:hint="@string/region"
-        app:boxStrokeWidth="1dp"
-        app:boxStrokeWidthFocused="1dp"
+        app:boxStrokeWidth="@dimen/size_1dp"
+        app:boxStrokeWidthFocused="@dimen/size_1dp"
         app:layout_constraintEnd_toStartOf="@id/regionIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tilCountry">
@@ -61,16 +61,16 @@
             android:focusable="false"
             android:gravity="center_vertical"
             android:inputType="none"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            android:paddingTop="@dimen/size_8dp"
+            android:paddingBottom="@dimen/size_8dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/regionIcon"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginRight="16dp"
+        android:layout_height="@dimen/null_height"
+        android:layout_marginRight="@dimen/size_16dp"
         android:src="@drawable/arrow_forward"
         app:layout_constraintBottom_toBottomOf="@+id/tilRegion"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,10 +80,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btnSelectionContainer"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_height="@dimen/fragment_location_selecton_button_height"
+        android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginEnd="@dimen/size_16dp"
+        android:layout_marginBottom="@dimen/size_24dp"
         android:background="@drawable/rounded_background_blue"
         android:clickable="true"
         android:focusable="true"

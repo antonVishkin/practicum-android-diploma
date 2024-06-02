@@ -219,7 +219,7 @@ class SearchFragment : Fragment() {
     private fun openFragmentVacancy(vacancyId: String) {
         findNavController().navigate(
             R.id.action_searchFragment_to_vacanciesFragment,
-            Bundle().apply { putString("vacancy_model", vacancyId) }
+            Bundle().apply { putString(VACANCY_MODEL_KEY, vacancyId) }
         )
     }
 
@@ -266,5 +266,9 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val VACANCY_MODEL_KEY = "vacancy_model"
     }
 }

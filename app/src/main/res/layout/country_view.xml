@@ -2,17 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/countryRussia"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="@dimen/item_view_country_height"
     android:clickable="true"
     android:focusable="true"
-    android:padding="16dp"
+    android:padding="@dimen/item_view_country_padding"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
         android:id="@+id/ivRussiaArrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/arrow_right_dimension"
+        android:layout_height="@dimen/arrow_right_dimension"
         android:src="@drawable/arrow_forward"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,9 +21,9 @@
     <TextView
         android:id="@+id/tvCountryName"
         style="@style/vacancy_view_regular_text"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/size_20dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/russia"

@@ -26,14 +26,15 @@ class PreferencesProviderImpl(
 
     override suspend fun getFiltration(): Filtration? {
         val filtrationString = prefs.getString(FILTRATION_LABEL, "")
-        Log.v("PREFS", "filtrationstr $filtrationString")
+        Log.v(PREFS_TAG, "filtrationstr $filtrationString")
         val itemType = object : TypeToken<Filtration?>() {}.type
         val filtration = gson.fromJson<Filtration?>(filtrationString, itemType)
-        Log.v("PREFS", "filtration $filtration")
+        Log.v(PREFS_TAG, "filtration $filtration")
         return filtration
     }
 
     companion object {
         const val FILTRATION_LABEL = "FILTRATION_LABEL"
+        const val PREFS_TAG = "PREFS"
     }
 }

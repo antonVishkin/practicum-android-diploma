@@ -227,8 +227,6 @@ class IndustryFragment : Fragment() {
     }
 
     companion object {
-        const val INDUSTRY = "industry"
-        const val AREA = "area"
         const val SELECTED_INDUSTRY_KEY = "selectedIndustry"
     }
 }

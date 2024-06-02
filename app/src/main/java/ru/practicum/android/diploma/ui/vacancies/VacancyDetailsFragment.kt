@@ -35,7 +35,7 @@ class VacancyDetailsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentVacancyBinding.inflate(inflater, container, false)
-        paramVacancyId = arguments?.getString(VACANCY_ID)
+        paramVacancyId = arguments?.getString(VACANCY_MODEL_KEY)
         return _binding?.root
     }
 
@@ -224,6 +224,6 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     companion object {
-        internal const val VACANCY_ID = "vacancy_model"
+        internal const val VACANCY_MODEL_KEY = "vacancy_model"
     }
 }

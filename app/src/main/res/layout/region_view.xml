@@ -9,14 +9,14 @@
 
     <TextView
         android:id="@+id/tvRegionName"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
-        android:maxLines="1"
+        android:maxLines="@dimen/item_view_region_text_max_lines"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ivIconArrowForward"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="@dimen/size_16dp"
         style="@style/vacancy_view_regular_text"
         tools:text="@string/moscow_region" />
 
@@ -28,8 +28,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/size_8dp"
         android:scaleType="centerInside"
-        android:padding="1dp"
+        android:padding="@dimen/size_1dp"
         android:src="@drawable/arrow_forward" />
 </androidx.constraintlayout.widget.ConstraintLayout>

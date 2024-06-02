@@ -8,21 +8,21 @@
 
     <TextView
         android:id="@+id/tvIndustryName"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_weight="11"
-        android:layout_marginVertical="8dp"
+        android:layout_width="@dimen/null_width"
+        android:layout_height="@dimen/item_view_industry_height"
+        android:layout_weight="@dimen/item_view_industry_text_weight"
+        android:layout_marginVertical="@dimen/item_view_industry_vertical_margin"
         style="@style/industry_item"
-        android:maxLines="2"
+        android:maxLines="@dimen/item_view_industry_text_max_lines"
         android:ellipsize="end"
         android:gravity="center_vertical"
         tools:text="@string/industry_text_test" />
 
     <RadioButton
         android:id="@+id/cbSelectIndustry"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_weight="1"
+        android:layout_width="@dimen/null_width"
+        android:layout_height="@dimen/item_view_industry_checkbox_dimension"
+        android:layout_weight="@dimen/item_view_industry_checkbox_weight"
         android:layout_gravity="center_vertical"
         android:clickable="false"
         app:buttonTint="@color/blue"/>

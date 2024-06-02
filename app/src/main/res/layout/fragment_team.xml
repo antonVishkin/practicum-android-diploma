@@ -9,26 +9,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="24dp" />
+        app:layout_constraintGuide_begin="@dimen/fragment_team_top_guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline_16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="@dimen/fragment_team_left_guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_guideline_16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+        app:layout_constraintGuide_end="@dimen/fragment_team_right_guideline" />
 
     <LinearLayout
         android:id="@+id/topPanel"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/null_width"
+        android:layout_height="@dimen/size_24dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
         app:layout_constraintStart_toStartOf="@id/left_guideline_16"
@@ -36,23 +36,23 @@
 
     <TextView
         android:id="@+id/teamFragmentLabel"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/size_24dp"
         android:fontFamily="@font/ys_display_bold"
         android:gravity="center_vertical"
         android:text="@string/about"
         android:textColor="?attr/android:textColor"
-        android:textFontWeight="500"
-        android:textSize="32sp"
+        android:textFontWeight="@dimen/text_weight_500"
+        android:textSize="@dimen/text_32sp"
         app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
         app:layout_constraintStart_toStartOf="@id/left_guideline_16"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/size_32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="@id/right_guideline_16"
         app:layout_constraintStart_toStartOf="@id/left_guideline_16"
@@ -62,49 +62,49 @@
             android:id="@+id/teamMember1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/size_16dp"
             android:fontFamily="@font/ys_display_medium"
             android:gravity="center_vertical"
             android:text="@string/anton_vishkin"
             android:textColor="?attr/android:textColor"
-            android:textFontWeight="500"
-            android:textSize="16sp" />
+            android:textFontWeight="@dimen/text_weight_500"
+            android:textSize="@dimen/text_16" />
 
         <TextView
             android:id="@+id/teamMember2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/size_16dp"
             android:fontFamily="@font/ys_display_medium"
             android:gravity="center_vertical"
             android:text="@string/anton_ignatov"
             android:textColor="?attr/android:textColor"
-            android:textFontWeight="500"
-            android:textSize="16sp" />
+            android:textFontWeight="@dimen/text_weight_500"
+            android:textSize="@dimen/text_16" />
 
         <TextView
             android:id="@+id/teamMember3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/size_16dp"
             android:fontFamily="@font/ys_display_medium"
             android:gravity="center_vertical"
             android:text="@string/kate_mahova"
             android:textColor="?attr/android:textColor"
-            android:textFontWeight="500"
-            android:textSize="16sp" />
+            android:textFontWeight="@dimen/text_weight_500"
+            android:textSize="@dimen/text_16" />
 
         <TextView
             android:id="@+id/teamMember4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/size_16dp"
             android:fontFamily="@font/ys_display_medium"
             android:gravity="center_vertical"
             android:text="@string/milan_isaev"
             android:textColor="?attr/android:textColor"
-            android:textFontWeight="500"
-            android:textSize="16sp" />
+            android:textFontWeight="@dimen/text_weight_500"
+            android:textSize="@dimen/text_16" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

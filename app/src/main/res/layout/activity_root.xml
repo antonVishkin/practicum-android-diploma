@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         style="@style/MyToolbar"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,8 +23,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fcvRootConteiner"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/null_width"
+        android:layout_height="@dimen/null_height"
         android:background="?attr/background"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -36,7 +36,7 @@
     <LinearLayout
         android:id="@+id/llDivider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="@dimen/divider_height"
         android:background="@color/lightGray"
         android:backgroundTint="@color/lightGray"
         android:orientation="horizontal"
@@ -48,7 +48,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         style="@style/bottom_navigation_view"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

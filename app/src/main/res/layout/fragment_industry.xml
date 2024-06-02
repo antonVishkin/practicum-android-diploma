@@ -11,22 +11,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="@dimen/fragment_industry_left_guideline" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+        app:layout_constraintGuide_end="@dimen/fragment_industry_right_guideline" />
 
     <EditText
         android:id="@+id/etSelectIndustry"
         style="@style/searchEditText"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp"
+        android:layout_height="@dimen/fragment_industry_search_field_height"
+        android:layout_marginHorizontal="@dimen/size_16dp"
+        android:layout_marginVertical="@dimen/size_8dp"
         android:cursorVisible="true"
         android:hint="@string/industry_hint"
         android:imeOptions="actionDone"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="@dimen/size_28dp"
         android:contentDescription="@string/industry_it_test"
         android:src="@drawable/search_icon"
         android:visibility="visible"
@@ -52,9 +52,9 @@
 
     <ImageView
         android:id="@+id/ivClean"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="@dimen/fragment_industry_clean_button_dimensions"
+        android:layout_height="@dimen/fragment_industry_clean_button_dimensions"
+        android:layout_marginRight="@dimen/size_16dp"
         android:src="@drawable/clean_icon"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/etSelectIndustry"
@@ -64,8 +64,8 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/progress_bar_dimensions"
+        android:layout_height="@dimen/progress_bar_dimensions"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
         android:visibility="visible"
@@ -77,11 +77,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvIndustry"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/null_height"
+        android:layout_marginTop="@dimen/size_8dp"
         android:visibility="visible"
         android:clipToPadding="false"
-        tools:itemCount="20"
+        tools:itemCount="@dimen/fragment_industry_max_items_in_recycler"
         android:layout_marginHorizontal="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toStartOf="parent"
@@ -102,7 +102,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_max="223dp"
+        app:layout_constraintHeight_max="@dimen/size_223dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSelectIndustry" />
 
@@ -111,7 +111,7 @@
         style="@style/placeholder_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/size_16dp"
         android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -122,9 +122,9 @@
     <TextView
         android:id="@+id/buttonSelectIndustry"
         style="industry_button_select"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="@dimen/null_height"
+        android:layout_height="@dimen/fragment_industry_button_height"
+        android:layout_marginBottom="@dimen/size_24dp"
         android:background="@drawable/ic_search_result_background"
         android:gravity="center"
         android:text="@string/industry_button_select"

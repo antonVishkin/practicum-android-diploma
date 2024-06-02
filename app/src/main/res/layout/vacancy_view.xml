@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="9dp"
+    android:layout_marginHorizontal="@dimen/size_16dp"
+    android:layout_marginVertical="@dimen/size_9dp"
     android:orientation="horizontal">
 
     <FrameLayout
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/item_view_vacancy_logo_dimension"
+        android:layout_height="@dimen/item_view_vacancy_logo_dimension"
         android:background="@drawable/ic_vacancy_background">
 
         <ImageView
@@ -19,37 +19,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:padding="1dp"
+            android:padding="@dimen/size_1dp"
             android:src="@drawable/vacancies_placeholder" />
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="@dimen/null_width"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginStart="12dp"
+        android:layout_weight="@dimen/item_view_vacancy_layout_weight"
+        android:layout_marginStart="@dimen/item_view_vacancy_logo_to_text_margin"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvVacancyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="2"
+            android:maxLines="@dimen/item_view_vacancy_name_max_lines"
             style="@style/vacancy_view_header_text"
-            tools:text="Java-разработчик, Омск" />
+            tools:text="@string/item_view_vacancy_name_text" />
 
         <TextView
             android:id="@+id/tvVacancyCompany"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/vacancy_view_regular_text"
-            tools:text="Маркет" />
+            tools:text="@string/item_view_vacancy_company_name" />
 
         <TextView
             android:id="@+id/tvVacancySalary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/vacancy_view_regular_text"
-            tools:text="Зарплата не указана" />
+            tools:text="@string/item_view_vacancy_salary_text" />
     </LinearLayout>
 </LinearLayout>

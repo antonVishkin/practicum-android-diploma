@@ -251,7 +251,6 @@ class FiltrationFragment : Fragment() {
     }
 
     companion object {
-        const val INDUSTRY = "industry"
         private const val SELECTED_COUNTRY_KEY = "selectedCountry"
         private const val SELECTED_REGION_KEY = "selectedRegion"
         private const val SELECTED_INDUSTRY_KEY = "selectedIndustry"
