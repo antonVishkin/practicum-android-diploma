@@ -86,7 +86,8 @@ class LocationFragment : Fragment() {
 
         binding.countryIcon.setImageResource(if (isCountryEmpty) R.drawable.arrow_forward else R.drawable.clean_icon)
         binding.regionIcon.setImageResource(if (isRegionEmpty) R.drawable.arrow_forward else R.drawable.clean_icon)
-        binding.btnSelectionContainer.visibility = if (isCountryEmpty && isRegionEmpty) View.GONE else View.VISIBLE
+        binding.btnSelectionContainer.visibility = if (isCountryEmpty) View.GONE else View.VISIBLE
+
     }
 
     private fun setupSelectButton(country: Country?, region: Region?) {
@@ -121,6 +122,11 @@ class LocationFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment, bundle)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateClearButtonVisibility()
     }
 
     override fun onStop() {
