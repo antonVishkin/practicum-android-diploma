@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.vacancies
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.sharing.SharingInteractor
+import ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment
 
 class VacancyDetailsViewModel(
     private val vacancyInteractor: VacancyDetailsInteractor,
@@ -72,6 +74,7 @@ class VacancyDetailsViewModel(
                         isFavorite = true
                     )
                 )
+                Log.d(VacancyDetailsFragment.VACANCY_ID, "Фрагмент деталей вакансии,сохранение вакансии в ДБ $vacancy")
             }
         }
     }
@@ -86,6 +89,8 @@ class VacancyDetailsViewModel(
                     isFavorite = true
                 )
             )
+            Log.d(VacancyDetailsFragment.VACANCY_ID, "Фрагмент деталей вакансии, получение вакансии из ДБ $vacancyFromDb")
+
         }
     }
 
