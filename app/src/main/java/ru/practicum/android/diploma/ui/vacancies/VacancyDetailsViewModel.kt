@@ -40,10 +40,12 @@ class VacancyDetailsViewModel(
                         renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
                     }
 
-                    else -> {
+                    is VacancyDetailStatus.NoConnection -> {
                         getVacancyFromDb(vacancyId)
-                        Log.d(VacancyDetailsFragment.VACANCY_ID, "View model деталей вакансии, ошибка получения деталей вакансии из ДБ при отключенном интернете")
+                    }
 
+                    is VacancyDetailStatus.Error -> {
+                        renderState(VacancyDetailsState.Error)
                     }
                 }
             }
