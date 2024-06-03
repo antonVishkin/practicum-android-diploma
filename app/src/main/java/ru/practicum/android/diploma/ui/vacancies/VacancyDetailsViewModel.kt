@@ -40,7 +40,12 @@ class VacancyDetailsViewModel(
                     }
 
                     is VacancyDetailStatus.NoConnection -> {
-                        getVacancyFromDb(vacancyId)
+                        isFavorite = isVacancyFavorite(vacancyId)
+                        if (isFavorite) {
+                            getVacancyFromDb(vacancyId)
+                        } else {
+                            renderState(VacancyDetailsState.NotInDb)
+                        }
                     }
 
                     is VacancyDetailStatus.Error -> {

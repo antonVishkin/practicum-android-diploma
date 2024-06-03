@@ -73,8 +73,8 @@ class VacancyDetailsFragment : Fragment() {
 
                 is VacancyDetailsState.NotInDb -> {
                     binding.apply {
-                        ivPlaceholder.setImageResource(R.drawable.empty_favorite)
-                        tvPlaceholder.setText(R.string.favorite_empty_list)
+                        ivPlaceholder.setImageResource(R.drawable.no_internet_scull)
+                        tvPlaceholder.setText(R.string.search_no_connection)
                         ivPlaceholder.isVisible = true
                         tvPlaceholder.isVisible = true
                         binding.progressBar.isVisible = false
