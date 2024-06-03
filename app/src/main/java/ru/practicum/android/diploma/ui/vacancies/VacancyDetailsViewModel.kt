@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
 import ru.practicum.android.diploma.domain.api.favorites.FavoritesInteractor
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.sharing.SharingInteractor
-import ru.practicum.android.diploma.ui.filtration.industry.IndustryFragment
 
 class VacancyDetailsViewModel(
     private val vacancyInteractor: VacancyDetailsInteractor,
@@ -21,6 +21,7 @@ class VacancyDetailsViewModel(
 ) : ViewModel() {
 
     private var currencySymbol: String? = null
+    private var isFavorite: Boolean = false
 
     private val _stateLiveData = MutableLiveData<VacancyDetailsState>()
     val stateLiveData: LiveData<VacancyDetailsState> get() = _stateLiveData
@@ -35,19 +36,18 @@ class VacancyDetailsViewModel(
 
                     is VacancyDetailStatus.Content -> {
                         currencySymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
-                        val isFavorite = isVacancyFavorite(vacancyId)
+                        isFavorite = isVacancyFavorite(vacancyId)
                         renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
                     }
 
-                    is VacancyDetailStatus.NoConnection -> {
-                        if (isVacancyFavorite(vacancyId)) {
-                            getVacancyFromDb(vacancyId, currencySymbol!!)
-                        } else {
-                            renderState(VacancyDetailsState.Error)
-                        }
-                    }
+                    is VacancyDetailStatus.NoConnection -> getVacancyFromDb(vacancyId)
 
-                    else -> renderState(VacancyDetailsState.Error)
+                    else -> {
+                        getVacancyFromDb(vacancyId)
+//                        renderState(VacancyDetailsState.Error)
+                        Log.d(VacancyDetailsFragment.VACANCY_ID, "Фрагмент деталей вакансии, ошибка получения деталей вакансии из ДБ при отключенном интернете")
+
+                    }
                 }
             }
         }
@@ -65,6 +65,7 @@ class VacancyDetailsViewModel(
                         isFavorite = false
                     )
                 )
+                isFavorite = false
             } else {
                 favoritesInteractor.addVacancyToFavorites(vacancy)
                 renderState(
@@ -74,24 +75,26 @@ class VacancyDetailsViewModel(
                         isFavorite = true
                     )
                 )
+                isFavorite = true
                 Log.d(VacancyDetailsFragment.VACANCY_ID, "Фрагмент деталей вакансии,сохранение вакансии в ДБ $vacancy")
             }
         }
     }
 
-    private fun getVacancyFromDb(vacancyId: String, symbol: String) {
-        viewModelScope.launch {
-            val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
-            renderState(
-                VacancyDetailsState.Content(
-                    vacancy = vacancyFromDb,
-                    currencySymbol = symbol,
-                    isFavorite = true
-                )
-            )
-            Log.d(VacancyDetailsFragment.VACANCY_ID, "Фрагмент деталей вакансии, получение вакансии из ДБ $vacancyFromDb")
-
-        }
+    fun getVacancyFromDb(vacancyId: String) {
+//        if (isFavorite) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
+                _stateLiveData.postValue(VacancyDetailsState.Content(
+                        vacancy = vacancyFromDb,
+                        currencySymbol = currencySymbol.toString(),
+                        isFavorite = true
+                    ))
+                Log.d(VacancyDetailsFragment.VACANCY_ID, "Фрагмент деталей вакансии, получение вакансии из ДБ $vacancyFromDb")
+            }
+//        } else {
+//            renderState(VacancyDetailsState.NotInDb)
+//        }
     }
 
     suspend fun isVacancyFavorite(vacancyId: String): Boolean {

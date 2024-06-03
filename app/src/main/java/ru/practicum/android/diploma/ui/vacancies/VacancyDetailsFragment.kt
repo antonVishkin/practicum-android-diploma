@@ -67,6 +67,20 @@ class VacancyDetailsFragment : Fragment() {
                     binding.progressBar.isVisible = false
                     binding.nsvDetailsContent.isVisible = true
                 }
+
+                is VacancyDetailsState.NoConnection -> { viewModel.getVacancyFromDb(state.vacancy.id)
+                }
+
+                is VacancyDetailsState.NotInDb -> {
+                    binding.apply {
+                        ivPlaceholder.setImageResource(R.drawable.empty_favorite)
+                        tvPlaceholder.setText(R.string.favorite_empty_list)
+                        ivPlaceholder.isVisible = true
+                        tvPlaceholder.isVisible = true
+                        binding.progressBar.isVisible = false
+                        nsvDetailsContent.isVisible = false
+                    }
+                }
             }
         }
 
