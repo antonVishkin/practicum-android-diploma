@@ -11,5 +11,5 @@ import ru.practicum.android.diploma.ui.filtration.region.RegionViewModel
 val regionModule = module {
     single<RegionRepository> { RegionRepositoryImpl(get()) }
     factory<RegionInteractor> { RegionInteractorImpl(get()) }
-    viewModel { RegionViewModel(get(),get()) }
+    viewModel { RegionViewModel(get(), get()) }
 }

@@ -12,7 +12,10 @@ import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Region
 import ru.practicum.android.diploma.util.SearchResultData
 
-class RegionViewModel(private val regionInteractor: RegionInteractor,private val countryInteractor: CountryInteractor) : ViewModel() {
+class RegionViewModel(
+    private val regionInteractor: RegionInteractor,
+    private val countryInteractor: CountryInteractor
+) : ViewModel() {
 
     private val _regionState = MutableLiveData<RegionState>()
     val regionState: LiveData<RegionState> = _regionState
@@ -21,9 +24,12 @@ class RegionViewModel(private val regionInteractor: RegionInteractor,private val
         _regionState.value = RegionState.Loading
         viewModelScope.launch {
             var countryList: MutableList<Country> = mutableListOf()
-            countryInteractor.getCountries().collect{
-                when (it){
-                    is SearchResultData.Data ->{countryList.addAll(it.value)}
+            countryInteractor.getCountries().collect {
+                when (it) {
+                    is SearchResultData.Data -> {
+                        countryList.addAll(it.value)
+                    }
+
                     is SearchResultData.Error -> {
                         _regionState.value = RegionState.ServerError(R.string.search_server_error)
                     }
@@ -42,6 +48,7 @@ class RegionViewModel(private val regionInteractor: RegionInteractor,private val
                     is SearchResultData.Data -> {
                         _regionState.value = RegionState.Content(result.value, countryList)
                     }
+
                     is SearchResultData.Error -> {
                         _regionState.value = RegionState.ServerError(R.string.search_server_error)
                     }

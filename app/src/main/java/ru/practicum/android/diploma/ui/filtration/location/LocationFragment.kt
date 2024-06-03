@@ -18,8 +18,8 @@ class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
     private val binding get() = _binding!!
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
-    private var selectedCountry:Country? = null
-    private var selectedRegion:Region? = null
+    private var selectedCountry: Country? = null
+    private var selectedRegion: Region? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
