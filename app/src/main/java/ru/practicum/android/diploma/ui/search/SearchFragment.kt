@@ -91,6 +91,7 @@ class SearchFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         toolbarSetup()
@@ -247,7 +248,7 @@ class SearchFragment : Fragment() {
             binding.etButtonSearch.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.clean_icon,
+                R.drawable.clean_icon_black,
                 0
             )
             val iconClear = editText.compoundDrawables[2]
