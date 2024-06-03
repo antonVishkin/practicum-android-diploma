@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.vacancies
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -75,7 +74,6 @@ class VacancyDetailsViewModel(
                     )
                 )
                 isFavorite = true
-                Log.d(VacancyDetailsFragment.VACANCY_ID, "View model деталей вакансии,сохранение вакансии в ДБ $vacancy")
             }
         }
     }
@@ -88,7 +86,6 @@ class VacancyDetailsViewModel(
                 currencySymbol = currencySymbol.toString(),
                 isFavorite = true
             ))
-            Log.d(VacancyDetailsFragment.VACANCY_ID, "View model деталей вакансии, получение вакансии из ДБ $vacancyFromDb")
         }
     }
 
