@@ -40,8 +40,12 @@ class VacancyDetailsRepositoryImpl(
                 emit(VacancyDetailStatus.NoConnection())
             }
 
-            else -> {
+            SERVER_ERROR_HTTP_CODE -> {
                 emit(VacancyDetailStatus.Error(response.resultCode, context.getString(R.string.details_vacancy_error)))
+            }
+
+            else -> {
+                emit(VacancyDetailStatus.NoConnection())
             }
         }
     }
@@ -49,5 +53,6 @@ class VacancyDetailsRepositoryImpl(
     companion object {
         const val CLIENT_SUCCESS_RESULT_CODE = 200
         const val NO_CONNECTION_HTTP_CODE = 500
+        const val SERVER_ERROR_HTTP_CODE = 400
     }
 }
