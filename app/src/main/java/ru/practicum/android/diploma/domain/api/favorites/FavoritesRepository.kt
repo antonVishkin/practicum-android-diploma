@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.domain.api.favorites
 
 import ru.practicum.android.diploma.domain.models.Vacancy
-import ru.practicum.android.diploma.domain.models.VacancyDetails
 import ru.practicum.android.diploma.domain.models.VacancyPage
 
 interface FavoritesRepository {
@@ -17,9 +16,9 @@ interface FavoritesRepository {
 
     // Details
 
-    suspend fun addVacancyDetails(vacancyDetails: VacancyDetails)
-
-    suspend fun getVacancyDetails(vacancyId: String): VacancyDetails
+    suspend fun addVacancyDetails(vacancy: Vacancy)
 
     suspend fun removeVacancyDetails(vacancyId: String)
+
+    suspend fun getVacancyById(vacancyId: String): Vacancy
 }

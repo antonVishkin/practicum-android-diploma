@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -15,7 +16,6 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField(type = "String", name = "HH_ACCESS_TOKEN", value = "\"${developProperties.hhAccessToken}\"")
@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation(libs.uiTests.junitExt)
     androidTestImplementation(libs.uiTests.espressoCore)
     // endregion
-
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("androidx.constraintlayout:constraintlayout-core:1.0.4")
     implementation("com.android.volley:volley:1.2.1")
     testImplementation("junit:junit:4.13.2")

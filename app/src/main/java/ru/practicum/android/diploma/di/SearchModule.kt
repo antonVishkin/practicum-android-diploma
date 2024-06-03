@@ -4,6 +4,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.practicum.android.diploma.data.SearchRepositoryImpl
+import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchRepository
@@ -11,10 +12,10 @@ import ru.practicum.android.diploma.domain.impl.search.SearchInteractorImpl
 import ru.practicum.android.diploma.ui.search.SearchViewModel
 
 val searchModule = module {
-    single<RetrofitNetworkClient> { RetrofitNetworkClient(get(), androidContext()) }
+    single<NetworkClient> { RetrofitNetworkClient(get(), androidContext()) }
 
     viewModel {
-        SearchViewModel(get(), get())
+        SearchViewModel(get(), get(), get())
     }
 
     single<SearchInteractor> { SearchInteractorImpl(get()) }

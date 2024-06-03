@@ -3,8 +3,9 @@ package ru.practicum.android.diploma.ui.search
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +23,13 @@ import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.ui.root.RootActivity
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
+    private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
     private var _adapter: VacancyAdapter? = null
 
     override fun onCreateView(
@@ -40,22 +43,21 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        toolbarSetup()
         viewModel.stateSearch.observe(viewLifecycleOwner) {
             render(it)
         }
-
         _adapter = VacancyAdapter(arrayListOf(), object : VacancyAdapter.OnClickListener {
             override fun onClick(vacancy: Vacancy) {
                 openFragmentVacancy(vacancyId = vacancy.id)
             }
         })
-
         binding.rvSearch.adapter = _adapter
         binding.rvSearch.layoutManager = LinearLayoutManager(context)
         binding.rvSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-
                 if (dy > 0) {
                     val pos = (binding.rvSearch.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemsCount = _adapter?.itemCount ?: 0
@@ -65,12 +67,41 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-
         binding.etButtonSearch.doOnTextChanged { text, _, _, _ ->
             hideIconEditText(text)
             if (binding.etButtonSearch.hasFocus()) {
                 viewModel.searchDebounce(text.toString())
             }
+        }
+        viewModel.filtration.observe(viewLifecycleOwner) {
+            setFiltrationIcon(it != null)
+        }
+        toolbar.menu.findItem(R.id.filters).setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
+            true
+        }
+        viewModel.getFiltration()
+    }
+
+    private fun setFiltrationIcon(hasFiltration: Boolean) {
+        if (hasFiltration) {
+            toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_on)
+        } else {
+            toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_off)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        toolbarSetup()
+    }
+
+    private fun toolbarSetup() {
+        toolbar.title = getString(R.string.title_home)
+        toolbar.menu.findItem(R.id.filters)?.isVisible = true
+        toolbar.menu.findItem(R.id.filters)?.setOnMenuItemClickListener {
+            findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
+            true
         }
     }
 
@@ -127,7 +158,6 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderSearchEmpty() {
-        Log.v("SEARCH", "render empty")
         with(binding) {
             tvButtonSearchResult.isVisible = false
             rvSearch.isVisible = false
@@ -203,7 +233,6 @@ class SearchFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables", "ClickableViewAccessibility")
     private fun hideIconEditText(text: CharSequence?) {
         val editText = binding.etButtonSearch
-
         if (text.isNullOrEmpty()) {
             binding.etButtonSearch.setCompoundDrawablesWithIntrinsicBounds(
                 0,

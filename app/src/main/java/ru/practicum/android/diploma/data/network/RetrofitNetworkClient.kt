@@ -6,19 +6,26 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.data.dto.AreaDTO
 import ru.practicum.android.diploma.data.dto.CurrencyRequest
 import ru.practicum.android.diploma.data.dto.CurrencyResponse
-import ru.practicum.android.diploma.data.dto.ExperienceDTO
+import ru.practicum.android.diploma.data.dto.IndustryRequest
+import ru.practicum.android.diploma.data.dto.IndustryResponse
 import ru.practicum.android.diploma.data.dto.Response
 import ru.practicum.android.diploma.data.dto.SearchRequest
 import ru.practicum.android.diploma.data.dto.SearchResponse
 import ru.practicum.android.diploma.data.dto.VacancyDetailsRequest
 import ru.practicum.android.diploma.data.dto.VacancyDetailsResponse
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
-class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private val context: Context) : NetworkClient {
+class RetrofitNetworkClient(
+    private val headHunterApi: HeadHunterApi,
+    private val context: Context
+) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
         if (!isConnected()) {
@@ -43,6 +50,12 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
                 }
             }
 
+            is IndustryRequest -> {
+                withContext(Dispatchers.IO) {
+                    doIndustryRequest()
+                }
+            }
+
             else -> Response().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
     }
@@ -51,22 +64,11 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
         try {
             val response =
                 headHunterApi.getVacancyDetails(BEARER_TOKEN, vacancyId)
-            return VacancyDetailsResponse(
-                response.id,
-                response.name,
-                response.salary,
-                response.employer,
-                response.area,
-                response.experience,
-                response.description,
-                response.keySkills,
-                response.contacts,
-            ).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
+            return VacancyDetailsResponse(response).apply { resultCode = CLIENT_SUCCESS_RESULT_CODE }
         } catch (e: IOException) {
             Log.e(NETWORK_ERROR, e.toString())
-            return createEmptyVacancyDetails().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+            return VacancyDetailsResponse(null).apply { resultCode = CLIENT_ERROR_RESULT_CODE }
         }
-
     }
 
     private suspend fun doCurrencyRequest(): Response {
@@ -96,6 +98,35 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
         }
     }
 
+    private suspend fun doIndustryRequest(): Response {
+        try {
+            val response = headHunterApi.getIndustries()
+            return IndustryResponse().apply {
+                resultCode = CLIENT_SUCCESS_RESULT_CODE
+                items = response.body()!!
+            }
+        } catch (e: IOException) {
+            Log.e(NETWORK_ERROR, e.toString())
+            return IndustryResponse().apply { resultCode = CLIENT_ERROR_RESULT_CODE }
+        }
+    }
+
+    override suspend fun getCountries(): Result<List<AreaDTO>> {
+        if (!isConnected()) {
+            return Result.failure(ConnectException())
+        }
+        return withContext(Dispatchers.IO) {
+            try {
+                val countries = headHunterApi.getCountries()
+                Result.success(countries)
+            } catch (e: HttpException) {
+                Result.failure(e)
+            } catch (e: SocketTimeoutException) {
+                Result.failure(e)
+            }
+        }
+    }
+
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -105,20 +136,6 @@ class RetrofitNetworkClient(private val headHunterApi: HeadHunterApi, private va
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
             )
-    }
-
-    private fun createEmptyVacancyDetails(): VacancyDetailsResponse {
-        return VacancyDetailsResponse(
-            id = "",
-            name = "",
-            salary = null,
-            employer = null,
-            area = AreaDTO("", "", ""),
-            experience = ExperienceDTO(""),
-            description = "",
-            keySkills = listOf(),
-            contacts = null,
-        )
     }
 
     companion object {
