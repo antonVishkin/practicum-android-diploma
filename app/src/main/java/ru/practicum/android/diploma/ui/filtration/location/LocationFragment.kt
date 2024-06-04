@@ -3,11 +3,13 @@ package ru.practicum.android.diploma.ui.filtration.location
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentLocationBinding
 import ru.practicum.android.diploma.domain.models.Country
@@ -18,8 +20,7 @@ class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null
     private val binding get() = _binding!!
     private val toolbar by lazy { (requireActivity() as RootActivity).toolbar }
-    private var selectedCountry: Country? = null
-    private var selectedRegion: Region? = null
+    private val viewModel by viewModel<LocationViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,22 +37,23 @@ class LocationFragment : Fragment() {
 
         toolbarSetup()
 
-        // Получить выбранную страну из аргументов, если она есть
-        selectedCountry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val selectedCountry = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(SELECTED_COUNTRY_KEY, Country::class.java)
         } else {
             arguments?.getParcelable(SELECTED_COUNTRY_KEY)
         }
+        viewModel.setCountry(selectedCountry)
         if (selectedCountry != null) {
             binding.etCountry.setText(selectedCountry?.name)
             binding.btnSelectionContainer.visibility = View.VISIBLE
         }
         // Получить выбранный регион из аргументов, если он есть
-        selectedRegion = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val selectedRegion = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(SELECTED_REGION_KEY, Region::class.java)
         } else {
             arguments?.getParcelable(SELECTED_REGION_KEY)
         }
+        viewModel.setRegion(selectedRegion)
         if (selectedRegion != null) {
             binding.etRegion.setText(selectedRegion?.name)
             binding.btnSelectionContainer.visibility = View.VISIBLE
@@ -69,7 +71,7 @@ class LocationFragment : Fragment() {
         // Слушатель для кнопки очистки в поле etCountry
         binding.countryIcon.setOnClickListener {
             binding.etCountry.setText("")
-            selectedCountry = null
+            viewModel.setCountry(null)
             updateClearButtonVisibility()
             setupSelectButton()
             setupRegionField()
@@ -78,7 +80,7 @@ class LocationFragment : Fragment() {
         // Слушатель для кнопки очистки в поле etRegion
         binding.regionIcon.setOnClickListener {
             binding.etRegion.setText("")
-            selectedRegion = null
+            viewModel.setRegion(null)
             updateClearButtonVisibility()
             setupSelectButton()
             setupRegionField()
@@ -101,11 +103,11 @@ class LocationFragment : Fragment() {
     private fun setupSelectButton() {
         binding.btnSelectionContainer.setOnClickListener {
             val bundle = Bundle().apply {
-                if (selectedCountry != null) {
-                    putParcelable(SELECTED_COUNTRY_KEY, selectedCountry)
+                if (viewModel.selectedCountry.value != null) {
+                    putParcelable(SELECTED_COUNTRY_KEY, viewModel.selectedCountry.value)
                 }
-                if (selectedRegion != null) {
-                    putParcelable(SELECTED_REGION_KEY, selectedRegion)
+                if (viewModel.selectedRegion.value != null) {
+                    putParcelable(SELECTED_REGION_KEY, viewModel.selectedRegion.value)
                 }
             }
             findNavController().navigate(R.id.action_locationFragment_to_filtrationFragment, bundle)
@@ -121,11 +123,12 @@ class LocationFragment : Fragment() {
     private fun setupRegionField() {
         binding.etRegion.setOnClickListener {
             val bundle = Bundle().apply {
-                if (selectedCountry != null) {
-                    putParcelable(SELECTED_COUNTRY_KEY, selectedCountry)
+                Log.v("LOCATION", "country ${viewModel.selectedCountry.value} region ${viewModel.selectedRegion.value}")
+                if (viewModel.selectedCountry.value != null) {
+                    putParcelable(SELECTED_COUNTRY_KEY, viewModel.selectedCountry.value)
                 }
-                if (selectedRegion != null) {
-                    putParcelable(SELECTED_REGION_KEY, selectedRegion)
+                if (viewModel.selectedRegion.value != null) {
+                    putParcelable(SELECTED_REGION_KEY, viewModel.selectedRegion.value)
                 }
             }
             findNavController().navigate(R.id.action_locationFragment_to_regionFragment, bundle)

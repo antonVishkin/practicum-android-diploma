@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.filtration
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,8 +35,6 @@ class FiltrationViewModel(private val filtrationInteractor: FiltrationInteractor
     fun getFiltrationFromPrefs() {
         viewModelScope.launch {
             val filtration = filtrationInteractor.getFiltration()
-            Log.v("FILTRATION", "get $filtration")
-            Log.v("FILTRATION", "get industry ${filtration?.industry}")
             if (filtration != null) {
                 renderState(
                     Content(

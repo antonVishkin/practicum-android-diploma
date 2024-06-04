@@ -47,7 +47,6 @@ class RegionFragment : Fragment(), RegionCountCallback {
         } else {
             arguments?.getParcelable(SELECTED_COUNTRY_KEY)
         }
-        Log.d("selectedCountry-REGION", selectedCountry.toString())
 
         viewModel.fetchRegions(selectedCountry?.id ?: "")
 

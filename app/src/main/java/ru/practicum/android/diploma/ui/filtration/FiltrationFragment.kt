@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.ui.filtration
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -44,11 +43,9 @@ class FiltrationFragment : Fragment() {
         }
         viewModel.getFiltrationFromPrefs()
         var industry = getIndustry()
-        Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент фильтрации $industry")
         if (industry != null) viewModel.setIndustry(industry)
         val country = getCountry()
         val region = getRegion()
-        Log.d("FILTRATION", "country $country region $region")
         if (country != null) {
             val resultCountry = if (region != null) {
                 Country(country.id, country.name, listOf(region))
@@ -218,7 +215,6 @@ class FiltrationFragment : Fragment() {
         val bundle = Bundle().apply {
             val selectedIndustry = viewModel.getIndustry()
             putParcelable(IndustryFragment.SELECTED_INDUSTRY_KEY, selectedIndustry)
-            Log.d(IndustryFragment.SELECTED_INDUSTRY_KEY, "Фрагмент отрасли $selectedIndustry")
         }
         findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment, bundle)
     }
