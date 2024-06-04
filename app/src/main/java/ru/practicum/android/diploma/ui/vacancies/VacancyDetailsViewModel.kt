@@ -29,12 +29,12 @@ class VacancyDetailsViewModel(
         renderState(VacancyDetailsState.Loading)
         viewModelScope.launch {
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
+            currencySymbol = currencyDictionary[vacancyId]?.abbr ?: ""
             vacancyInteractor.getVacancyDetails(vacancyId).collect { result ->
                 when (result) {
                     is VacancyDetailStatus.Loading -> renderState(VacancyDetailsState.Loading)
 
                     is VacancyDetailStatus.Content -> {
-                        currencySymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
                         isFavorite = isVacancyFavorite(vacancyId)
                         renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
                     }
