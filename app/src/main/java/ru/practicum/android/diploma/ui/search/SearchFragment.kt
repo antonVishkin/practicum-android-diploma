@@ -2,7 +2,9 @@ package ru.practicum.android.diploma.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -20,9 +22,11 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyPage
+import ru.practicum.android.diploma.ui.filtration.FiltrationFragment
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class SearchFragment : Fragment() {
@@ -46,6 +50,7 @@ class SearchFragment : Fragment() {
         setHasOptionsMenu(true)
         toolbarSetup()
         viewModel.stateSearch.observe(viewLifecycleOwner) {
+            Log.v("SEARCH","state change curr state $it")
             render(it)
         }
         _adapter = VacancyAdapter(arrayListOf(), object : VacancyAdapter.OnClickListener {
@@ -80,7 +85,10 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
             true
         }
-        viewModel.getFiltration()
+        viewModel.updateFiltration()
+        viewModel.newPageLoading.observe(viewLifecycleOwner){
+            renderNewPageLoading(it)
+        }
     }
 
     private fun setFiltrationIcon(hasFiltration: Boolean) {
@@ -114,7 +122,6 @@ class SearchFragment : Fragment() {
             is SearchState.NoConnection -> renderSearchNoConnection()
             is SearchState.ServerError -> renderSearchError()
             is SearchState.Content -> renderSearchContent(state.vacancyPage, state.currencyDictionary)
-            is SearchState.NewPageLoading -> renderNewPageLoading()
             is SearchState.LastPage -> renderLastPage()
             is SearchState.NextPageError -> renderNewPageError()
         }
@@ -129,8 +136,8 @@ class SearchFragment : Fragment() {
         binding.progressBarBottom.isVisible = false
     }
 
-    private fun renderNewPageLoading() {
-        binding.progressBarBottom.isVisible = true
+    private fun renderNewPageLoading(showBottomProgressBar:Boolean) {
+        binding.progressBarBottom.isVisible = showBottomProgressBar
     }
 
     private fun renderSearchLoading() {
@@ -198,9 +205,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun renderSearchContent(vacancyPage: VacancyPage, currencyDictionary: Map<String, Currency>) {
-        if (vacancyPage.currPage == 0) {
-            _adapter?.vacancyList?.clear()
-        }
+        _adapter?.vacancyList?.clear()
         _adapter?.vacancyList?.addAll(vacancyPage.vacancyList)
         _adapter?.currencyDictionary?.clear()
         _adapter?.currencyDictionary?.putAll(currencyDictionary)
