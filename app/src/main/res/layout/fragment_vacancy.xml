@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/ic_edit_text_background"
+                android:background="@drawable/ic_logo_background"
                 android:paddingStart="16dp"
                 android:paddingVertical="16dp">
 
