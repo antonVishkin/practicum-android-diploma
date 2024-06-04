@@ -99,7 +99,7 @@ class CountryFragment : Fragment() {
 
     private fun onCountryClick(country: Country) {
         val bundle = Bundle().apply {
-            putParcelable(SELECTED_COUNTRY_LABEL, country)
+            putParcelable(SELECTED_COUNTRY_LABEL, Country(country.id,country.name, listOf()))
         }
         findNavController().navigate(R.id.action_countryFragment_to_locationFragment, bundle)
     }
