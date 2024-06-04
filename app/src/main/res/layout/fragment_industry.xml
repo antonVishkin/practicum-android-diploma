@@ -50,18 +50,6 @@
         app:layout_constraintEnd_toEndOf="@id/etSelectIndustry"
         app:layout_constraintTop_toTopOf="@+id/etSelectIndustry" />
 
-    <ImageView
-        android:id="@+id/ivClean"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/clean_icon"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@id/etSelectIndustry"
-        app:layout_constraintTop_toTopOf="@id/etSelectIndustry"
-        app:layout_constraintBottom_toBottomOf="@id/etSelectIndustry"
-        />
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="48dp"
