@@ -86,11 +86,13 @@ class VacancyDetailsViewModel(
     fun getVacancyFromDb(vacancyId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
-            _stateLiveData.postValue(VacancyDetailsState.Content(
-                vacancy = vacancyFromDb,
-                currencySymbol = currencySymbol.toString(),
-                isFavorite = true
-            ))
+            _stateLiveData.postValue(
+                VacancyDetailsState.Content(
+                    vacancy = vacancyFromDb,
+                    currencySymbol = currencySymbol.toString(),
+                    isFavorite = true
+                )
+            )
         }
     }
 

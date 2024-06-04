@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.filtration.industry
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,11 +34,9 @@ class IndustryViewModel(private val interactor: IndustryInteractor) : ViewModel(
         when (result) {
             is SearchResultData.Data -> {
                 if (result.value != null) {
-                    Log.v("INDUSTRY", "1 ${result.value}")
                     industriesList.clear()
                     industriesList.addAll(result.value)
                     industriesList.sortBy { it.name }
-                    Log.v("INDUSTRY", "2 $industriesList")
                     _stateIndustry.postValue(IndustryState.Content(industriesList!!))
                 } else {
                     _stateIndustry.postValue(IndustryState.NotFound)

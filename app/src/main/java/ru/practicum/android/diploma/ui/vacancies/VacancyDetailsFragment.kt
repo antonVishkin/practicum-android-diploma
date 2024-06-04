@@ -68,7 +68,8 @@ class VacancyDetailsFragment : Fragment() {
                     binding.nsvDetailsContent.isVisible = true
                 }
 
-                is VacancyDetailsState.NoConnection -> { viewModel.getVacancyFromDb(state.vacancy.id)
+                is VacancyDetailsState.NoConnection -> {
+                    viewModel.getVacancyFromDb(state.vacancy.id)
                 }
 
                 is VacancyDetailsState.NotInDb -> {
