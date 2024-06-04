@@ -69,7 +69,13 @@ class SearchViewModel(
 
     fun updateFiltration() {
         viewModelScope.launch {
-            _filtration.postValue(filtrationInteractor.getFiltration())
+            val newFiltration = filtrationInteractor.getFiltration()
+            if (filtration.value != newFiltration) {
+                _filtration.postValue(newFiltration)
+                if (lastSearchQueryText != null) {
+                    search(lastSearchQueryText!!, hashMapOf())
+                }
+            }
         }
     }
 

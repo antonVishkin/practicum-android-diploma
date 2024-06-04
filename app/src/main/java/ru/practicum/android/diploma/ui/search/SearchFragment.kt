@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,11 +21,9 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.domain.models.Country
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyPage
-import ru.practicum.android.diploma.ui.filtration.FiltrationFragment
 import ru.practicum.android.diploma.ui.root.RootActivity
 
 class SearchFragment : Fragment() {
@@ -50,7 +47,7 @@ class SearchFragment : Fragment() {
         setHasOptionsMenu(true)
         toolbarSetup()
         viewModel.stateSearch.observe(viewLifecycleOwner) {
-            Log.v("SEARCH","state change curr state $it")
+            Log.v("SEARCH", "state change curr state $it")
             render(it)
         }
         _adapter = VacancyAdapter(arrayListOf(), object : VacancyAdapter.OnClickListener {
@@ -86,7 +83,7 @@ class SearchFragment : Fragment() {
             true
         }
         viewModel.updateFiltration()
-        viewModel.newPageLoading.observe(viewLifecycleOwner){
+        viewModel.newPageLoading.observe(viewLifecycleOwner) {
             renderNewPageLoading(it)
         }
     }
@@ -136,7 +133,7 @@ class SearchFragment : Fragment() {
         binding.progressBarBottom.isVisible = false
     }
 
-    private fun renderNewPageLoading(showBottomProgressBar:Boolean) {
+    private fun renderNewPageLoading(showBottomProgressBar: Boolean) {
         binding.progressBarBottom.isVisible = showBottomProgressBar
     }
 
