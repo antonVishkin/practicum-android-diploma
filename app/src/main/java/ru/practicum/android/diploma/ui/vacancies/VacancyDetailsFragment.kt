@@ -41,51 +41,60 @@ class VacancyDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.stateLiveData.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is VacancyDetailsState.Error -> {
-                    binding.apply {
-                        ivPlaceholder.isVisible = true
-                        tvPlaceholder.isVisible = true
-                        nsvDetailsContent.isVisible = false
-                    }
-                }
-
-                is VacancyDetailsState.Loading -> {
-                    binding.apply {
-                        nsvDetailsContent.isVisible = false
-                        progressBar.isVisible = true
-                    }
-                }
-
-                is VacancyDetailsState.Content -> {
-                    val vacancyDetails = state.vacancy
-                    toolbarSetup(vacancyDetails)
-                    showToolbarForDetailsVacancy(state.isFavorite)
-                    showContent(state.vacancy, state.currencySymbol)
-                    binding.progressBar.isVisible = false
-                    binding.nsvDetailsContent.isVisible = true
-                }
-
-                is VacancyDetailsState.NoConnection -> { viewModel.getVacancyFromDb(state.vacancy.id)
-                }
-
-                is VacancyDetailsState.NotInDb -> {
-                    binding.apply {
-                        ivPlaceholder.setImageResource(R.drawable.no_internet_scull)
-                        tvPlaceholder.setText(R.string.search_no_connection)
-                        ivPlaceholder.isVisible = true
-                        tvPlaceholder.isVisible = true
-                        binding.progressBar.isVisible = false
-                        nsvDetailsContent.isVisible = false
-                    }
-                }
-            }
+            renderState(state)
         }
-
+        toolbar.setNavigationIcon(R.drawable.arrow_back)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+        toolbar.title = getString(R.string.title_vacancies)
+        toolbar.menu.findItem(R.id.filters).isVisible = false
         if (paramVacancyId != null) {
             paramVacancyId?.let { viewModel.fetchVacancyDetails(it) }
+        }
+    }
+
+    private fun renderState(state: VacancyDetailsState) {
+        when (state) {
+            is VacancyDetailsState.Error -> {
+                binding.apply {
+                    ivPlaceholder.isVisible = true
+                    tvPlaceholder.isVisible = true
+                    nsvDetailsContent.isVisible = false
+                }
+            }
+
+            is VacancyDetailsState.Loading -> {
+                binding.apply {
+                    nsvDetailsContent.isVisible = false
+                    progressBar.isVisible = true
+                }
+            }
+
+            is VacancyDetailsState.Content -> {
+                val vacancyDetails = state.vacancy
+                toolbarSetup(vacancyDetails)
+                showToolbarForDetailsVacancy(state.isFavorite)
+                showContent(state.vacancy, state.currencySymbol)
+                binding.progressBar.isVisible = false
+                binding.nsvDetailsContent.isVisible = true
+            }
+
+            is VacancyDetailsState.NoConnection -> {
+                viewModel.getVacancyFromDb(state.vacancy.id)
+            }
+
+            is VacancyDetailsState.NotInDb -> {
+                binding.apply {
+                    ivPlaceholder.setImageResource(R.drawable.no_internet_scull)
+                    tvPlaceholder.setText(R.string.search_no_connection)
+                    ivPlaceholder.isVisible = true
+                    tvPlaceholder.isVisible = true
+                    binding.progressBar.isVisible = false
+                    nsvDetailsContent.isVisible = false
+                }
+            }
         }
     }
 
@@ -173,7 +182,8 @@ class VacancyDetailsFragment : Fragment() {
         binding.tvEmailLabel.isVisible = vacancy.contacts?.email?.isNotEmpty() == true
 
         if (vacancy.contacts?.phones?.size != 0) {
-            binding.tvPhones.text = vacancy.contacts?.phones?.get(0)?.toString()
+            val phone = vacancy.contacts?.phones?.get(0)
+            binding.tvPhones.text = phone?.country + " " + phone?.city + " " + phone?.number
             binding.tvPhones.isVisible = true
         } else {
             binding.tvPhones.text = ""
@@ -194,11 +204,6 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun toolbarSetup(vacancy: Vacancy) {
-        toolbar.setNavigationIcon(R.drawable.arrow_back)
-        toolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
-        toolbar.title = getString(R.string.title_vacancies)
         toolbar.menu.findItem(R.id.share).isVisible = false
         toolbar.menu.findItem(R.id.favorite).isVisible = false
         toolbar.menu.findItem(R.id.filters).isVisible = false
