@@ -48,11 +48,12 @@ class FiltrationFragment : Fragment() {
         if (industry != null) viewModel.setIndustry(industry)
         val country = getCountry()
         val region = getRegion()
+        Log.d("FILTRATION", "country $country region $region")
         if (country != null) {
             val resultCountry = if (region != null) {
                 Country(country.id, country.name, listOf(region))
             } else {
-                country
+                Country(country.id, country.name, listOf())
             }
             viewModel.setArea(resultCountry)
         }

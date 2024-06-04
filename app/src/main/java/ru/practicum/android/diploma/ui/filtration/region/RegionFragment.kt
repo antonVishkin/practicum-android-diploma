@@ -147,6 +147,9 @@ class RegionFragment : Fragment(), RegionCountCallback {
         val bundle = Bundle().apply {
             if (country != null) {
                 putParcelable(SELECTED_COUNTRY_KEY, country)
+            } else {
+                val countryList = (viewModel.regionState.value as RegionState.Content).countyList
+                putParcelable(SELECTED_COUNTRY_KEY, countryList.first { it.id == region.countryId })
             }
             putParcelable(SELECTED_REGION_KEY, region)
         }

@@ -22,7 +22,7 @@ class DTOConverters {
     fun mapToRegion(areaDTO: AreaDTO): Region = Region(
         id = areaDTO.id,
         name = areaDTO.name,
-        parentId = areaDTO.parentId,
+        countryId = areaDTO.parentId,
         cities = areaDTO.areas.map { mapToCity(it) }
     )
 
@@ -37,11 +37,13 @@ class DTOConverters {
 
     fun mapToListRegions(areaDTOs: List<AreaDTO>, countryId: String): List<Region> {
         return if (countryId.isEmpty()) {
-            convertTreeToList(areaDTOs).filter { it.parentId != null && it.parentId != "1001" }.map { mapToRegion(it) }
+            val regions: MutableList<AreaDTO> = mutableListOf()
+            areaDTOs.forEach { regions.addAll(convertTreeToList(it.areas, it.id)) }
+            regions.filter { it.parentId != null && it.parentId != "1001" }.map { mapToRegion(it) }
         } else {
             val country = areaDTOs.find { it.id == countryId }
             if (country != null) {
-                convertTreeToList(country.areas).map { mapToRegion(it) }
+                convertTreeToList(country.areas, country.id).map { mapToRegion(it) }
             } else {
                 // Обработка случая, если страна с указанным countryId не найдена
                 emptyList()
@@ -49,14 +51,14 @@ class DTOConverters {
         }
     }
 
-    private fun convertTreeToList(areaDTOs: List<AreaDTO>): List<AreaDTO> {
+    private fun convertTreeToList(areaDTOs: List<AreaDTO>, countryId: String): List<AreaDTO> {
         val result = mutableListOf<AreaDTO>()
         areaDTOs.forEach {
             if (it.areas.isEmpty()) {
-                result.add(it)
+                result.add(AreaDTO(it.id, countryId, it.name, it.areas))
             } else {
-                result.add(AreaDTO(it.id, it.parentId, it.name, listOf()))
-                result.addAll(convertTreeToList(it.areas))
+                result.add(AreaDTO(it.id, countryId, it.name, listOf()))
+                result.addAll(convertTreeToList(it.areas, countryId))
             }
         }
         return result
