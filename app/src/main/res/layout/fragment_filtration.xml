@@ -78,7 +78,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="8dp"
         android:singleLine="true"
-        android:textColorHint="@color/filtration_salary_hint_colors_selector"
+        android:textColorHint="?attr/hintTextColor"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
         app:endIconDrawable="@drawable/clean_icon"
@@ -91,7 +91,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ilIndustry"
         app:placeholderText="@string/filtration_salary_placeholder"
-        app:placeholderTextColor="@color/gray">
+        app:placeholderTextColor="?attr/hintTextColor">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSalary"
