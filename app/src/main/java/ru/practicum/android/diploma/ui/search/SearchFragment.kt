@@ -164,7 +164,8 @@ class SearchFragment : Fragment() {
 
     private fun renderSearchEmpty() {
         with(binding) {
-            tvButtonSearchResult.isVisible = false
+            tvButtonSearchResult.isVisible = true
+            tvButtonSearchResult.setText(R.string.search_vacancy_not_found)
             rvSearch.isVisible = false
             progressBar.isVisible = false
             progressBarBottom.isVisible = false
