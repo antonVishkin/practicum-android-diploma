@@ -124,10 +124,11 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun cardLogoEmployer(vacancy: Vacancy) {
+        val radius = binding.root.resources.getDimensionPixelSize(R.dimen.radius_vacancy_icon)
         Glide.with(requireContext())
             .load(vacancy.logoUrl)
             .placeholder(R.drawable.vacancies_placeholder)
-            .transform(RoundedCorners(R.dimen.radius_vacancy_icon))
+            .transform(RoundedCorners(radius))
             .centerCrop()
             .into(binding.ivCompanyLogo)
         binding.tvCompanyName.text = vacancy.companyName

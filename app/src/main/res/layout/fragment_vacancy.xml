@@ -50,14 +50,28 @@
                 android:paddingVertical="16dp">
 
                 <!-- Company Logo -->
-                <ImageView
-                    android:id="@+id/ivCompanyLogo"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvCompanyLogo"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    app:cardCornerRadius="12dp"
+                    app:layout_constraintDimensionRatio="1:1"
                     android:src="@drawable/vacancies_placeholder"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/logoContainer"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent">
+                    <ImageView
+                        android:id="@+id/ivCompanyLogo"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:cardCornerRadius="12dp"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:src="@drawable/vacancies_placeholder"
+                        android:background="@drawable/ic_logo_background"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/logoContainer"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.cardview.widget.CardView>
 
                 <!-- Company Name and Location -->
                 <TextView
@@ -68,7 +82,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/company_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivCompanyLogo"
+                    app:layout_constraintStart_toEndOf="@id/cvCompanyLogo"
                     app:layout_constraintBottom_toTopOf="@id/tvLocation"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +94,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/vacancy_town"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivCompanyLogo"
+                    app:layout_constraintStart_toEndOf="@id/cvCompanyLogo"
                     app:layout_constraintTop_toBottomOf="@id/tvCompanyName"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
