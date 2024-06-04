@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.vacancies
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,13 +30,13 @@ class VacancyDetailsViewModel(
         renderState(VacancyDetailsState.Loading)
         viewModelScope.launch {
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
-            currencySymbol = currencyDictionary[vacancyId]?.abbr ?: ""
             vacancyInteractor.getVacancyDetails(vacancyId).collect { result ->
                 when (result) {
                     is VacancyDetailStatus.Loading -> renderState(VacancyDetailsState.Loading)
 
                     is VacancyDetailStatus.Content -> {
                         isFavorite = isVacancyFavorite(vacancyId)
+                        currencySymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
                         renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
                     }
 
