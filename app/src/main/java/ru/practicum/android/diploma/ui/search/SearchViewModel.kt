@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.domain.api.filtration.FiltrationInteractor
 import ru.practicum.android.diploma.domain.api.search.SearchInteractor
 import ru.practicum.android.diploma.domain.models.Currency
 import ru.practicum.android.diploma.domain.models.Filtration
+import ru.practicum.android.diploma.domain.models.Vacancy
 import ru.practicum.android.diploma.domain.models.VacancyPage
 import ru.practicum.android.diploma.util.debounce
 
@@ -32,6 +33,8 @@ class SearchViewModel(
     val stateSearch: LiveData<SearchState> get() = _stateSearch
     private val _filtration = MutableLiveData<Filtration?>(null)
     val filtration: LiveData<Filtration?> get() = _filtration
+    private val _newPageLoading = MutableLiveData(false)
+    val newPageLoading: LiveData<Boolean> get() = _newPageLoading
 
     private fun search(request: String, options: HashMap<String, String>) {
         if (request.isNullOrEmpty()) {
@@ -44,7 +47,7 @@ class SearchViewModel(
     }
 
     private fun renderState(state: SearchState) {
-        _stateSearch.value = state
+        _stateSearch.postValue(state)
     }
 
     fun setStateDefault() {
@@ -55,7 +58,7 @@ class SearchViewModel(
         if (isNextPageLoading) {
             isNextPageLoading = false
             if (currPage!! < maxPage!!) {
-                renderState(SearchState.NewPageLoading)
+                _newPageLoading.postValue(true)
                 currPage = currPage!! + 1
                 val t = hashMapOf<String, String>()
                 t.put("page", "$currPage")
@@ -64,25 +67,38 @@ class SearchViewModel(
         }
     }
 
-    fun getFiltration() {
+    fun updateFiltration() {
         viewModelScope.launch {
-            _filtration.value = filtrationInteractor.getFiltration()
-            if (stateSearch.value !is SearchState.Default) {
-                search(lastSearchQueryText ?: "", hashMapOf())
+            val newFiltration = filtrationInteractor.getFiltration()
+            if (filtration.value != newFiltration) {
+                _filtration.postValue(newFiltration)
+                if (lastSearchQueryText != null) {
+                    search(lastSearchQueryText!!, hashMapOf())
+                }
             }
         }
     }
 
     private fun searchVacancies(request: String, options: HashMap<String, String>) {
-        if (filtration.value != null) {
-            options.putAll(convertFiltrationToOptions(filtration.value!!))
-        }
-        options["text"] = request
         viewModelScope.launch {
+            _filtration.postValue(filtrationInteractor.getFiltration())
+            if (filtration.value != null) {
+                options.putAll(convertFiltrationToOptions(filtration.value!!))
+            }
+            options["text"] = request
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
             searchInteractor.searchVacancies(options).collect { result ->
+                _newPageLoading.postValue(false)
                 result.onSuccess {
-                    onSearchSuccess(it, currencyDictionary)
+                    val oldPage = if (stateSearch.value is SearchState.Content) {
+                        (stateSearch.value as SearchState.Content).vacancyPage
+                    } else {
+                        null
+                    }
+                    val resulList = mutableListOf<Vacancy>()
+                    resulList.addAll(oldPage?.vacancyList ?: listOf())
+                    resulList.addAll(it.vacancyList)
+                    onSearchSuccess(VacancyPage(resulList, it.currPage, it.fromPages, it.found), currencyDictionary)
                 }
                 result.onFailure {
                     Log.v("SEARCH", "page $currPage error ${it.message}")

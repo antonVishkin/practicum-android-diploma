@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent">
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -43,21 +43,35 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/logoContainer"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/ic_edit_text_background"
+                android:background="@drawable/ic_logo_background"
                 android:paddingStart="16dp"
-                android:paddingTop="16dp">
-
+                android:paddingVertical="16dp">
 
                 <!-- Company Logo -->
-                <ImageView
-                    android:id="@+id/ivCompanyLogo"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvCompanyLogo"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    app:cardCornerRadius="12dp"
+                    app:layout_constraintDimensionRatio="1:1"
                     android:src="@drawable/vacancies_placeholder"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/logoContainer" />
+                    app:layout_constraintTop_toTopOf="@id/logoContainer"
+                    app:layout_constraintBottom_toBottomOf="parent">
+                    <ImageView
+                        android:id="@+id/ivCompanyLogo"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:cardCornerRadius="12dp"
+                        app:layout_constraintDimensionRatio="1:1"
+                        android:src="@drawable/vacancies_placeholder"
+                        android:background="@drawable/ic_logo_background"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/logoContainer"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+                </androidx.cardview.widget.CardView>
 
                 <!-- Company Name and Location -->
                 <TextView
@@ -68,8 +82,9 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/company_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivCompanyLogo"
-                    app:layout_constraintTop_toTopOf="@id/ivCompanyLogo" />
+                    app:layout_constraintStart_toEndOf="@id/cvCompanyLogo"
+                    app:layout_constraintBottom_toTopOf="@id/tvLocation"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvLocation"
@@ -79,8 +94,9 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/vacancy_town"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivCompanyLogo"
-                    app:layout_constraintTop_toBottomOf="@id/tvCompanyName" />
+                    app:layout_constraintStart_toEndOf="@id/cvCompanyLogo"
+                    app:layout_constraintTop_toBottomOf="@id/tvCompanyName"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Required Experience -->
@@ -129,43 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
-                android:paddingStart="12dp"
                 android:text="@string/responsibilities" />
-
-            <TextView
-                android:id="@+id/tvRequirementsLabel"
-                style="@style/experience_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/tvRequirementsLabel" />
-
-            <TextView
-                android:id="@+id/tvRequirements"
-                style="@style/vacancy_view_regular_text"
-                android:paddingStart="12dp"
-                android:lineSpacingExtra="0sp"
-                android:translationY="-0.12sp"
-                android:gravity="top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/requirements" />
-
-            <TextView
-                android:id="@+id/tvConditionsLabel"
-                style="@style/experience_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/tvConditionsLabel" />
-
-            <TextView
-                android:id="@+id/tvConditions"
-                style="@style/vacancy_view_regular_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:text="@string/conditions" />
 
             <!-- Key Skills -->
             <TextView
@@ -181,7 +161,6 @@
                 style="@style/vacancy_view_regular_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/key_skills" />
 
@@ -284,6 +263,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCommentLabel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

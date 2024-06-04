@@ -5,7 +5,6 @@ import ru.practicum.android.diploma.domain.models.VacancyPage
 
 sealed class SearchState {
     object Loading : SearchState()
-    object NewPageLoading : SearchState()
     object LastPage : SearchState()
     object NextPageError : SearchState()
     object Default : SearchState()

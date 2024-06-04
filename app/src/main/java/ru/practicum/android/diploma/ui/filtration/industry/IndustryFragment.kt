@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +25,6 @@ class IndustryFragment : Fragment() {
     private val viewModel by viewModel<IndustryViewModel>()
     private var industriesList: List<Industry>? = null
     private var selectedIndustry: Industry? = null
-
     private val adapter = IndustryAdapter { industry ->
         selectedIndustry = industry
         hideKeyboard()
@@ -56,15 +54,11 @@ class IndustryFragment : Fragment() {
 
         viewModel.searchIndustries()
 
-        val industry = getIndustry()
-        Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли при загрузке $industry")
-
         binding.etSelectIndustry.addTextChangedListener(textWatcherListener())
 
         binding.buttonSelectIndustry.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelable(SELECTED_INDUSTRY_KEY, selectedIndustry)
-                Log.d(SELECTED_INDUSTRY_KEY, "Фрагмент отрасли $selectedIndustry")
             }
             findNavController().navigate(R.id.action_industryFragment_to_filtrationFragment, bundle)
         }
@@ -93,7 +87,6 @@ class IndustryFragment : Fragment() {
             }
             adapter.selectedIndustry = industry
             adapter.notifyDataSetChanged()
-            adapter.logIndustriesState()
         }
     }
 
@@ -117,7 +110,6 @@ class IndustryFragment : Fragment() {
         adapter.industries.clear()
         adapter.industries = industries.toMutableList()
         adapter.notifyDataSetChanged()
-        adapter.logIndustriesState()
     }
 
     private fun renderLoading() {
@@ -183,7 +175,7 @@ class IndustryFragment : Fragment() {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (!binding.etSelectIndustry.text.toString().isNullOrEmpty()) {
-                binding.ivClear.setImageResource(R.drawable.clean_icon)
+                binding.ivClear.setImageResource(R.drawable.clean_icon_black)
                 viewModel.searchDebounce(s.toString())
             } else {
                 binding.ivClear.setImageResource(R.drawable.search_icon)
@@ -227,8 +219,6 @@ class IndustryFragment : Fragment() {
     }
 
     companion object {
-        const val INDUSTRY = "industry"
-        const val AREA = "area"
         const val SELECTED_INDUSTRY_KEY = "selectedIndustry"
     }
 }

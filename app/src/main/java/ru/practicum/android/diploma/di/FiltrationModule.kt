@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.domain.api.filtration.FiltrationInteractor
 import ru.practicum.android.diploma.domain.api.filtration.FiltrationRepository
 import ru.practicum.android.diploma.domain.impl.filtration.FiltrationInteractorImpl
 import ru.practicum.android.diploma.ui.filtration.FiltrationViewModel
+import ru.practicum.android.diploma.ui.filtration.location.LocationViewModel
 
 val filtrationModule = module {
     viewModel {
@@ -14,4 +15,7 @@ val filtrationModule = module {
     }
     single<FiltrationRepository> { FiltrationRepositoryImpl(get()) }
     factory<FiltrationInteractor> { FiltrationInteractorImpl(get()) }
+    viewModel {
+        LocationViewModel()
+    }
 }

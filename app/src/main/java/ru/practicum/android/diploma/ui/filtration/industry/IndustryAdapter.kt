@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.ui.filtration.industry
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,6 @@ class IndustryAdapter(private val onClickListener: (Industry) -> Unit) : Recycle
             selectedIndustry = industries[position]
             industries.forEach {
                 it.isSelected = it == industries[position]
-                Log.d("Adapter", "${it.name} ${it.isSelected}")
             }
             onClickListener(industries[position])
             notifyDataSetChanged()
@@ -40,14 +38,5 @@ class IndustryAdapter(private val onClickListener: (Industry) -> Unit) : Recycle
         holder.bind(industries[position])
         holder.checkBox.setOnClickListener(clickListener)
         holder.itemView.setOnClickListener(clickListener)
-    }
-
-    fun logIndustriesState() {
-        industries.forEach {
-            if (it.isSelected) {
-                Log.v("IndustrySelectedState", "SELECTED INDUSTRY")
-            }
-            Log.d("IndustryState", "Industry: ${it.name}, isSelected: ${it.isSelected}")
-        }
     }
 }
