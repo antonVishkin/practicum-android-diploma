@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.domain.api.details.VacancyDetailsInteractor
 import ru.practicum.android.diploma.domain.api.dictionary.DictionaryInteractor
@@ -19,6 +20,7 @@ class VacancyDetailsViewModel(
 ) : ViewModel() {
 
     private var currencySymbol: String? = null
+    private var isFavorite: Boolean = false
 
     private val _stateLiveData = MutableLiveData<VacancyDetailsState>()
     val stateLiveData: LiveData<VacancyDetailsState> get() = _stateLiveData
@@ -27,25 +29,28 @@ class VacancyDetailsViewModel(
         renderState(VacancyDetailsState.Loading)
         viewModelScope.launch {
             val currencyDictionary = dictionaryInteractor.getCurrencyDictionary()
+            currencySymbol = currencyDictionary[vacancyId]?.abbr ?: ""
             vacancyInteractor.getVacancyDetails(vacancyId).collect { result ->
                 when (result) {
                     is VacancyDetailStatus.Loading -> renderState(VacancyDetailsState.Loading)
 
                     is VacancyDetailStatus.Content -> {
-                        currencySymbol = currencyDictionary[result.data?.salary?.currency]?.abbr ?: ""
-                        val isFavorite = isVacancyFavorite(vacancyId)
+                        isFavorite = isVacancyFavorite(vacancyId)
                         renderState(VacancyDetailsState.Content(result.data!!, currencySymbol!!, isFavorite))
                     }
 
                     is VacancyDetailStatus.NoConnection -> {
-                        if (isVacancyFavorite(vacancyId)) {
-                            getVacancyFromDb(vacancyId, currencySymbol!!)
+                        isFavorite = isVacancyFavorite(vacancyId)
+                        if (isFavorite) {
+                            getVacancyFromDb(vacancyId)
                         } else {
-                            renderState(VacancyDetailsState.Error)
+                            renderState(VacancyDetailsState.NotInDb)
                         }
                     }
 
-                    else -> renderState(VacancyDetailsState.Error)
+                    is VacancyDetailStatus.Error -> {
+                        renderState(VacancyDetailsState.Error)
+                    }
                 }
             }
         }
@@ -63,6 +68,7 @@ class VacancyDetailsViewModel(
                         isFavorite = false
                     )
                 )
+                isFavorite = false
             } else {
                 favoritesInteractor.addVacancyToFavorites(vacancy)
                 renderState(
@@ -72,20 +78,19 @@ class VacancyDetailsViewModel(
                         isFavorite = true
                     )
                 )
+                isFavorite = true
             }
         }
     }
 
-    private fun getVacancyFromDb(vacancyId: String, symbol: String) {
-        viewModelScope.launch {
+    fun getVacancyFromDb(vacancyId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
             val vacancyFromDb = favoritesInteractor.getVacancyById(vacancyId)
-            renderState(
-                VacancyDetailsState.Content(
-                    vacancy = vacancyFromDb,
-                    currencySymbol = symbol,
-                    isFavorite = true
-                )
-            )
+            _stateLiveData.postValue(VacancyDetailsState.Content(
+                vacancy = vacancyFromDb,
+                currencySymbol = currencySymbol.toString(),
+                isFavorite = true
+            ))
         }
     }
 
