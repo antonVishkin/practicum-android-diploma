@@ -55,6 +55,12 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        toolbar.menu.findItem(R.id.share).isVisible = true
+        toolbar.menu.findItem(R.id.favorite).isVisible = true
+    }
+
     private fun renderState(state: VacancyDetailsState) {
         when (state) {
             is VacancyDetailsState.Error -> {
