@@ -88,6 +88,11 @@ class SearchFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        toolbar.setNavigationIcon(null)
+    }
+
     private fun setFiltrationIcon(hasFiltration: Boolean) {
         if (hasFiltration) {
             toolbar.menu.findItem(R.id.filters).setIcon(R.drawable.filter_on)
@@ -109,6 +114,7 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
             true
         }
+
     }
 
     private fun render(state: SearchState) {
