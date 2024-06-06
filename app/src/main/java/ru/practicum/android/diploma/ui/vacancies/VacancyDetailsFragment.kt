@@ -129,7 +129,7 @@ class VacancyDetailsFragment : Fragment() {
             .load(vacancy.logoUrl)
             .placeholder(R.drawable.vacancies_placeholder)
             .transform(RoundedCorners(radius))
-            .centerCrop()
+            .override(binding.ivCompanyLogo.width, binding.ivCompanyLogo.height)
             .into(binding.ivCompanyLogo)
         binding.tvCompanyName.text = vacancy.companyName
         binding.tvLocation.text = if (vacancy.address.isNullOrEmpty()) vacancy.area else vacancy.address
